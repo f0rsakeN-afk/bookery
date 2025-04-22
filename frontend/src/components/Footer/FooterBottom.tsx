@@ -1,9 +1,9 @@
 import React from "react";
 
-const FooterBottom = () => {
+const FooterBottom:React.FC = () => {
   return (
-    <div className="bg-gray-100 dark:bg-gray-900">
-      <div className="container mx-auto max-w-6xl flex items-center justify-between py-1 text-sm text-gray-600 dark:text-gray-400">
+    <div className="bg-gray-100 dark:bg-background">
+      <div className="container mx-auto max-w-6xl flex items-center justify-between py-1 text-[13px] text-gray-600 dark:text-gray-400 px-2 xl:px-0 font-inter">
         <h2 className="">&copy;Copyright 2025 Bookery</h2>
         <h2 className="">
           Designed by&nbsp;
