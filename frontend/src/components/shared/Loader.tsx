@@ -1,8 +1,20 @@
+import React from "react";
+import "../../Loader.css";
 
-const Loader = () => {
+const Loader: React.FC = () => {
   return (
-    <div>Loader</div>
-  )
-}
+    <div className="loader">
+      <div className="cubes">
+        {[...Array(64)].map((_, i) => (
+          <div key={i} className="cube">
+            {[...Array(6)].map((_, j) => (
+              <div key={j} className="side"></div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
-export default Loader
+export default Loader;
