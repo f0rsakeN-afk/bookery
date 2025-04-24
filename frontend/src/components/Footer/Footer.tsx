@@ -24,13 +24,14 @@ const Footer = () => {
           <Logo />
           <section className="text-muted-foreground text-sm font-inter flex flex-col gap-1">
             <p className="">
-              We are an online bookstore that offers a wide selection of books
-              in various genres, including fiction, non-fiction, biographies,
-              and more.
+              Welcome to our online store, your one-stop destination for a wide
+              range of products from the latest fashion and tech gadgets to
+              home essentials and lifestyle accessories.
             </p>
             <p className="">
-              We provide a convenient and enjoyable shopping experience while
-              offering competitive prices and excellent customer service.
+              We aim to make your shopping experience smooth and enjoyable by
+              offering competitive prices, fast delivery, and top-notch customer
+              service.
             </p>
           </section>
           <IconTile />
