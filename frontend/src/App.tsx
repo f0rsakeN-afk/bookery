@@ -3,6 +3,9 @@ import { lazy, Suspense } from "react";
 import Loader from "./components/shared/Loader";
 import Layout from "./components/shared/Layout";
 import ScrollToTop from "./components/shared/ScrollToTop";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Toaster } from "react-hot-toast";
 const About = lazy(() => import("./pages/About"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -13,27 +16,57 @@ const Cart = lazy(() => import("./pages/Cart"));
 const Wishlist = lazy(() => import("./pages/Wishlist"));
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
+const ProductDetails = lazy(() => import("./pages/ProductDetails"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 
 const App = () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 10 * 1000,
+      },
+    },
+  });
   return (
     <Suspense fallback={<Loader />}>
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Hero />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/privacypolicy" element={<PrivacyPolicy />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/Search" element={<Search />} />
-            <Route path="/wishlist" element={<Wishlist />} />
-          </Route>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <Toaster
+          position="top-right"
+          gutter={12}
+          containerStyle={{ margin: "8px" }}
+          toastOptions={{
+            success: { duration: 5000 },
+            error: { duration: 5000 },
+            style: {
+              fontSize: "16px",
+              maxWidth: "500px",
+              padding: "16px 24px",
+            },
+          }}
+        />
+        <BrowserRouter>
+          <ScrollToTop />
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<Hero />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/Search" element={<Search />} />
+              <Route path="/wishlist" element={<Wishlist />} />
+              <Route path="/productdetails/:id" element={<ProductDetails />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </BrowserRouter>
+            <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
     </Suspense>
   );
 };
