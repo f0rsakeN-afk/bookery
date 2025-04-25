@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import Loader from "./components/shared/Loader";
-import Layout from "./components/shared/Layout";
-import ScrollToTop from "./components/shared/ScrollToTop";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
+import Loader from "./components/shared/Loader";
+import Layout from "./components/shared/Layout";
+import ScrollToTop from "./components/shared/ScrollToTop";
 const About = lazy(() => import("./pages/About"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -19,6 +19,8 @@ const Register = lazy(() => import("./pages/Register"));
 const ProductDetails = lazy(() => import("./pages/ProductDetails"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const Profile = lazy(() => import("./pages/Profile"));
+const NewPassword = lazy(() => import("./pages/NewPassword"));
 
 const App = () => {
   const queryClient = new QueryClient({
@@ -35,14 +37,14 @@ const App = () => {
         <Toaster
           position="top-right"
           gutter={12}
-          containerStyle={{ margin: "8px" }}
+          /*   containerStyle={{ margin: "8px" }} */
           toastOptions={{
             success: { duration: 5000 },
             error: { duration: 5000 },
             style: {
               fontSize: "16px",
               maxWidth: "500px",
-              padding: "16px 24px",
+              /*  padding: "16px 24px", */
             },
           }}
         />
@@ -58,11 +60,13 @@ const App = () => {
               <Route path="/Search" element={<Search />} />
               <Route path="/wishlist" element={<Wishlist />} />
               <Route path="/productdetails/:id" element={<ProductDetails />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="/dashboard" element={<Dashboard />} />
             </Route>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route path="/newpassword/:token" element={<NewPassword />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>
