@@ -10,7 +10,7 @@ const Layout = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setHasScrolled(window.scrollY > 0);
+      setHasScrolled(window.scrollY > 20);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -19,11 +19,11 @@ const Layout = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="fixed top-0 w-full z-50">
+      <header className="fixed top-0 w-full z-50">
         <HeaderTop />
         <Navbar hasScrolled={hasScrolled} />
-      </div>
-      <main className="flex-1 mt-[104px]"> {/* Adjust based on HeaderTop + Navbar height */}
+      </header>
+      <main className="flex-1 mt-[120px] md:mt-[140px]">
         <Outlet />
       </main>
       <Footer />
