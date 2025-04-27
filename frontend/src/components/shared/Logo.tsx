@@ -5,7 +5,7 @@ const Logo = () => {
   return (
     <div className="h-10 w-28 flex items-center">
       <NavLink to='/' >
-      <img src={LogoImage} alt="logo image"  />
+      <img src={LogoImage} alt="logo image" className=""  />
       </NavLink>
     </div>
   );
