@@ -22,12 +22,19 @@ const data: dataProps[] = [
 
 const HeaderTop = () => {
   return (
-    <div className="bg-gray-100 dark:bg-gray-900">
-      <div className="container mx-auto max-w-6xl flex space-x-6 py-1 font-inter ">
-        {data.map((el) => (
+    <div className="bg-gray-100 dark:bg-background hidden md:block">
+      <div className="container mx-auto max-w-6xl flex space-x-6 py-1.5 font-inter px-4 xl:px-0">
+        {data.map((el: dataProps) => (
           <NavLink
             to={el.path}
-            className="text-[13px] tracking-wider text-gray-600 dark:text-gray-400"
+            key={el.name}
+            className={({ isActive }) => `
+              text-[13px] tracking-wider transition-colors duration-200
+              ${isActive 
+                ? 'text-figmaPrimary dark:text-primary font-semibold' 
+                : 'text-gray-600 dark:text-gray-400 hover:text-figmaPrimary dark:hover:text-primary hover:font-semibold'
+              }
+            `}
           >
             {el.name}
           </NavLink>
