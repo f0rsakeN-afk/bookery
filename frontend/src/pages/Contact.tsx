@@ -5,62 +5,157 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { motion } from "motion/react";
+import { Loader2 } from "lucide-react";
+
+interface ContactForm {
+  email: string;
+  subject: string;
+  query: string;
+}
 
 const Contact = () => {
-  const { handleSubmit, register, reset } = useForm();
+  const { handleSubmit, register, reset, formState: { isSubmitting } } = useForm<ContactForm>();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data: ContactForm) => {
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      console.log(data);
+      reset();
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+      },
+    },
+  };
+
   return (
-    <div className="container mx-auto max-w-6xl px-2 xl:px-0  md:py-10 ">
-      <h2 className="font-playfair text-2xl font-semibold text-primary">
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className="container mx-auto max-w-6xl px-2 xl:px-0 md:py-10"
+    >
+      <motion.h2
+        variants={itemVariants}
+        className="font-playfair text-2xl font-semibold text-primary"
+      >
         Contact Us
-      </h2>
-      <section className="grid md:grid-cols-8 xl:grid-cols-12 gap-2 py-3 w-full ">
-        <div className="hidden md:block col-span-2">
+      </motion.h2>
+
+      <motion.section
+        variants={containerVariants}
+        className="grid md:grid-cols-8 xl:grid-cols-12 gap-2 py-3 w-full"
+      >
+        <motion.div
+          variants={itemVariants}
+          className="hidden md:block col-span-2"
+        >
           <IconTile />
-        </div>
+        </motion.div>
 
-        <div className="hidden  md:col-span-1 xl:flex justify-center items-center">
+        <motion.div
+          variants={itemVariants}
+          className="hidden md:col-span-1 xl:flex justify-center items-center"
+        >
           <Separator orientation="vertical" />
-        </div>
+        </motion.div>
 
-        <div className="md:col-span-6 xl:col-span-9 ">
-          <h2 className="font-playfair text-xl font-semibold text-primary">
+        <motion.div
+          variants={containerVariants}
+          className="md:col-span-6 xl:col-span-9"
+        >
+          <motion.h2
+            variants={itemVariants}
+            className="font-playfair text-xl font-semibold text-primary"
+          >
             Any Query!
-          </h2>
-          <form
+          </motion.h2>
+
+          <motion.form
+            variants={containerVariants}
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-5 pt-3"
           >
-            <Wrapper>
-              <Label className="font-inter">Email</Label>
-              <Input
-                type="email"
-                {...register("email", { required: "This field is required" })}
-              />
-            </Wrapper>
+            <motion.div variants={itemVariants}>
+              <Wrapper>
+                <Label className="font-inter">Email</Label>
+                <Input
+                  type="email"
+                  {...register("email", { required: "This field is required" })}
+                />
+              </Wrapper>
+            </motion.div>
 
-            <Wrapper>
-              <Label className="font-inter">Subject</Label>
-              <Input
-                type="text"
-                {...register("subject", { required: "This field is required" })}
-              />
-            </Wrapper>
+            <motion.div variants={itemVariants}>
+              <Wrapper>
+                <Label className="font-inter">Subject</Label>
+                <Input
+                  type="text"
+                  {...register("subject", { required: "This field is required" })}
+                />
+              </Wrapper>
+            </motion.div>
 
-            <Wrapper>
-              <Label className="font-inter">Query</Label>
-              <Textarea {...register("query")} className="max-h-[200px] min-h-[150px]" />
-            </Wrapper>
-            <section className="flex justify-end">
-              <Button type="submit">Submit</Button>
-            </section>
-          </form>
-        </div>
-      </section>
-    </div>
+            <motion.div variants={itemVariants}>
+              <Wrapper>
+                <Label className="font-inter">Query</Label>
+                <Textarea
+                  {...register("query")}
+                  className="max-h-[200px] min-h-[150px]"
+                />
+              </Wrapper>
+            </motion.div>
+
+            <motion.section
+              variants={itemVariants}
+              className="flex justify-end"
+            >
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="min-w-[100px]"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    "Submit"
+                  )}
+                </Button>
+              </motion.div>
+            </motion.section>
+          </motion.form>
+        </motion.div>
+      </motion.section>
+    </motion.div>
   );
 };
 
@@ -69,7 +164,14 @@ type WrapperProps = {
 };
 
 const Wrapper = ({ children }: WrapperProps) => {
-  return <div className="flex flex-col gap-1.5">{children}</div>;
+  return (
+    <motion.div
+      whileHover={{ scale: 1.01 }}
+      className="flex flex-col gap-1.5"
+    >
+      {children}
+    </motion.div>
+  );
 };
 
 export default Contact;
