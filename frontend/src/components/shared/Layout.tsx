@@ -13,8 +13,8 @@ const Layout = () => {
       setHasScrolled(window.scrollY > 20);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -23,7 +23,7 @@ const Layout = () => {
         <HeaderTop />
         <Navbar hasScrolled={hasScrolled} />
       </header>
-      <main className="flex-1 mt-[120px] md:mt-[140px]">
+      <main className="flex-1 mt-[70px] md:mt-[80px]">
         <Outlet />
       </main>
       <Footer />
