@@ -1,4 +1,8 @@
 import { NavLink } from "react-router-dom";
+import { motion } from "motion/react";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { useTheme } from "@/context/Theme-provider";
 import {
   Heart,
   Search,
@@ -8,7 +12,11 @@ import {
   Sun,
   LayoutDashboard,
   LogOut,
+  Info,
+  Contact,
+  ShieldQuestion,
 } from "lucide-react";
+import Logo from "../shared/Logo";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   Sheet,
@@ -17,10 +25,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
-import { motion } from "motion/react";
-import Logo from "../shared/Logo";
-import { useState } from "react";
-import { useTheme } from "@/context/Theme-provider";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,7 +32,6 @@ import {
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import { cn } from "@/lib/utils";
 
 interface NavbarProps {
   hasScrolled: boolean;
@@ -47,6 +50,30 @@ interface User {
   avatar: string;
   role: "user" | "admin";
 }
+
+interface headerTopProps {
+  name: string;
+  path: string;
+  icon: React.ReactNode;
+}
+
+const headerTopData: headerTopProps[] = [
+  {
+    name: "About",
+    path: "/about",
+    icon: <Info className="h-5 w-5" />,
+  },
+  {
+    name: "Contact",
+    path: "/contact",
+    icon: <Contact className="h-5 w-5" />,
+  },
+  {
+    name: "Privacy Policy",
+    path: "/privacypolicy",
+    icon: <ShieldQuestion className="h-5 w-5" />,
+  },
+];
 
 const navItems: NavItem[] = [
   { icon: <Search className="h-5 w-5" />, name: "Search", path: "/search" },
@@ -181,6 +208,24 @@ const Navbar = ({ hasScrolled }: NavbarProps) => {
                   </NavLink>
                 ))}
 
+                {headerTopData.map((el) => (
+                  <NavLink
+                    key={el.name}
+                    to={el.path}
+                    onClick={() => setIsOpen(false)}
+                    className={({
+                      isActive,
+                    }) => `flex items-center gap-3 p-3 rounded-lg transition-all ${
+                      isActive
+                        ? "bg-primary/10 text-primary font-semibold"
+                        : "hover:bg-secondary"
+                    }
+   `}
+                  >
+                    {el.icon}
+                    <span>{el.name}</span>
+                  </NavLink>
+                ))}
                 <Button
                   variant="destructive"
                   className="mt-4"
@@ -232,7 +277,7 @@ const Navbar = ({ hasScrolled }: NavbarProps) => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <NavLink to='/profile' className="flex items-center gap-2 p-2">
+                <NavLink to="/profile" className="flex items-center gap-2 p-2">
                   <Avatar className="h-8 w-8">
                     <AvatarImage src={user.avatar} alt={user.name} />
                     <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
