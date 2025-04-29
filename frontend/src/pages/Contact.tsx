@@ -1,31 +1,25 @@
-import IconTile from "@/components/Footer/IconTile";
 import { useForm } from "react-hook-form";
+import { motion } from "motion/react";
+import { Loader2 } from "lucide-react";
+import { ContactProps } from "@/types/contact";
+import IconTile from "@/components/Footer/IconTile";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { motion } from "motion/react";
-import { Loader2 } from "lucide-react";
-
-interface ContactForm {
-  email: string;
-  subject: string;
-  query: string;
-}
 
 const Contact = () => {
-  const { handleSubmit, register, reset, formState: { isSubmitting } } = useForm<ContactForm>();
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { isSubmitting },
+  } = useForm<ContactProps>();
 
-  const onSubmit = async (data: ContactForm) => {
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      console.log(data);
-      reset();
-    } catch (error) {
-      console.error(error);
-    }
+  const onSubmit = (data: ContactProps) => {
+    console.log(data);
+    reset();
   };
 
   const containerVariants = {
@@ -113,7 +107,9 @@ const Contact = () => {
                 <Label className="font-inter">Subject</Label>
                 <Input
                   type="text"
-                  {...register("subject", { required: "This field is required" })}
+                  {...register("subject", {
+                    required: "This field is required",
+                  })}
                 />
               </Wrapper>
             </motion.div>
@@ -165,10 +161,7 @@ type WrapperProps = {
 
 const Wrapper = ({ children }: WrapperProps) => {
   return (
-    <motion.div
-      whileHover={{ scale: 1.01 }}
-      className="flex flex-col gap-1.5"
-    >
+    <motion.div whileHover={{ scale: 1.01 }} className="flex flex-col gap-1.5">
       {children}
     </motion.div>
   );
