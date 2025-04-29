@@ -22,7 +22,7 @@ const data: dataProps[] = [
 
 const HeaderTop = () => {
   return (
-    <div className="bg-gray-100 dark:bg-background hidden md:block">
+    <div className="bg-gray-100 dark:bg-background hidden xl:block">
       <div className="container mx-auto max-w-6xl flex space-x-6 py-1.5 font-inter px-4 xl:px-0">
         {data.map((el: dataProps) => (
           <NavLink
