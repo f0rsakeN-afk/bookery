@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Eye, EyeOff } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Eye, EyeOff } from "lucide-react";
+import { NewPasswordProps } from "@/types/user";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -17,29 +18,25 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-
-interface NewPasswordFormInputs {
-  password: string;
-  confirmPassword: string;
-}
+} from "@/components/ui/form";
 
 const NewPassword = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
 
-  const form = useForm<NewPasswordFormInputs>({
+  const form = useForm<NewPasswordProps>({
     defaultValues: {
-      password: '',
-      confirmPassword: '',
+      newPassword1: "",
+      newPassword2: "",
     },
   });
 
-  const onSubmit = (data: NewPasswordFormInputs) => {
-    if (data.password !== data.confirmPassword) {
-      form.setError('confirmPassword', {
-        type: 'manual',
-        message: 'Passwords do not match',
+  const onSubmit = (data: NewPasswordProps) => {
+    if (data.newPassword1 !== data.newPassword2) {
+      form.setError("newPassword2", {
+        type: "manual",
+        message: "Passwords do not match",
       });
       return;
     }
@@ -48,7 +45,7 @@ const NewPassword = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
+    <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">
@@ -60,18 +57,15 @@ const NewPassword = () => {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
-                name="password"
+                name="newPassword1"
                 rules={{
-                  required: 'Password is required',
+                  required: "Password is required",
                   minLength: {
                     value: 6,
-                    message: 'Password must be at least 6 characters',
+                    message: "Password must be at least 6 characters",
                   },
                 }}
                 render={({ field }) => (
@@ -80,7 +74,7 @@ const NewPassword = () => {
                     <FormControl>
                       <div className="relative">
                         <Input
-                          type={showPassword ? 'text' : 'password'}
+                          type={showPassword ? "text" : "password"}
                           placeholder="Enter your new password"
                           {...field}
                         />
@@ -91,7 +85,11 @@ const NewPassword = () => {
                           className="absolute right-0 top-0 h-full px-3"
                           onClick={() => setShowPassword(!showPassword)}
                         >
-                          {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                          {showPassword ? (
+                            <EyeOff size={16} />
+                          ) : (
+                            <Eye size={16} />
+                          )}
                         </Button>
                       </div>
                     </FormControl>
@@ -102,12 +100,12 @@ const NewPassword = () => {
 
               <FormField
                 control={form.control}
-                name="confirmPassword"
+                name="newPassword2"
                 rules={{
-                  required: 'Please confirm your password',
+                  required: "Please confirm your password",
                   validate: (value) =>
-                    value === form.getValues('password') ||
-                    'Passwords do not match',
+                    value === form.getValues("newPassword1") ||
+                    "Passwords do not match",
                 }}
                 render={({ field }) => (
                   <FormItem>
@@ -115,7 +113,7 @@ const NewPassword = () => {
                     <FormControl>
                       <div className="relative">
                         <Input
-                          type={showConfirmPassword ? 'text' : 'password'}
+                          type={showConfirmPassword ? "text" : "password"}
                           placeholder="Confirm your new password"
                           {...field}
                         />
