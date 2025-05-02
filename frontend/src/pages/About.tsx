@@ -6,30 +6,26 @@ const About: React.FC = () => {
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.5 }
+    transition: { duration: 0.5 },
   };
 
   const staggerContainer = {
     animate: {
       transition: {
-        staggerChildren: 0.2
-      }
-    }
+        staggerChildren: 0.2,
+      },
+    },
   };
 
   const scaleIn = {
     initial: { scale: 0.9, opacity: 0 },
     animate: { scale: 1, opacity: 1 },
-    transition: { duration: 0.5 }
+    transition: { duration: 0.5 },
   };
 
   return (
-    <motion.div
-      initial="initial"
-      animate="animate"
-      className=""
-    >
-      <motion.section 
+    <motion.div initial="initial" animate="animate" className=" select-none">
+      <motion.section
         className="overflow-hidden relative"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -39,11 +35,12 @@ const About: React.FC = () => {
           initial={{ scale: 1.2 }}
           animate={{ scale: 1 }}
           transition={{ duration: 1.5 }}
+          whileHover={{ scale: 1.1 }}
           src={aboutImage}
           alt="about image"
           className="object-cover h-[250px] w-full brightness-50"
         />
-        <motion.h1 
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
@@ -53,25 +50,25 @@ const About: React.FC = () => {
         </motion.h1>
       </motion.section>
 
-      <motion.div 
+      <motion.div
         variants={staggerContainer}
         className="container mx-auto max-w-6xl px-2 xl:px-0 grid lg:grid-cols-5 gap-4 py-6"
       >
-        <motion.div 
+        <motion.div
           variants={staggerContainer}
           className="lg:col-span-3 flex flex-col space-y-6"
         >
-          <motion.section 
+          <motion.section
             variants={fadeInUp}
             className="flex flex-col space-y-1"
           >
-            <motion.h2 
+            <motion.h2
               variants={fadeInUp}
               className="font-playfair text-2xl font-semibold"
             >
               Our Mission
             </motion.h2>
-            <motion.p 
+            <motion.p
               variants={fadeInUp}
               className="font-inter font-extralight"
             >
@@ -83,17 +80,17 @@ const About: React.FC = () => {
             </motion.p>
           </motion.section>
 
-          <motion.section 
+          <motion.section
             variants={fadeInUp}
             className="flex flex-col space-y-1"
           >
-            <motion.h2 
+            <motion.h2
               variants={fadeInUp}
               className="font-playfair text-2xl font-semibold"
             >
               What We Are
             </motion.h2>
-            <motion.p 
+            <motion.p
               variants={fadeInUp}
               className="font-inter font-extralight"
             >
@@ -103,7 +100,7 @@ const About: React.FC = () => {
               to enhance your life — from the essentials to the extraordinary.
             </motion.p>
             <br />
-            <motion.p 
+            <motion.p
               variants={fadeInUp}
               className="font-inter font-extralight"
             >
