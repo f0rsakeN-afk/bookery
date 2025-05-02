@@ -1,6 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "motion/react";
+import toast from "react-hot-toast";
+import { ResetPasswordProps } from "@/types/user";
 import {
   Card,
   CardHeader,
@@ -10,21 +12,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import toast from "react-hot-toast";
-
-interface ForgotPasswordForm {
-  email: string;
-}
 
 const ForgotPassword: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<ForgotPasswordForm>();
+  } = useForm<ResetPasswordProps>();
 
-  const onSubmit = (data: ForgotPasswordForm) => {
-    toast.success('Hell0')
+  const onSubmit = (data: ResetPasswordProps) => {
+    toast.success("Hell0");
     console.log(data);
   };
 
