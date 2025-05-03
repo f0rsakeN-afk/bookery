@@ -129,7 +129,7 @@ const Navbar = ({ hasScrolled }: NavbarProps) => {
       ${hasScrolled ? "shadow-sm border-b" : ""}
     `}
     >
-      <div className="container mx-auto max-w-6xl px-4 py-4">
+      <div className="container mx-auto max-w-6xl px-4 xl:px-0 py-4">
         <div className="flex items-center justify-between">
           <Logo />
 
