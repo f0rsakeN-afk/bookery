@@ -122,7 +122,7 @@ const About: React.FC = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           src={about2Image}
           alt="about 2 image"
-          className="order-first lg:order-last lg:col-span-2 border-8 border-primary h-full"
+          className="order-first lg:order-last lg:col-span-2 border-8 border-primary h-full rounded"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         />
