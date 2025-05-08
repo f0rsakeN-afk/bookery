@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap&family=Cedarville+Cursive");
 
 @import "tailwindcss";
 /* @import "tw-animate-css"; */
@@ -10,6 +10,7 @@
   --font-inter: "Inter", "sans-serif";
   --font-quicksand: "Quicksand", "sans-serif";
   --font-playfair: "Playfair Display", "sans-serif";
+  --font-cursive: "Cedarville Cursive", "sans-serif";
 
   --color-figmaPrimary: #6a4e39;
 
@@ -127,4 +128,3 @@
     @apply bg-background text-foreground;
   }
 }
-
