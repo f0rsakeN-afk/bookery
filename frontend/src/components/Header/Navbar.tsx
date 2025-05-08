@@ -15,6 +15,7 @@ import {
   Info,
   Contact,
   ShieldQuestion,
+  Box,
 } from "lucide-react";
 import Logo from "../shared/Logo";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -77,8 +78,14 @@ const headerTopData: headerTopProps[] = [
 
 const navItems: NavItem[] = [
   { icon: <Search className="h-5 w-5" />, name: "Search", path: "/search" },
+  {
+    icon: <Box className="h-5 w-5" />,
+    name: "All Products",
+    path: "/allproducts",
+  },
   { icon: <Heart className="h-5 w-5" />, name: "Wishlist", path: "/wishlist" },
   { icon: <ShoppingCart className="h-5 w-5" />, name: "Cart", path: "/cart" },
+
   {
     icon: <LayoutDashboard className="h-5 w-5" />,
     name: "Dashboard",
