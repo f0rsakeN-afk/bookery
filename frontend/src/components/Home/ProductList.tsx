@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom";
+import { cn } from "@/lib/utils";
 import { ChevronRight, Heart, ShoppingCart } from "lucide-react";
 import { Button } from "../ui/button";
 import ProductListSkeleton from "./ProductListSkeleton";
-import { cn } from "@/lib/utils";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 interface ProductListProps {

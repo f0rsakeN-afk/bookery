@@ -1,29 +1,54 @@
-import { HeroImage } from "@/utils/ImageExports";
+import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useState } from "react";
 import { CircleArrowDown } from "lucide-react";
+import {
+  HeroImage,
+  HeroImage1,
+  HeroImage2,
+  HeroImage3,
+  HeroImage4,
+} from "@/utils/ImageExports";
 import IconTile from "../Footer/IconTile";
-import { motion } from "motion/react";
+
+const images: string[] = [
+  HeroImage,
+  HeroImage1,
+  HeroImage2,
+  HeroImage3,
+  HeroImage4,
+];
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5 },
+};
+
+const staggerChildren = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const scrollToBooks = () => {
+  const section = document.getElementById("electronics");
+  if (section) {
+    section.scrollIntoView({ behavior: "smooth" });
+  }
+};
 
 const Hero = () => {
-  const scrollToBooks = () => {
-    const section = document.getElementById("books");
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  const [current, setCurrent] = useState<number>(0);
 
-  const fadeInUp = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.5 },
-  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % images.length);
+    }, 7000);
 
-  const staggerChildren = {
-    animate: {
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <motion.div
@@ -92,18 +117,24 @@ const Hero = () => {
         </motion.div>
 
         <motion.div
+          className="relative w-full h-[400px] md:h-[500px] flex items-center justify-center overflow-hidden order-first xl:order-last"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
-          className="flex items-center justify-center order-first xl:order-last"
         >
-          <motion.img
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.3 }}
-            src={HeroImage}
-            alt="hero image"
-            className="object-cover"
-          />
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={images[current]}
+              src={images[current]}
+              alt="hero image"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.6 }}
+              className="max-h-full max-w-full object-contain rounded-lg contrast-125 saturate-150 "
+              whileHover={{ scale: 1.02 }}
+            />
+          </AnimatePresence>
         </motion.div>
       </div>
 
