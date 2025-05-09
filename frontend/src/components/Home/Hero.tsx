@@ -69,7 +69,7 @@ const Hero = () => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="font-playfair text-5xl md:text-6xl text-primary font-bold"
+              className="font-playfair text-4xl md:text-6xl text-primary font-bold"
             >
               Best Place to Discover
             </motion.h1>
@@ -77,7 +77,7 @@ const Hero = () => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="font-playfair text-5xl md:text-6xl text-primary font-bold"
+              className="font-playfair text-4xl md:text-6xl text-primary font-bold"
             >
               Your Favourite
             </motion.h1>
@@ -85,7 +85,7 @@ const Hero = () => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="font-playfair text-5xl md:text-6xl text-primary font-bold"
+              className="font-playfair text-4xl md:text-6xl text-primary font-bold"
             >
               Products.
             </motion.h1>
@@ -93,7 +93,7 @@ const Hero = () => {
 
           <motion.p
             variants={fadeInUp}
-            className="font-inter font-extralight tracking-wide leading-6 text-[18px]"
+            className="font-inter font-extralight tracking-wide leading-6 md:text-[18px]"
           >
             Discover endless possibilities with our online store! From everyday
             essentials to unique finds, we've got something for everyone. Start

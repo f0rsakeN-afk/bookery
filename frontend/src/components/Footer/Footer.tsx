@@ -81,7 +81,7 @@ const Footer = () => {
         <motion.div variants={itemVariants} className="flex flex-col gap-2">
           <motion.h2
             variants={itemVariants}
-            className="text-3xl font-playfair font-semibold text-primary/80"
+            className=" text-[20px] md:text-3xl font-playfair font-semibold text-primary/80"
           >
             Quick Links
           </motion.h2>
@@ -114,7 +114,7 @@ const Footer = () => {
         >
           <motion.h2
             variants={itemVariants}
-            className="text-3xl font-playfair font-semibold text-primary/80"
+            className="text-[20px] md:text-3xl font-playfair font-semibold text-primary/80"
           >
             Contact
           </motion.h2>
