@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { CirclePlus, Pencil, Trash2 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import {
   Table,
@@ -11,7 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CirclePlus, Pencil, Trash2 } from "lucide-react";
 import AddProduct from "@/components/DashBoard/AddProduct";
 import {
   AlertDialog,
@@ -72,10 +72,10 @@ const Dashboard: React.FC = () => {
       <section>
         <Card>
           <CardHeader>
-            <CardTitle>All Products</CardTitle>
+            <CardTitle className="font-playfair">All Products</CardTitle>
           </CardHeader>
           <CardContent>
-            <Table>
+            <Table className="font-inter">
               <TableHeader>
                 <TableRow>
                   <TableHead>Image</TableHead>
