@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { ScrollArea } from "../ui/scroll-area";
 
 interface ProductFormData {
   title: string;
@@ -116,7 +117,7 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="p-4">
+    <ScrollArea className="md:p-4 max-h-[70dvh] overflow-y-scroll">
       <h2 className="text-2xl font-bold mb-6">Add New Product</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -283,7 +284,7 @@ const AddProduct = () => {
           </Button>
         </form>
       </Form>
-    </div>
+    </ScrollArea>
   );
 };
 
