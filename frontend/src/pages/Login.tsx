@@ -1,43 +1,41 @@
 import React from "react";
-import { LogoImage, carttransparent } from "@/utils/ImageExports";
 import { motion } from "motion/react";
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { ShoppingBag } from "lucide-react";
 import { LoginProps } from "@/types/auth";
-
-
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { LogoImage, carttransparent } from "@/utils/ImageExports";
 
 const Login: React.FC = () => {
   const {
     register,
     handleSubmit,
-  /*   formState: { errors }, */
+    /*   formState: { errors }, */
   } = useForm<LoginProps>();
 
   const onSubmit = (data: LoginProps) => {
     console.log(data);
-    toast.success("Login successful!");
+    toast("Login successful!");
   };
 
   const validateForm = (data: LoginProps) => {
     if (!data.email) {
-      toast.error("Email is required");
+      toast("Email is required");
       return;
     }
     if (!data.password) {
-      toast.error("Password is required");
+      toast("Password is required");
       return;
     }
     if (data.password.length < 6) {
-      toast.error("Password must be at least 6 characters");
+      toast("Password must be at least 6 characters");
       return;
     }
     if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(data.email)) {
-      toast.error("Invalid email address");
+      toast("Invalid email address");
       return;
     }
     onSubmit(data);
@@ -61,7 +59,7 @@ const Login: React.FC = () => {
             <img
               src={LogoImage}
               alt="Snapkart logo"
-              className="w-44 mb-8 contrast-200 invert dark:invert-0"
+              className="w-44 mb-8 contrast-200  dark:invert-0"
             />
 
             <div className="space-y-6">

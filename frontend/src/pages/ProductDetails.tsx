@@ -1,9 +1,10 @@
+import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { Heart, Minus, Plus, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Heart, Minus, Plus, ShoppingCart } from "lucide-react";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
+import ProductDetailsSkeleton from "@/components/productDetails/Loader";
 
 // Matching the AddProduct form fields
 const dummyProduct = {
@@ -136,6 +137,7 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
+{/*       <ProductDetailsSkeleton /> */}
     </div>
   );
 };

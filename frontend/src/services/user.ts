@@ -1,5 +1,5 @@
 import axiosInstance from "./axios";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
@@ -35,13 +35,13 @@ export function useResetPassword() {
   return useMutation<ResetPasswordResponse, AxiosError, ResetPasswordProps>({
     mutationFn: ResetPassword,
     onSuccess: (data) => {
-      toast.success(
+      toast(
         data.message ||
           "The user password reset link has been sent to your email address"
       );
     },
     onError: (error) => {
-      toast.error(error.message || "Failed sending password reset link");
+      toast(error.message || "Failed sending password reset link");
     },
   });
 }
@@ -57,10 +57,10 @@ export function useNewPassword() {
   return useMutation<NewPasswordResponse, AxiosError, NewPasswordProps>({
     mutationFn: NewPassword,
     onSuccess: (data) => {
-      toast.success(data.message || "Password reset successful");
+      toast(data.message || "Password reset successful");
     },
     onError: (error) => {
-      toast.error(error.message || "Password reset failed");
+      toast(error.message || "Password reset failed");
     },
   });
 }
@@ -76,10 +76,10 @@ export function useUpdatePassword() {
   return useMutation<updatePasswordResponse, AxiosError, updatePasswordProps>({
     mutationFn: updatePassword,
     onSuccess: (data) => {
-      toast.success(data.message || "Password updated successfully");
+      toast(data.message || "Password updated successfully");
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to update password");
+      toast(error.message || "Failed to update password");
     },
   });
 }

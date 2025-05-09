@@ -1,7 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
-import toast from "react-hot-toast";
+import { Loader2 } from "lucide-react";
 import { ResetPasswordProps } from "@/types/user";
 import {
   Card,
@@ -11,9 +12,10 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 const ForgotPassword: React.FC = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -21,7 +23,7 @@ const ForgotPassword: React.FC = () => {
   } = useForm<ResetPasswordProps>();
 
   const onSubmit = (data: ResetPasswordProps) => {
-    toast.success("Hell0");
+    toast("Hell0");
     console.log(data);
   };
 
@@ -115,7 +117,7 @@ const ForgotPassword: React.FC = () => {
               <Button
                 variant="link"
                 className="text-sm font-medium"
-                onClick={() => (window.location.href = "/login")}
+                onClick={() => navigate("/login")}
               >
                 Back to login
               </Button>

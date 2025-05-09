@@ -1,49 +1,55 @@
 import React from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { LogoImage } from "@/utils/ImageExports";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { UserPlus, ShoppingCart, Package, Gift, CreditCard, Heart, Star, Truck, Tags, Smartphone } from "lucide-react";
+import {
+  UserPlus,
+  ShoppingCart,
+  Package,
+  Gift,
+  CreditCard,
+  Heart,
+  Star,
+  Truck,
+  Tags,
+  Smartphone,
+} from "lucide-react";
 import { RegisterProps } from "@/types/auth";
 
-
-
 const Register: React.FC = () => {
-  const {
-    register,
-    handleSubmit,
-  } = useForm<RegisterProps>();
+  const { register, handleSubmit } = useForm<RegisterProps>();
 
   const validateForm = (data: RegisterProps) => {
     if (!data.name) {
-      toast.error("Username is required");
+      toast("Username is required");
       return;
     }
     if (!data.email) {
-      toast.error("Email is required");
+      toast("Email is required");
       return;
     }
     if (!data.password) {
-      toast.error("Password is required");
+      toast("Password is required");
       return;
     }
     if (data.password.length < 6) {
-      toast.error("Password must be at least 6 characters");
+      toast("Password must be at least 6 characters");
       return;
     }
     if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(data.email)) {
-      toast.error("Invalid email address");
+      toast("Invalid email address");
       return;
     }
     if (data.password !== data.passwordConfirm) {
-      toast.error("Passwords don't match");
+      toast("Passwords don't match");
       return;
     }
     console.log(data);
-    toast.success("Registration successful!");
+    toast("Registration successful!");
   };
 
   return (
@@ -61,8 +67,12 @@ const Register: React.FC = () => {
           className="order-2 md:order-1 p-8 flex flex-col justify-center"
         >
           <div className="max-w-md mx-auto w-full">
-            <h1 className="text-2xl font-bold mb-2 dark:text-white">Create Your Account</h1>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">Join the Snapkart community today</p>
+            <h1 className="text-2xl font-bold mb-2 dark:text-white">
+              Create Your Account
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              Join the Snapkart community today
+            </p>
 
             <form onSubmit={handleSubmit(validateForm)} className="space-y-4">
               <motion.div
@@ -71,7 +81,9 @@ const Register: React.FC = () => {
                 transition={{ delay: 0.5 }}
                 className="space-y-2"
               >
-                <label className="text-sm font-medium dark:text-white">Username</label>
+                <label className="text-sm font-medium dark:text-white">
+                  Username
+                </label>
                 <Input
                   type="text"
                   {...register("name")}
@@ -86,7 +98,9 @@ const Register: React.FC = () => {
                 transition={{ delay: 0.6 }}
                 className="space-y-2"
               >
-                <label className="text-sm font-medium dark:text-white">Email</label>
+                <label className="text-sm font-medium dark:text-white">
+                  Email
+                </label>
                 <Input
                   type="email"
                   {...register("email")}
@@ -102,7 +116,9 @@ const Register: React.FC = () => {
                   transition={{ delay: 0.7 }}
                   className="space-y-2"
                 >
-                  <label className="text-sm font-medium dark:text-white">Password</label>
+                  <label className="text-sm font-medium dark:text-white">
+                    Password
+                  </label>
                   <Input
                     type="password"
                     {...register("password")}
@@ -117,7 +133,9 @@ const Register: React.FC = () => {
                   transition={{ delay: 0.8 }}
                   className="space-y-2"
                 >
-                  <label className="text-sm font-medium dark:text-white">Confirm Password</label>
+                  <label className="text-sm font-medium dark:text-white">
+                    Confirm Password
+                  </label>
                   <Input
                     type="password"
                     {...register("passwordConfirm")}
@@ -196,22 +214,27 @@ const Register: React.FC = () => {
               transition={{ delay: 0.4 }}
               className="text-white space-y-4"
             >
-              <h2 className="text-3xl md:text-4xl font-bold leading-tight">
+              <h2 className="text-3xl md:text-4xl font-bold leading-tight hidden md:block">
                 Start Your Shopping <br />
-                <span className="hidden md:block">Journey With Us</span>
+                <span className="">Journey With Us</span>
               </h2>
               <p className="text-white/80 text-lg max-w-md hidden md:block">
-                Join our community of smart shoppers and unlock a world of amazing deals
+                Join our community of smart shoppers and unlock a world of
+                amazing deals
               </p>
             </motion.div>
 
             {/* Floating Icons */}
-            <div className="relative h-60 mt-8">
+            <div className="relative h-60 mt-8 hidden md:block">
               {[
                 { Icon: ShoppingCart, position: "top-0 left-10", delay: 0 },
                 { Icon: Package, position: "top-10 right-20", delay: 0.2 },
                 { Icon: Gift, position: "bottom-0 left-20", delay: 0.4 },
-                { Icon: CreditCard, position: "bottom-20 right-10", delay: 0.6 },
+                {
+                  Icon: CreditCard,
+                  position: "bottom-20 right-10",
+                  delay: 0.6,
+                },
                 { Icon: Heart, position: "top-20 left-1/2", delay: 0.8 },
                 { Icon: Star, position: "bottom-10 left-1/3", delay: 1 },
                 { Icon: Truck, position: "top-1/2 right-0", delay: 1.2 },
@@ -222,8 +245,8 @@ const Register: React.FC = () => {
                   key={index}
                   className={`absolute ${position} bg-white/20 p-2 rounded-lg backdrop-blur-sm`}
                   initial={{ opacity: 0, scale: 0 }}
-                  animate={{ 
-                    opacity: 1, 
+                  animate={{
+                    opacity: 1,
                     scale: 1,
                     y: [0, -10, 0],
                   }}
@@ -248,7 +271,7 @@ const Register: React.FC = () => {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="grid grid-cols-3 gap-4 relative z-10 mt-8"
+            className="hidden md:grid grid-cols-3 gap-4 relative z-10 mt-8 "
           >
             {[
               { number: "10K+", label: "Products" },
@@ -260,7 +283,9 @@ const Register: React.FC = () => {
                 className="text-center p-2 rounded-lg hover:bg-white/10 transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
               >
-                <div className="text-2xl font-bold text-white">{stat.number}</div>
+                <div className="text-2xl font-bold text-white">
+                  {stat.number}
+                </div>
                 <div className="text-white/70 text-sm">{stat.label}</div>
               </motion.div>
             ))}

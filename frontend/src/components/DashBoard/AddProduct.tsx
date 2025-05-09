@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { ImagePlus, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,9 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
-import { ImagePlus, Loader2 } from "lucide-react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 interface ProductFormData {
   title: string;
@@ -50,7 +50,7 @@ const AddProduct = () => {
     if (file) {
       if (file.size > 2000000) {
         // 2MB limit
-        toast.error("Image size should be less than 2MB");
+        toast("Image size should be less than 2MB");
         return;
       }
       const reader = new FileReader();
@@ -64,37 +64,37 @@ const AddProduct = () => {
   const onSubmit = (data: ProductFormData) => {
     try {
       if (!imagePreview) {
-        toast.error("Please upload a product image");
+        toast("Please upload a product image");
         return;
       }
 
       if (data.title.length < 3) {
-        toast.error("Title must be at least 3 characters long");
+        toast("Title must be at least 3 characters long");
         return;
       }
 
       if (data.description.length < 10) {
-        toast.error("Description must be at least 10 characters long");
+        toast("Description must be at least 10 characters long");
         return;
       }
 
       if (isNaN(Number(data.price)) || Number(data.price) <= 0) {
-        toast.error("Please enter a valid price");
+        toast("Please enter a valid price");
         return;
       }
 
       if (isNaN(Number(data.quantity)) || Number(data.quantity) < 0) {
-        toast.error("Please enter a valid quantity");
+        toast("Please enter a valid quantity");
         return;
       }
 
       if (!data.category) {
-        toast.error("Please select a category");
+        toast("Please select a category");
         return;
       }
 
       if (data.brand.length < 2) {
-        toast.error("Brand name must be at least 2 characters long");
+        toast("Brand name must be at least 2 characters long");
         return;
       }
 
@@ -104,14 +104,14 @@ const AddProduct = () => {
         discountPercent < 0 ||
         discountPercent > 100
       ) {
-        toast.error("Please enter a valid discount percentage (0-100)");
+        toast("Please enter a valid discount percentage (0-100)");
         return;
       }
 
       console.log(data);
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong!");
+      toast("Something went wrong!");
     }
   };
 
@@ -278,7 +278,8 @@ const AddProduct = () => {
               </>
             ) : (
               "Add Product"
-            )} */}Add Product
+            )} */}
+            Add Product
           </Button>
         </form>
       </Form>

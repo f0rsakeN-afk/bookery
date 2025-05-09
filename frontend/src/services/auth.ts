@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import axiosInstance from "./axios";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 import {
   LoginProps,
@@ -19,11 +19,11 @@ export function useLogin() {
     mutationFn: Login,
     onSuccess: (data) => {
       console.log(data);
-      toast.success(data.message || "User logged in successfully");
+      toast(data.message || "User logged in successfully");
     },
     onError: (error) => {
       console.log(error);
-      toast.error(error.message);
+      toast(error.message);
     },
   });
 }
@@ -37,10 +37,10 @@ export function useRegister() {
   return useMutation<RegisterResponse, AxiosError, RegisterProps>({
     mutationFn: Register,
     onSuccess: (data) => {
-      toast.success(data.message || "User registration successfull");
+      toast(data.message || "User registration successfull");
     },
     onError: (error) => {
-      toast.error(error.message || "User registration failed");
+      toast(error.message || "User registration failed");
     },
   });
 }
@@ -54,10 +54,10 @@ export function useLogout() {
   return useMutation({
     mutationFn: Logout,
     onSuccess: (data) => {
-      toast.success(data.message || "Logged out successfully");
+      toast(data.message || "Logged out successfully");
     },
     onError: (error) => {
-      toast.success(error.message || "Logout failed");
+      toast(error.message || "Logout failed");
     },
   });
 }
