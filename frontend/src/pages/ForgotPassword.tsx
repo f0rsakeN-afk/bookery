@@ -28,7 +28,7 @@ const ForgotPassword: React.FC = () => {
   };
 
   return (
-    <div className="min-h-dvh container max-w-6xl mx-auto flex items-center justify-center px-4">
+    <div className="min-h-dvh container max-w-6xl mx-auto flex items-center justify-center px-4 font-inter">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -47,7 +47,7 @@ const ForgotPassword: React.FC = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-2xl font-bold"
+                className="text-2xl font-bold "
               >
                 Forgot your password?
               </motion.h1>

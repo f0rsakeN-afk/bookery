@@ -25,7 +25,7 @@ import {
 const WishlistTable = ({ items }) => {
   return (
 <div className="rounded-md border overflow-x-auto">
-  <Table className="min-w-[700px]">
+  <Table className="min-w-[700px] font-inter">
     <TableHeader>
       <TableRow>
         <TableHead className="w-28 sm:w-44">Image</TableHead>

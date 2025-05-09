@@ -25,7 +25,7 @@ const SearchPage: React.FC = () => {
         </div>
         <Button
           variant="outline"
-          className="rounded-full h-10 col-span-2 md:col-span-1"
+          className="rounded-full h-10 col-span-2 md:col-span-1 font-inter"
           onClick={handleSearch}
         >
           <Search />

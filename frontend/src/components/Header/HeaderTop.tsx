@@ -29,7 +29,7 @@ const HeaderTop = () => {
             to={el.path}
             key={el.name}
             className={({ isActive }) => `
-              text-[13px] tracking-wider transition-colors duration-200
+              text-[13px] tracking-wider transition-colors duration-200 font-inter
               ${isActive 
                 ? 'text-figmaPrimary dark:text-primary font-semibold' 
                 : 'text-gray-600 dark:text-gray-400 hover:text-figmaPrimary dark:hover:text-primary hover:font-semibold'

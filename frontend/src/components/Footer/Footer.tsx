@@ -78,10 +78,7 @@ const Footer = () => {
         </motion.div>
 
         {/* Quick Links Section */}
-        <motion.div
-          variants={itemVariants}
-          className="flex flex-col gap-2"
-        >
+        <motion.div variants={itemVariants} className="flex flex-col gap-2">
           <motion.h2
             variants={itemVariants}
             className="text-3xl font-playfair font-semibold text-primary/80"
@@ -101,7 +98,7 @@ const Footer = () => {
               >
                 <NavLink
                   to={el.path}
-                  className="text-[14px] text-muted-foreground hover:text-figmaPrimary hover:font-semibold transition-all ease-in-out duration-300 hover:underline underline-offset-2 decoration-figmaPrimary"
+                  className="text-[14px] text-muted-foreground hover:text-figmaPrimary hover:font-semibold transition-all ease-in-out duration-300 hover:underline underline-offset-2 decoration-figmaPrimary font-inter"
                 >
                   {el.name}
                 </NavLink>
@@ -126,20 +123,29 @@ const Footer = () => {
             className="flex flex-col gap-1"
           >
             {[
-              { icon: <Mail />, text: "Email:", link: "mailto:test@gmail.com", value: "test@gmail.com" },
+              {
+                icon: <Mail />,
+                text: "Email:",
+                link: "mailto:test@gmail.com",
+                value: "test@gmail.com",
+              },
               { icon: <Phone />, text: "Phone:", value: "+977-9800000000" },
-              { icon: <MapPinHouse />, text: "Address:", value: "New Amda, Damak" },
+              {
+                icon: <MapPinHouse />,
+                text: "Address:",
+                value: "New Amda, Damak",
+              },
             ].map((item, index) => (
               <motion.h3
                 key={index}
                 variants={itemVariants}
                 whileHover={{ x: 5 }}
-                className="flex items-center gap-1"
+                className="flex items-center gap-1 font-inter"
               >
                 {item.icon}
                 {item.text}
                 {item.link ? (
-                  <a href={item.link} className="hover:text-figmaPrimary">
+                  <a href={item.link} className="hover:text-figmaPrimary ">
                     {item.value}
                   </a>
                 ) : (

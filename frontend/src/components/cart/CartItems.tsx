@@ -24,7 +24,7 @@ import { Button } from "../ui/button";
 const CartItems = ({ items }) => {
   return (
     <div className="rounded-md border overflow-x-auto">
-      <Table className="min-w-[600px]">
+      <Table className="min-w-[600px] font-inter">
         <TableHeader>
           <TableRow>
             <TableHead className="w-32 sm:w-44">Image</TableHead>

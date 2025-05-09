@@ -90,7 +90,7 @@ const Contact = () => {
           <motion.form
             variants={containerVariants}
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-5 pt-3"
+            className="flex flex-col gap-5 pt-3 font-inter"
           >
             <motion.div variants={itemVariants}>
               <Wrapper>

@@ -42,12 +42,12 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-figmaPrimary/20 to-figmaPrimary/40 dark:from-gray-900 dark:to-gray-800 min-h-dvh flex items-center justify-center px-2 xl:px-0">
+    <div className="bg-gradient-to-br from-figmaPrimary/20 to-figmaPrimary/40 dark:from-gray-900 dark:to-gray-800 min-h-dvh flex items-center justify-center px-2 xl:px-0 ">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="container mx-auto max-w-6xl h-[70vh] rounded-4xl grid grid-cols-1 md:grid-cols-2 overflow-hidden bg-white dark:bg-gray-900 shadow-xl"
+        className="container mx-auto max-w-6xl h-[70vh] rounded-4xl grid grid-cols-1 md:grid-cols-2 overflow-hidden bg-white dark:bg-gray-900 shadow-xl font-inter"
       >
         <motion.div
           initial={{ x: -100, opacity: 0 }}
@@ -59,7 +59,7 @@ const Login: React.FC = () => {
             <img
               src={LogoImage}
               alt="Snapkart logo"
-              className="w-44 mb-8 contrast-200  dark:invert-0"
+              className="w-44 mb-4 contrast-200  dark:invert-0"
             />
 
             <div className="space-y-6">

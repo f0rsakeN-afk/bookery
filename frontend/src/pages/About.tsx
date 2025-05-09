@@ -1,6 +1,6 @@
 import React from "react";
-import { about2Image, aboutImage } from "@/utils/ImageExports";
 import { motion } from "motion/react";
+import { about2Image, aboutImage } from "@/utils/ImageExports";
 
 const About: React.FC = () => {
   const fadeInUp = {
