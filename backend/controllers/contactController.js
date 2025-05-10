@@ -5,6 +5,7 @@ exports.sendMessage = catchAsync(async (req, res, next) => {
   const contactMessage = await Contact.create(req.body);
   res.status(201).json({
     status: "success",
+    message: "Form submitted successfully",
     data: contactMessage,
   });
 });

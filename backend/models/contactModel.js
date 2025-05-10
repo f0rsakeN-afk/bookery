@@ -18,7 +18,7 @@ const contactSchema = new mongoose.Schema(
       maxlength: [250, "A query can have max characters up to 250"],
     },
   },
-  { timestamps: true }
+  { timestamps: true, versionKey: false }
 );
 
 const Contact = mongoose.model("contactmessages", contactSchema);

@@ -23,13 +23,20 @@ const sendErrorProd = (err, res) => {
   }
 };
 
+const handleValidationErrorDB = (err) => {
+  const errors = Object.values(err.errors).map((el) => el.message);
+  const message = `Invalid input data. ${errors.join(', ')}`;
+  return new AppError(message, 400);
+};
+
 module.exports = (err, req, res, next) => {
-  this.status = this.status || "Fail";
-  this.statusCode = this.statusCode || 500;
+  err.status = this.status || "Fail";
+  err.statusCode = this.statusCode || 500;
   if (process.env.NODE_ENV === "development") {
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === "production") {
     let error = Object.create(err);
+    if (error.name === 'ValidationError') error = handleValidationErrorDB(error);
     sendErrorProd(error, res);
   }
 };
