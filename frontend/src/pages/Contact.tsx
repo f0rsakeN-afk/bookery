@@ -8,18 +8,20 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { useContact } from "@/services/contact";
 
 const Contact = () => {
-  const {
-    handleSubmit,
-    register,
-    reset,
-    formState: { isSubmitting },
-  } = useForm<ContactProps>();
+  const { handleSubmit, register, reset } = useForm<ContactProps>();
+
+  const mutation = useContact();
 
   const onSubmit = (data: ContactProps) => {
     console.log(data);
-    reset();
+    mutation.mutate(data, {
+      onSuccess: () => {
+        reset();
+      },
+    });
   };
 
   const containerVariants = {
@@ -134,10 +136,10 @@ const Contact = () => {
               >
                 <Button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={mutation.isPending}
                   className="min-w-[100px]"
                 >
-                  {isSubmitting ? (
+                  {mutation.isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Sending...
