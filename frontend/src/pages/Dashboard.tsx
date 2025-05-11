@@ -1,51 +1,37 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Bell, CirclePlus } from "lucide-react";
+import { productTypes } from "@/types/product";
+import { useGetAllMessages } from "@/services/contact";
+import { useGetAllProducts } from "@/services/product";
 import { Separator } from "@/components/ui/separator";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import AddProduct from "@/components/DashBoard/AddProduct";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import AddProduct from "@/components/DashBoard/AddProduct";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Notifications from "@/components/DashBoard/Notifications";
-import { useGetAllMessages } from "@/services/contact";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import DashBoardTableItems from "@/components/DashBoard/DashBoardTableItems";
+import Loader from "@/components/shared/Loader";
 /* import Analytics from "@/components/DashBoard/Analytics"; */
-
-// Dummy data
-const dummyProducts = [
-  {
-    id: 1,
-    image: "https://picsum.photos/100/100",
-    title: "The Great Gatsby",
-    price: 29.99,
-    quantity: 50,
-    listedOn: "2024-02-20",
-  },
-  {
-    id: 2,
-    image: "https://picsum.photos/100/100",
-    title: "To Kill a Mockingbird",
-    price: 24.99,
-    quantity: 35,
-    listedOn: "2024-02-19",
-  },
-];
 
 const Dashboard: React.FC = () => {
   //Fetch contact messages
-  const { data: contactData, isLoading: contactDataLoading } =
-    useGetAllMessages();
+  const { data: contactData } = useGetAllMessages();
+  /* fetch all products */
+  const { data: productData, isLoading } = useGetAllProducts();
+
   return (
     <div className="container mx-auto max-w-6xl px-2 xl:px-0 py-4 xl:py-10">
       <section className="flex items-center justify-between">
@@ -86,32 +72,43 @@ const Dashboard: React.FC = () => {
       {/*     <Separator className="my-4" />
       <Analytics /> */}
       <Separator className="my-4" />
-      <section>
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-playfair">All Products</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table className="font-inter">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Image</TableHead>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Price</TableHead>
-                  <TableHead>Quantity</TableHead>
-                  <TableHead>Listed On</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {dummyProducts.map((product) => (
-                  <DashBoardTableItems key={product.id} product={product} />
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      </section>
+
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <section>
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-playfair">
+                All Products{" "}
+                <span className="font-inter">({productData?.results})</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table className="font-inter">
+                <TableCaption>A list of all products listed on <span className="font-semibold text-yellow-500">SnapKart</span></TableCaption>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Image</TableHead>
+                    <TableHead>Title</TableHead>
+                    <TableHead>Price</TableHead>
+                    <TableHead>Discount %</TableHead>
+                    <TableHead>Quantity</TableHead>
+                    <TableHead>Listed On</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {productData &&
+                    productData.data.map((product:productTypes) => (
+                      <DashBoardTableItems key={product.id} product={product} />
+                    ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </section>
+      )}
     </div>
   );
 };
