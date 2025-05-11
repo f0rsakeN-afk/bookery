@@ -23,9 +23,14 @@ const sendErrorProd = (err, res) => {
   }
 };
 
+const handleCastErrorDB = (err) => {
+  const message = `Invalid ${err.path} :${err.value}.`;
+  return new AppError(message, 400);
+};
+
 const handleValidationErrorDB = (err) => {
   const errors = Object.values(err.errors).map((el) => el.message);
-  const message = `Invalid input data. ${errors.join(', ')}`;
+  const message = `Invalid input data. ${errors.join(", ")}`;
   return new AppError(message, 400);
 };
 
@@ -36,7 +41,9 @@ module.exports = (err, req, res, next) => {
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === "production") {
     let error = Object.create(err);
-    if (error.name === 'ValidationError') error = handleValidationErrorDB(error);
+    if (error.name === "CastError") error = handleCastErrorDB(error);
+    if (error.name === "ValidationError")
+      error = handleValidationErrorDB(error);
     sendErrorProd(error, res);
   }
 };
