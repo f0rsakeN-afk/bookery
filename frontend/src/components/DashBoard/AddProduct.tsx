@@ -51,7 +51,7 @@ const AddProduct = () => {
     if (file) {
       if (file.size > 2000000) {
         // 2MB limit
-        toast("Image size should be less than 2MB");
+        toast.warning("Image size should be less than 2MB");
         return;
       }
       const reader = new FileReader();
@@ -65,37 +65,37 @@ const AddProduct = () => {
   const onSubmit = (data: ProductFormData) => {
     try {
       if (!imagePreview) {
-        toast("Please upload a product image");
+        toast.warning("Please upload a product image");
         return;
       }
 
       if (data.title.length < 3) {
-        toast("Title must be at least 3 characters long");
+        toast.warning("Title must be at least 3 characters long");
         return;
       }
 
       if (data.description.length < 10) {
-        toast("Description must be at least 10 characters long");
+        toast.warning("Description must be at least 10 characters long");
         return;
       }
 
       if (isNaN(Number(data.price)) || Number(data.price) <= 0) {
-        toast("Please enter a valid price");
+        toast.warning("Please enter a valid price");
         return;
       }
 
       if (isNaN(Number(data.quantity)) || Number(data.quantity) < 0) {
-        toast("Please enter a valid quantity");
+        toast.warning("Please enter a valid quantity");
         return;
       }
 
       if (!data.category) {
-        toast("Please select a category");
+        toast.warning("Please select a category");
         return;
       }
 
       if (data.brand.length < 2) {
-        toast("Brand name must be at least 2 characters long");
+        toast.warning("Brand name must be at least 2 characters long");
         return;
       }
 
@@ -105,19 +105,19 @@ const AddProduct = () => {
         discountPercent < 0 ||
         discountPercent > 100
       ) {
-        toast("Please enter a valid discount percentage (0-100)");
+        toast.warning("Please enter a valid discount percentage (0-100)");
         return;
       }
 
       console.log(data);
     } catch (error) {
       console.error(error);
-      toast("Something went wrong!");
+      toast.warning("Something went wrong!");
     }
   };
 
   return (
-    <ScrollArea className="md:p-4 max-h-[70dvh] overflow-y-scroll">
+    <ScrollArea className="md:p-4 max-h-[70dvh]">
       <h2 className="text-2xl font-bold mb-6">Add New Product</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -202,9 +202,10 @@ const AddProduct = () => {
                   <SelectContent>
                     <SelectItem value="clothing">Clothing</SelectItem>
                     <SelectItem value="electronics">Electronics</SelectItem>
-                    <SelectItem value="beauty">Beauty</SelectItem>
+                    <SelectItem value="health">Health</SelectItem>
                     <SelectItem value="food">Food</SelectItem>
                     <SelectItem value="lifestyle">Lifestyle</SelectItem>
+                    <SelectItem value="accessories">Accessories</SelectItem>
                   </SelectContent>
                 </Select>
               </FormItem>
