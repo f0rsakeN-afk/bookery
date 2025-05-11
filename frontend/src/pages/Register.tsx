@@ -25,27 +25,27 @@ const Register: React.FC = () => {
 
   const validateForm = (data: RegisterProps) => {
     if (!data.name) {
-      toast("Username is required");
+      toast.warning("Username is required");
       return;
     }
     if (!data.email) {
-      toast("Email is required");
+      toast.warning("Email is required");
       return;
     }
     if (!data.password) {
-      toast("Password is required");
+      toast.warning("Password is required");
       return;
     }
     if (data.password.length < 6) {
-      toast("Password must be at least 6 characters");
+      toast.warning("Password must be at least 6 characters");
       return;
     }
     if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(data.email)) {
-      toast("Invalid email address");
+      toast.warning("Invalid email address");
       return;
     }
     if (data.password !== data.passwordConfirm) {
-      toast("Passwords don't match");
+      toast.warning("Passwords don't match");
       return;
     }
     console.log(data);

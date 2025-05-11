@@ -2,28 +2,24 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { CirclePlus, Pencil, Trash2 } from "lucide-react";
+import { Bell, CirclePlus } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import AddProduct from "@/components/DashBoard/AddProduct";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Notifications from "@/components/DashBoard/Notifications";
+import { useGetAllMessages } from "@/services/contact";
+import DashBoardTableItems from "@/components/DashBoard/DashBoardTableItems";
 /* import Analytics from "@/components/DashBoard/Analytics"; */
 
 // Dummy data
@@ -47,24 +43,45 @@ const dummyProducts = [
 ];
 
 const Dashboard: React.FC = () => {
+  //Fetch contact messages
+  const { data: contactData, isLoading: contactDataLoading } =
+    useGetAllMessages();
   return (
-    <div className="container mx-auto max-w-6xl px-2 xl:px-0 xl:py-10">
+    <div className="container mx-auto max-w-6xl px-2 xl:px-0 py-4 xl:py-10">
       <section className="flex items-center justify-between">
         <h2 className="text-[28px] text-primary/90 font-playfair font-bold">
           Dashboard
         </h2>
 
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button className="flex items-center gap-2">
-              <CirclePlus className="h-5 w-5" />
-              Add Product
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <AddProduct />
-          </DialogContent>
-        </Dialog>
+        <section className="flex items-center gap-1">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="flex items-center gap-2">
+                <CirclePlus className="h-5 w-5" />
+                Add Product
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <AddProduct />
+            </DialogContent>
+          </Dialog>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="link" className="relative">
+                {contactData && contactData?.data.length > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-xs text-white">
+                    {contactData?.data.length}
+                  </span>
+                )}
+                <Bell className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="p-0 -translate-x-2">
+              <Notifications contactData={contactData} />
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </section>
       </section>
       {/*     <Separator className="my-4" />
       <Analytics /> */}
@@ -88,54 +105,7 @@ const Dashboard: React.FC = () => {
               </TableHeader>
               <TableBody>
                 {dummyProducts.map((product) => (
-                  <TableRow key={product.id}>
-                    <TableCell>
-                      <img
-                        src={product.image}
-                        alt={product.title}
-                        className="w-16 h-16 object-cover rounded-md"
-                      />
-                    </TableCell>
-                    <TableCell className="font-medium">
-                      {product.title}
-                    </TableCell>
-                    <TableCell>${product.price.toFixed(2)}</TableCell>
-                    <TableCell>{product.quantity}</TableCell>
-                    <TableCell>
-                      {new Date(product.listedOn).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button variant="outline" size="icon">
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button variant="destructive" size="icon">
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>
-                                Are you absolutely sure?
-                              </AlertDialogTitle>
-                              <AlertDialogDescription>
-                                This action cannot be undone. This will
-                                permanently delete the product and remove all
-                                associated data from our servers.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction>Continue</AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </div>
-                    </TableCell>
-                  </TableRow>
+                  <DashBoardTableItems key={product.id} product={product} />
                 ))}
               </TableBody>
             </Table>

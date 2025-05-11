@@ -23,7 +23,7 @@ const ForgotPassword: React.FC = () => {
   } = useForm<ResetPasswordProps>();
 
   const onSubmit = (data: ResetPasswordProps) => {
-    toast("Hell0");
+    toast.warning("Hell0");
     console.log(data);
   };
 
