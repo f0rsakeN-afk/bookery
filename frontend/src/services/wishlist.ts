@@ -23,10 +23,10 @@ export function useAddToWishlist() {
   return useMutation({
     mutationFn: addToWishlist,
     onSuccess: (data) => {
-      toast(data.message || "Added to wishlist successfully");
+      toast.success(data.message || "Added to wishlist successfully");
     },
     onError: (error) => {
-      toast(error.message || "Failed adding to the wishlist");
+      toast.error(error.message || "Failed adding to the wishlist");
     },
   });
 }

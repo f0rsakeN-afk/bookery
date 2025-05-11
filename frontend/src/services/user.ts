@@ -35,13 +35,13 @@ export function useResetPassword() {
   return useMutation<ResetPasswordResponse, AxiosError, ResetPasswordProps>({
     mutationFn: ResetPassword,
     onSuccess: (data) => {
-      toast(
+      toast.message(
         data.message ||
           "The user password reset link has been sent to your email address"
       );
     },
     onError: (error) => {
-      toast(error.message || "Failed sending password reset link");
+      toast.error(error.message || "Failed sending password reset link");
     },
   });
 }
@@ -57,10 +57,10 @@ export function useNewPassword() {
   return useMutation<NewPasswordResponse, AxiosError, NewPasswordProps>({
     mutationFn: NewPassword,
     onSuccess: (data) => {
-      toast(data.message || "Password reset successful");
+      toast.message(data.message || "Password reset successful");
     },
     onError: (error) => {
-      toast(error.message || "Password reset failed");
+      toast.error(error.message || "Password reset failed");
     },
   });
 }
@@ -76,10 +76,10 @@ export function useUpdatePassword() {
   return useMutation<updatePasswordResponse, AxiosError, updatePasswordProps>({
     mutationFn: updatePassword,
     onSuccess: (data) => {
-      toast(data.message || "Password updated successfully");
+      toast.message(data.message || "Password updated successfully");
     },
     onError: (error) => {
-      toast(error.message || "Failed to update password");
+      toast.error(error.message || "Failed to update password");
     },
   });
 }

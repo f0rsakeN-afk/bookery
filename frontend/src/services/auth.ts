@@ -19,11 +19,11 @@ export function useLogin() {
     mutationFn: Login,
     onSuccess: (data) => {
       console.log(data);
-      toast(data.message || "User logged in successfully");
+      toast.success(data.message || "User logged in successfully");
     },
     onError: (error) => {
       console.log(error);
-      toast(error.message);
+      toast.error(error.message);
     },
   });
 }
@@ -37,10 +37,10 @@ export function useRegister() {
   return useMutation<RegisterResponse, AxiosError, RegisterProps>({
     mutationFn: Register,
     onSuccess: (data) => {
-      toast(data.message || "User registration successfull");
+      toast.success(data.message || "User registration successfull");
     },
     onError: (error) => {
-      toast(error.message || "User registration failed");
+      toast.error(error.message || "User registration failed");
     },
   });
 }
@@ -54,10 +54,10 @@ export function useLogout() {
   return useMutation({
     mutationFn: Logout,
     onSuccess: (data) => {
-      toast(data.message || "Logged out successfully");
+      toast.success(data.message || "Logged out successfully");
     },
     onError: (error) => {
-      toast(error.message || "Logout failed");
+      toast.error(error.message || "Logout failed");
     },
   });
 }
