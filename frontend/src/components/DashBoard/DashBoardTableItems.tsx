@@ -12,10 +12,13 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "../ui/alert-dialog";
+import { productTypes } from "@/types/product";
 
-interface dashboardTableItemsProps {}
+interface dashboardTableItemsProps {
+  product: productTypes;
+}
 
-const DashBoardTableItems = ({ product }) => {
+const DashBoardTableItems = ({ product }: dashboardTableItemsProps) => {
   return (
     <TableRow>
       <TableCell>
@@ -26,9 +29,10 @@ const DashBoardTableItems = ({ product }) => {
         />
       </TableCell>
       <TableCell className="font-medium">{product.title}</TableCell>
-      <TableCell>${product.price.toFixed(2)}</TableCell>
+      <TableCell>Rs.{product.price.toFixed(2)}</TableCell>
+      <TableCell>{product.discountPercentage}</TableCell>
       <TableCell>{product.quantity}</TableCell>
-      <TableCell>{new Date(product.listedOn).toLocaleDateString()}</TableCell>
+      <TableCell>{new Date(product.createdAt!).toLocaleDateString()}</TableCell>
       <TableCell className="text-right">
         <div className="flex justify-end gap-2">
           <Button variant="outline" size="icon">
