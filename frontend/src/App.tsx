@@ -37,7 +37,7 @@ const App = () => {
         <ReactQueryDevtools initialIsOpen={false} />
         <BrowserRouter>
           <ScrollToTop />
-          <Toaster />
+          <Toaster position="top-right" duration={4000} />
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<Hero />} />
