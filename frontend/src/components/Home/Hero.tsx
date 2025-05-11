@@ -54,7 +54,7 @@ const Hero = () => {
     <motion.div
       initial="initial"
       animate="animate"
-      className="container mx-auto max-w-6xl px-2 xl:px-0 py-10 md:py-20 select-none"
+      className="container mx-auto max-w-6xl px-2 xl:px-0 py-10 md:py-20 xl:py-36 select-none"
     >
       <div className="grid xl:grid-cols-2 gap-2">
         <motion.div
