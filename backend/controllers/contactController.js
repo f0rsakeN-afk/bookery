@@ -11,7 +11,7 @@ exports.sendMessage = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllMessages = catchAsync(async (req, res, next) => {
-  const messages = await Contact.find();
+  const messages = await Contact.find().sort({ createdAt: -1 });
   res.status(200).json({
     status: "success",
     results: messages.length,
