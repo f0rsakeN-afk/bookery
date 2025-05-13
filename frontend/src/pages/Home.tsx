@@ -8,7 +8,7 @@ const Home = () => {
     <div>
       <Hero />
       <section className="flex flex-col space-y-8">
-        {/* <BookList title='Manga'  order="newest" /> */}
+        <ProductList />
         <SocialFeed />
         <Testimonial />
       </section>
