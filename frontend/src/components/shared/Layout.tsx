@@ -1,9 +1,9 @@
+import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import HeaderTop from "../Header/HeaderTop";
 import Navbar from "../Header/Navbar";
 import Footer from "../Footer/Footer";
 import FooterBottom from "../Footer/FooterBottom";
-import { useState, useEffect } from "react";
 
 const Layout = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
