@@ -2,7 +2,7 @@ import React from "react";
 import { Bell, CirclePlus } from "lucide-react";
 import { productTypes } from "@/types/product";
 import { useGetAllMessages } from "@/services/contact";
-import { useGetAllProducts } from "@/services/product";
+import { useGetAllProducts } from "@/services/dashboard";
 import { Separator } from "@/components/ui/separator";
 import {
   Table,
@@ -86,7 +86,12 @@ const Dashboard: React.FC = () => {
             </CardHeader>
             <CardContent>
               <Table className="font-inter">
-                <TableCaption>A list of all products listed on <span className="font-semibold text-yellow-500">SnapKart</span></TableCaption>
+                <TableCaption>
+                  A list of all products listed on{" "}
+                  <span className="font-semibold text-yellow-500">
+                    SnapKart
+                  </span>
+                </TableCaption>
                 <TableHeader>
                   <TableRow>
                     <TableHead>Image</TableHead>
@@ -100,7 +105,7 @@ const Dashboard: React.FC = () => {
                 </TableHeader>
                 <TableBody>
                   {productData &&
-                    productData.data.map((product:productTypes) => (
+                    productData.data.map((product: productTypes) => (
                       <DashBoardTableItems key={product.id} product={product} />
                     ))}
                 </TableBody>
