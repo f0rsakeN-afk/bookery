@@ -7,6 +7,7 @@ import ProductDetailsSkeleton from "@/components/productDetails/Loader";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 const ProductDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -100,7 +101,14 @@ const ProductDetails = () => {
                 {product.discountPercentage}% OFF
               </span>
             </div>
-            <p className="text-sm text-green-600">
+            <p
+              className={cn(
+                "text-sm",
+                product.quantity && Number(product.quantity) < 5
+                  ? "text-red-600"
+                  : "text-green-600"
+              )}
+            >
               In Stock ({product.quantity} available)
             </p>
           </div>
@@ -110,7 +118,7 @@ const ProductDetails = () => {
           {/* Category */}
           <div className="flex items-center gap-1">
             <span className="text-sm text-muted-foreground">Category:</span>
-            <Badge variant={'outline'}>{product.category}</Badge>
+            <Badge variant={"outline"}>{product.category}</Badge>
           </div>
 
           {/* Description */}
