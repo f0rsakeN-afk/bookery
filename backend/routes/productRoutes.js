@@ -7,6 +7,8 @@ router
   .post(productController.addProduct)
   .get(productController.getAllProducts);
 
+router.route("/search").get(productController.searchProducts);
+
 router.route("/:id").get(productController.getProductById);
 
 module.exports = router;
