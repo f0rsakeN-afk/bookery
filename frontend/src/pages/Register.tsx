@@ -88,6 +88,7 @@ const Register: React.FC = () => {
                 </label>
                 <Input
                   type="text"
+                  disabled={mutation.isPending}
                   {...register("name")}
                   className="w-full dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                   placeholder="Choose a username"
@@ -105,6 +106,7 @@ const Register: React.FC = () => {
                 </label>
                 <Input
                   type="email"
+                  disabled={mutation.isPending}
                   {...register("email")}
                   className="w-full dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                   placeholder="Enter your email"
@@ -122,6 +124,7 @@ const Register: React.FC = () => {
                     Password
                   </label>
                   <Input
+                    disabled={mutation.isPending}
                     type="password"
                     {...register("password")}
                     className="w-full dark:bg-gray-800 dark:border-gray-700 dark:text-white"
@@ -140,6 +143,7 @@ const Register: React.FC = () => {
                   </label>
                   <Input
                     type="password"
+                    disabled={mutation.isPending}
                     {...register("passwordConfirm")}
                     className="w-full dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                     placeholder="Confirm password"
@@ -150,7 +154,7 @@ const Register: React.FC = () => {
               <Button
                 type="submit"
                 disabled={mutation.isPending}
-                className="w-full bg-figmaPrimary hover:bg-figmaPrimary/90 dark:bg-figmaPrimary/80 dark:hover:bg-figmaPrimary/70 transition-all ccursor-pointer"
+                className="w-full bg-figmaPrimary hover:bg-figmaPrimary/90 dark:bg-figmaPrimary/80 dark:hover:bg-figmaPrimary/70 transition-all cursor-pointer"
               >
                 <UserPlus className="w-4 h-4 mr-2" />
                 Join Snapkart

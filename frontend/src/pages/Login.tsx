@@ -8,17 +8,22 @@ import { LoginProps } from "@/types/auth";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LogoImage, carttransparent } from "@/utils/ImageExports";
+import { useLogin } from "@/services/auth";
 
 const Login: React.FC = () => {
   const {
     register,
     handleSubmit,
+    reset,
     /*   formState: { errors }, */
   } = useForm<LoginProps>();
 
+  const mutation = useLogin();
+
   const onSubmit = (data: LoginProps) => {
-    console.log(data);
-    toast("Login successful!");
+    /*     console.log(data); */
+    /*     toast("Login successful!"); */
+    mutation.mutate(data, { onSuccess: () => reset() });
   };
 
   const validateForm = (data: LoginProps) => {
@@ -104,6 +109,7 @@ const Login: React.FC = () => {
                 </label>
                 <Input
                   type="email"
+                  disabled={mutation.isPending}
                   {...register("email")}
                   className="w-full dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                   placeholder="Enter your email"
@@ -116,6 +122,7 @@ const Login: React.FC = () => {
                 </label>
                 <Input
                   type="password"
+                  disabled={mutation.isPending}
                   {...register("password")}
                   className="w-full dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                   placeholder="Enter your password"
@@ -134,7 +141,8 @@ const Login: React.FC = () => {
 
               <Button
                 type="submit"
-                className="w-full bg-figmaPrimary hover:bg-figmaPrimary/90 transition-all dark:bg-figmaPrimary/80 dark:hover:bg-figmaPrimary/70"
+                disabled={mutation.isPending}
+                className="w-full bg-figmaPrimary hover:bg-figmaPrimary/90 transition-all dark:bg-figmaPrimary/80 dark:hover:bg-figmaPrimary/70 cursor-pointer"
               >
                 <ShoppingBag className="w-4 h-4 mr-2" />
                 Sign In
