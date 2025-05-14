@@ -19,9 +19,12 @@ import {
   Smartphone,
 } from "lucide-react";
 import { RegisterProps } from "@/types/auth";
+import { useRegister } from "@/services/auth";
 
 const Register: React.FC = () => {
-  const { register, handleSubmit } = useForm<RegisterProps>();
+  const { register, handleSubmit, reset } = useForm<RegisterProps>();
+
+  const mutation = useRegister();
 
   const validateForm = (data: RegisterProps) => {
     if (!data.name) {
@@ -48,8 +51,7 @@ const Register: React.FC = () => {
       toast.warning("Passwords don't match");
       return;
     }
-    console.log(data);
-    toast("Registration successful!");
+    mutation.mutate(data, { onSuccess: () => reset() });
   };
 
   return (
@@ -147,7 +149,8 @@ const Register: React.FC = () => {
 
               <Button
                 type="submit"
-                className="w-full bg-figmaPrimary hover:bg-figmaPrimary/90 dark:bg-figmaPrimary/80 dark:hover:bg-figmaPrimary/70 transition-all"
+                disabled={mutation.isPending}
+                className="w-full bg-figmaPrimary hover:bg-figmaPrimary/90 dark:bg-figmaPrimary/80 dark:hover:bg-figmaPrimary/70 transition-all ccursor-pointer"
               >
                 <UserPlus className="w-4 h-4 mr-2" />
                 Join Snapkart
