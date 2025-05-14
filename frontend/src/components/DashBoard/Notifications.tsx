@@ -10,7 +10,6 @@ interface NotificationsProps {
 const Notifications = ({ contactData }: NotificationsProps) => {
   const messages = contactData?.data ?? [];
 
-  /* handle the cases when there are no messages */
   if (messages.length === 0) {
     return (
       <div className="p-4 text-sm text-muted-foreground font-inter">
@@ -20,10 +19,10 @@ const Notifications = ({ contactData }: NotificationsProps) => {
   }
 
   return (
-    <ScrollArea className="h-64 w-80 p-4">
+    <ScrollArea className="h-64 w-80 p-4 ">
       <div className="space-y-4 font-inter">
         {messages.map((msg, i) => (
-          <div key={msg._id} className="space-y-1">
+          <div key={msg._id} className="space-y-1 ">
             <div className="text-sm font-medium">{msg.subject}</div>
             <div className="text-xs text-muted-foreground">
               {msg.query.length > 100
