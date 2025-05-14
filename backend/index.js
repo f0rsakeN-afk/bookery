@@ -1,12 +1,16 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const bodyParser=require('body-parser')
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 const contactRoute = require("./routes/contactRoutes");
 const productRoute = require("./routes/productRoutes");
 
-app.use(express.json());
+/* app.use(express.json()); */
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 app.use(
   cors({
