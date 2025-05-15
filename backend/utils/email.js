@@ -6,7 +6,7 @@ const sendEmail = async (options) => {
     port: process.env.EMAIL_PORT,
     auth: {
       user: process.env.EMAIL_USERNAME,
-      password: process.env.EMAIL_PASSWORD,
+      pass: process.env.EMAIL_PASSWORD,
     },
   });
 
@@ -14,7 +14,7 @@ const sendEmail = async (options) => {
     from: "SnapKart<eclipseeliminator@gmail.com>",
     to: options.email,
     subject: options.subject,
-    message: options.message,
+    text: options.message,
   };
 
   await transporter.sendMail(mailOptions);
