@@ -3,6 +3,7 @@ const AppError = require("../utils/appError");
 const jwt = require("jsonwebtoken");
 const catchAsync = require("../utils/catchAsync");
 const { promisify } = require("util");
+const sendEmail = require("../utils/email");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -12,6 +13,7 @@ const signToken = (id) => {
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
+    name: req.body.name,
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
@@ -86,4 +88,59 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   req.user = freshUser;
   next();
+});
+
+exports.restrictTo = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role))
+      return next(
+        new AppError("You are not authorized to perform this action.", 403)
+      );
+    next();
+  };
+};
+
+exports.forgetPassword = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return next(
+      new AppError(
+        "The user belonging to this email address does not exist",
+        404
+      )
+    );
+  }
+
+  const resetToken = user.createPasswordResetToken();
+  await user.save({ validateBeforeSave: false });
+
+  const resetUrl = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/users/resetPassword/${resetToken}`;
+  const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetUrl}.\nIf you didn't request a password reset, please ignore this email.`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "Your password reset token (valid for 10 mins)",
+      message,
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "Reset token sent to email!",
+    });
+  } catch (error) {
+    console.log(error)
+    user.passwordResetToken = undefined;
+    user.passwordResetTokenExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    next(
+      new AppError(
+        "There was an error sending the email. Try again later!",
+        500
+      )
+    );
+  }
 });
