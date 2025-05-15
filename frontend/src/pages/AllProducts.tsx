@@ -29,7 +29,7 @@ const AllProducts: React.FC = () => {
     limit: 12,
   });
 
-  const { data: productData, isLoading } = useGetAllProducts(filters);
+  const { data: productData, isLoading, isError } = useGetAllProducts(filters);
 
   const products = productData?.data || [];
   const pagination = productData?.pagination;
@@ -58,6 +58,10 @@ const AllProducts: React.FC = () => {
       {/* Products Grid */}
       {isLoading ? (
         <Loader />
+      ) : isError ? (
+        <p className="text-center text-muted-foreground font-inter">
+          Error fetching products
+        </p>
       ) : products.length === 0 ? (
         <p className="text-center text-muted-foreground mt-6">
           No products found.

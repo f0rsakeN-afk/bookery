@@ -30,7 +30,7 @@ const Dashboard: React.FC = () => {
   //Fetch contact messages
   const { data: contactData } = useGetAllMessages();
   /* fetch all products */
-  const { data: productData, isLoading } = useGetAllProducts();
+  const { data: productData, isLoading, isError } = useGetAllProducts();
 
   return (
     <div className="container mx-auto max-w-6xl px-2 xl:px-0 py-4 xl:py-10">
@@ -75,6 +75,8 @@ const Dashboard: React.FC = () => {
 
       {isLoading ? (
         <Loader />
+      ) : isError ? (
+        <p className="text-center font-inter text-muted-foreground">Error fetching products</p>
       ) : (
         <section>
           <Card>

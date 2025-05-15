@@ -67,7 +67,7 @@ const Login: React.FC = () => {
               className="w-44 mb-4 contrast-200  dark:invert-0"
             />
 
-            <div className="space-y-6">
+            <div className="md:space-y-6">
               <h2 className="text-3xl font-bold text-white">
                 Welcome to Snapkart
               </h2>
@@ -79,12 +79,12 @@ const Login: React.FC = () => {
             <img
               src={carttransparent}
               alt="carttransparent image"
-              className="h-96 w-full p-4 hidden md:block"
+              className="md:h-96 xl:h-80 w-full p-4 hidden md:block"
             />
           </div>
 
           <div className="relative mt-8">
-            <p className="text-white/80 text-sm">
+            <p className="text-white/80 text-sm ">
               Join millions of satisfied customers shopping with confidence
             </p>
           </div>
