@@ -145,7 +145,7 @@ const Login: React.FC = () => {
                 className="w-full bg-figmaPrimary hover:bg-figmaPrimary/90 transition-all dark:bg-figmaPrimary/80 dark:hover:bg-figmaPrimary/70 cursor-pointer"
               >
                 <ShoppingBag className="w-4 h-4 mr-2" />
-                Sign In
+                {mutation.isPending ? "Signing in..." : "Sign In"}
               </Button>
 
               <div className="relative my-6">
