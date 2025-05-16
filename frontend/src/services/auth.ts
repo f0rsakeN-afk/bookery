@@ -40,10 +40,12 @@ async function Register(data: RegisterProps): Promise<RegisterResponse> {
 }
 
 export function useRegister() {
+  const navigate = useNavigate();
   return useMutation<RegisterResponse, AxiosError, RegisterProps>({
     mutationFn: Register,
     onSuccess: (data) => {
       toast.success(data.message || "User registration successfull");
+      navigate("/login");
     },
     onError: (error) => {
       toast.error(error.message || "User registration failed");
