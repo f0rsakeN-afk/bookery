@@ -157,7 +157,7 @@ const Register: React.FC = () => {
                 className="w-full bg-figmaPrimary hover:bg-figmaPrimary/90 dark:bg-figmaPrimary/80 dark:hover:bg-figmaPrimary/70 transition-all cursor-pointer"
               >
                 <UserPlus className="w-4 h-4 mr-2" />
-                Join Snapkart
+                {mutation.isPending ? "Registering..." : " Join Snapkart"}
               </Button>
 
               <p className="text-center text-sm dark:text-gray-400">
