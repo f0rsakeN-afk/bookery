@@ -11,6 +11,7 @@ import {
   updatePasswordResponse,
   userDetailsResponse,
 } from "@/types/user";
+import { useNavigate } from "react-router-dom";
 
 async function getUserDetails(): Promise<userDetailsResponse> {
   const response = await axiosInstance.get<userDetailsResponse>(``);
@@ -27,7 +28,10 @@ export function useGetUserDetails() {
 async function ResetPassword(
   data: ResetPasswordProps
 ): Promise<ResetPasswordResponse> {
-  const response = await axiosInstance.post<ResetPasswordResponse>(``, data);
+  const response = await axiosInstance.post<ResetPasswordResponse>(
+    `/users/forgetpassword`,
+    data
+  );
   return response.data;
 }
 
@@ -46,29 +50,33 @@ export function useResetPassword() {
   });
 }
 
-async function NewPassword(
-  data: NewPasswordProps
-): Promise<NewPasswordResponse> {
-  const response = await axiosInstance.post<NewPasswordResponse>(``, data);
+async function NewPassword({data,token}:NewPasswordProps): Promise<NewPasswordResponse> {
+  const response = await axiosInstance.patch<NewPasswordResponse>(
+    `/users/newpassword/${token}`,
+    data
+  );
   return response.data;
 }
 
 export function useNewPassword() {
+  const navigate = useNavigate();
   return useMutation<NewPasswordResponse, AxiosError, NewPasswordProps>({
     mutationFn: NewPassword,
     onSuccess: (data) => {
       toast.message(data.message || "Password reset successful");
+      navigate("/login");
     },
     onError: (error) => {
+      console.log(error)
       toast.error(error.message || "Password reset failed");
     },
   });
 }
 
 async function updatePassword(
-  data: updatePasswordProps
+  {data,id}: updatePasswordProps
 ): Promise<updatePasswordResponse> {
-  const response = await axiosInstance.post<updatePasswordResponse>(``, data);
+  const response = await axiosInstance.post<updatePasswordResponse>(`/users/updatepassword/${id}`, data);
   return response.data;
 }
 
