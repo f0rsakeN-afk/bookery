@@ -1,10 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const contactController = require("../controllers/contactController");
+const authController = require("../controllers/authController");
 
 router
   .route("/")
-  .post(contactController.sendMessage)
-  .get(contactController.getAllMessages);
+  .post(
+    authController.protect,
+    authController.restrictTo("user"),
+    contactController.sendMessage
+  )
+  .get(
+    authController.protect,
+    authController.restrictTo("admin"),
+    contactController.getAllMessages
+  );
 
 module.exports = router;
