@@ -1,3 +1,5 @@
+import { dataProps } from "./auth";
+
 /* Update password*/
 export interface updatePasswordProps {
   oldPassword: string;
@@ -11,14 +13,21 @@ export interface updatePasswordResponse {
 }
 
 /* New password */
+export interface newPasswordDataProps {
+  password: string;
+  passwordConfirm: string;
+}
+
 export interface NewPasswordProps {
-  newPassword1: string;
-  newPassword2: string;
+  data: newPasswordDataProps;
+  token: string;
 }
 
 export interface NewPasswordResponse {
   status: string;
   message: string;
+  token: string;
+  data: dataProps;
 }
 
 /* Reset Password */
@@ -32,7 +41,7 @@ export interface ResetPasswordResponse {
 }
 
 /* User details */
-export interface userDetailsResponse{
-  name:string;
-  email:string
+export interface userDetailsResponse {
+  name: string;
+  email: string;
 }

@@ -1,10 +1,10 @@
 /*Login */
 
-interface dataProps {
+export interface dataProps {
   _id?: string;
   name: string;
   email: string;
-  password: string;
+  password?: string;
   passwordConfirm?: string;
   phone?: string;
   location?: string;
