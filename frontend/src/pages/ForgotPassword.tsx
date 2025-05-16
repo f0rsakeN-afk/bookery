@@ -12,19 +12,27 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import { useResetPassword } from "@/services/user";
+
 
 const ForgotPassword: React.FC = () => {
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    reset,
+    formState: { errors },
   } = useForm<ResetPasswordProps>();
 
+  const mutation = useResetPassword();
+
   const onSubmit = (data: ResetPasswordProps) => {
-    toast.warning("Hell0");
-    console.log(data);
+    /*     console.log(data); */
+    mutation.mutate(data, {
+      onSuccess: () => {
+        reset();
+      },
+    });
   };
 
   return (
@@ -81,6 +89,7 @@ const ForgotPassword: React.FC = () => {
                   })}
                   type="email"
                   id="email"
+                  disabled={mutation.isPending}
                   placeholder="Enter your email"
                   className={errors.email ? "border-red-500" : ""}
                 />
@@ -95,8 +104,12 @@ const ForgotPassword: React.FC = () => {
                 )}
               </div>
 
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? (
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={mutation.isPending}
+              >
+                {mutation.isPending ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Sending...

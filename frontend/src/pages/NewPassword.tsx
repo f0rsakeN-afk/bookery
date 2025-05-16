@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
-import { NewPasswordProps } from "@/types/user";
+import { newPasswordDataProps, NewPasswordProps } from "@/types/user";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,29 +19,41 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useNewPassword } from "@/services/user";
+import { useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 const NewPassword = () => {
+  const { token } = useParams();
+  /*   console.log(token) */
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
 
-  const form = useForm<NewPasswordProps>({
+  const mutation = useNewPassword();
+
+  const form = useForm<newPasswordDataProps>({
     defaultValues: {
-      newPassword1: "",
-      newPassword2: "",
+      password: "",
+      passwordConfirm: "",
     },
   });
 
-  const onSubmit = (data: NewPasswordProps) => {
-    if (data.newPassword1 !== data.newPassword2) {
-      form.setError("newPassword2", {
+  const onSubmit = (data: newPasswordDataProps) => {
+    if (data.password !== data.passwordConfirm) {
+      form.setError("passwordConfirm", {
         type: "manual",
         message: "Passwords do not match",
       });
       return;
     }
-    // Handle password reset logic here
-    console.log(data);
+
+    if (!token) {
+      toast.warning("Token is missing");
+      return;
+    }
+
+    mutation.mutate({ data, token });
   };
 
   return (
@@ -60,7 +72,7 @@ const NewPassword = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
-                name="newPassword1"
+                name="password"
                 rules={{
                   required: "Password is required",
                   minLength: {
@@ -100,11 +112,11 @@ const NewPassword = () => {
 
               <FormField
                 control={form.control}
-                name="newPassword2"
+                name="passwordConfirm"
                 rules={{
                   required: "Please confirm your password",
                   validate: (value) =>
-                    value === form.getValues("newPassword1") ||
+                    value === form.getValues("password") ||
                     "Passwords do not match",
                 }}
                 render={({ field }) => (
@@ -139,7 +151,11 @@ const NewPassword = () => {
                 )}
               />
 
-              <Button type="submit" className="w-full">
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={mutation.isPending}
+              >
                 Reset Password
               </Button>
             </form>
