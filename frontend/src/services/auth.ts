@@ -9,6 +9,7 @@ import {
   RegisterResponse,
 } from "@/types/auth";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 async function Login(data: LoginProps): Promise<LoginResponse> {
   const response = await axiosInstance.post<LoginResponse>(`users/login`, data);
@@ -16,12 +17,14 @@ async function Login(data: LoginProps): Promise<LoginResponse> {
 }
 
 export function useLogin() {
+  const { setUser } = useAuth();
   const navigate = useNavigate();
   return useMutation<LoginResponse, AxiosError, LoginProps>({
     mutationFn: Login,
     onSuccess: (data) => {
       /*       console.log(data); */
       toast.success(data.message || "User logged in successfully");
+      setUser(data.data);
       navigate("/");
     },
     onError: (error) => {
@@ -54,15 +57,17 @@ export function useRegister() {
 }
 
 async function Logout() {
-  const response = await axiosInstance.get(``);
+  const response = await axiosInstance.post(`users/logout`);
   return response.data;
 }
 
 export function useLogout() {
+  const { setUser } = useAuth();
   return useMutation({
     mutationFn: Logout,
     onSuccess: (data) => {
       toast.success(data.message || "Logged out successfully");
+      setUser(null);
     },
     onError: (error) => {
       toast.error(error.message || "Logout failed");
