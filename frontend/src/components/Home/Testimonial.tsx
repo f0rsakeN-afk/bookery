@@ -11,14 +11,14 @@ interface testimonialTypes {
 
 const testimonials: testimonialTypes[] = [
   {
-    name: "Alice Johnson",
+    name: "Naresh Rajbanshi",
     role: "Verified Buyer",
     image: "https://i.pravatar.cc/150?img=1",
     quote:
       "Absolutely love the quality! Fast delivery and the product was exactly as described.",
   },
   {
-    name: "Michael Lee",
+    name: "Zaralizara",
     role: "Loyal Customer",
     image: "https://i.pravatar.cc/150?img=2",
     quote:
@@ -67,7 +67,9 @@ const Testimonial = () => {
                     </Avatar>
                     <div className="text-left">
                       <p className="font-medium font-inter">{t.name}</p>
-                      <p className="text-xs text-muted-foreground font-inter">{t.role}</p>
+                      <p className="text-xs text-muted-foreground font-inter">
+                        {t.role}
+                      </p>
                     </div>
                   </div>
                   <p className="text-sm text-muted-foreground italic">
