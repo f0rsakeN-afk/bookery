@@ -11,7 +11,7 @@ const sendEmail = async (options) => {
   });
 
   const mailOptions = {
-    from: "SnapKart<eclipseeliminator@gmail.com>",
+    from: "SnapKart<snapkart@gmail.com>",
     to: options.email,
     subject: options.subject,
     text: options.message,
