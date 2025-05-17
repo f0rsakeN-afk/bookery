@@ -33,7 +33,7 @@ const staggerChildren = {
 };
 
 const scrollToBooks = () => {
-  const section = document.getElementById("electronics");
+  const section = document.getElementById("books");
   if (section) {
     section.scrollIntoView({ behavior: "smooth" });
   }
