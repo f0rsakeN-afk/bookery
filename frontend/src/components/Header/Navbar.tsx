@@ -18,7 +18,7 @@ import {
   Box,
 } from "lucide-react";
 import Logo from "../shared/Logo";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 import {
   Sheet,
   SheetContent,
@@ -33,6 +33,8 @@ import {
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
+import { useAuth } from "@/context/AuthContext";
+import { useLogout } from "@/services/auth";
 
 interface NavbarProps {
   hasScrolled: boolean;
@@ -43,13 +45,6 @@ interface NavItem {
   name: string;
   path: string;
   requiresAdmin?: boolean;
-}
-
-interface User {
-  name: string;
-  email: string;
-  avatar: string;
-  role: "user" | "admin";
 }
 
 interface headerTopProps {
@@ -116,16 +111,14 @@ const Navbar = ({ hasScrolled }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { theme, setTheme } = useTheme();
 
-  const user: User = {
-    name: "John Doe",
-    email: "john@example.com",
-    avatar: "https://github.com/shadcn.png",
-    role: "admin",
-  };
+  const { user: contextUser } = useAuth();
+
+  const mutation = useLogout();
 
   const filteredNavItems = navItems.filter(
     (item) =>
-      !item.requiresAdmin || (item.requiresAdmin && user.role === "admin")
+      !item.requiresAdmin ||
+      (item.requiresAdmin && contextUser?.role === "admin")
   );
 
   return (
@@ -156,25 +149,29 @@ const Navbar = ({ hasScrolled }: NavbarProps) => {
 
               <div className="flex flex-col gap-2 p-4">
                 <div className="flex  items-center justify-between  gap-3 p-4 bg-secondary rounded-lg">
-                  <div className="flex items-center justify-between gap-3 ">
+                  <div className="flex items-center justify-between gap-3 capitalize ">
                     <Avatar>
-                      <AvatarImage src={user.avatar} alt={user.name} />
-                      <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                      {/*  <AvatarImage src={user.avatar} alt={user.name} /> */}
+                      <AvatarFallback>
+                        {contextUser?.name.charAt(0)}
+                      </AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col">
-                      <span className="font-medium">{user.name}</span>
+                      <span className="font-medium capitalize">
+                        {contextUser?.name}
+                      </span>
                       <span className="text-xs text-muted-foreground">
-                        {user.email}
+                        {contextUser?.email}
                       </span>
                       <span
                         className={cn(
                           "text-xs  capitalize  font-semibold",
-                          user.role === "admin"
+                          contextUser?.role === "admin"
                             ? "text-red-600"
                             : "text-green-600"
                         )}
                       >
-                        {user.role}
+                        {contextUser?.role}
                       </span>
                     </div>
                   </div>
@@ -196,9 +193,9 @@ const Navbar = ({ hasScrolled }: NavbarProps) => {
 
                 <Separator className="my-2" />
 
-                {filteredNavItems.map((item, index) => (
+                {filteredNavItems.map((item, index: number) => (
                   <NavLink
-                    key={item.name}
+                    key={item.name || index}
                     to={item.path}
                     onClick={() => setIsOpen(false)}
                     className={({ isActive }) => `
@@ -235,11 +232,15 @@ const Navbar = ({ hasScrolled }: NavbarProps) => {
                 ))}
                 <Button
                   variant="destructive"
+                  disabled={mutation.isPending}
                   className="mt-4"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    setIsOpen(false);
+                    mutation.mutate();
+                  }}
                 >
                   <LogOut className="mr-2 h-4 w-4" />
-                  Logout
+                  {mutation.isPending ? "Logging out" : "Logout"}
                 </Button>
               </div>
             </SheetContent>
@@ -252,7 +253,7 @@ const Navbar = ({ hasScrolled }: NavbarProps) => {
                 key={item.name}
                 to={item.path}
                 className={({ isActive }) => `
-                  flex items-center gap-2 p-2 rounded-lg transition-all font-inter font-extralight hover:font-semibold
+                  flex items-center gap-2 p-2 rounded-lg transition-all font-inter font-extralight hover:font-semibold ease-in-out
                   ${
                     isActive
                       ? "text-primary font-medium underline underline-offset-4 decoration-2"
@@ -277,37 +278,48 @@ const Navbar = ({ hasScrolled }: NavbarProps) => {
                   variant="ghost"
                   className="relative h-8 w-8 rounded-full"
                 >
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src={user.avatar} alt={user.name} />
-                    <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                  <Avatar className="h-8 w-8 capitalize">
+                    {/*  <AvatarImage src={contextUser?.avatar} alt={contextUser?.name} /> */}
+                    <AvatarFallback>
+                      {contextUser?.name.charAt(0)}
+                    </AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <NavLink to="/profile" className="flex items-center gap-2 p-2">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src={user.avatar} alt={user.name} />
-                    <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                    {/*  <AvatarImage src={contextUser?.avatar} alt={contextUser?.name} /> */}
+                    <AvatarFallback className="capitalize">
+                      {contextUser?.name.charAt(0)}
+                    </AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col">
-                    <p className="text-sm font-medium">{user.name}</p>
+                    <p className="text-sm font-medium capitalize">
+                      {contextUser?.name}
+                    </p>
                     <p className="text-xs text-muted-foreground">
-                      {user.email}
+                      {contextUser?.email}
                     </p>
                     <p
                       className={cn(
                         "text-xs font-semibold capitalize",
-                        user.role === "admin"
+                        contextUser?.role === "admin"
                           ? "text-red-600"
                           : "text-green-600"
                       )}
                     >
-                      {user.role}
+                      {contextUser?.role}
                     </p>
                   </div>
                 </NavLink>
                 <Separator />
-                <Button variant="destructive" className="w-full mt-2">
+                <Button
+                  variant="destructive"
+                  className="w-full mt-2"
+                  disabled={mutation.isPending}
+                  onClick={() => mutation.mutate()}
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   Logout
                 </Button>
