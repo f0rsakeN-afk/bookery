@@ -1,14 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const productController = require("../controllers/productController");
+const authController = require("../controllers/authController");
 
 router
   .route("/")
-  .post(productController.addProduct)
-  .get(productController.getAllProducts);
+  .post(
+    authController.protect,
+    authController.restrictTo("admin"),
+    productController.addProduct
+  )
+  .get(authController.protect, productController.getAllProducts);
 
-router.route("/search").get(productController.searchProducts);
+router
+  .route("/search")
+  .get(authController.protect, productController.searchProducts);
 
-router.route("/:id").get(productController.getProductById);
+router
+  .route("/:id")
+  .get(authController.protect, productController.getProductById);
 
 module.exports = router;
