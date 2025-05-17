@@ -6,6 +6,10 @@ import Loader from "./components/shared/Loader";
 import Layout from "./components/shared/Layout";
 import ScrollToTop from "./components/shared/ScrollToTop";
 import { Toaster } from "./components/ui/sonner";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/shared/ProtectedRoute";
+import PublicRoute from "./components/shared/PublicRoute";
+import AdminRoute from "./components/shared/AdminRoute";
 const About = lazy(() => import("./pages/About"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -38,26 +42,58 @@ const App = () => {
         <BrowserRouter>
           <ScrollToTop />
           <Toaster position="top-right" duration={4000} />
-          <Routes>
-            <Route element={<Layout />}>
-              <Route path="/" element={<Hero />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/privacypolicy" element={<PrivacyPolicy />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/Search" element={<Search />} />
-              <Route path="/wishlist" element={<Wishlist />} />
-              <Route path="/productdetails/:id" element={<ProductDetails />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/allproducts" element={<AllProducts />} />
-            </Route>
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/forgotpassword" element={<ForgotPassword />} />
-            <Route path="/newpassword/:token" element={<NewPassword />} />
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
+          <AuthProvider>
+            <Routes>
+              <Route
+                element={
+                  <ProtectedRoute>
+                    <Layout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route path="/" element={<Hero />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/Search" element={<Search />} />
+                <Route path="/wishlist" element={<Wishlist />} />
+                <Route
+                  path="/productdetails/:id"
+                  element={<ProductDetails />}
+                />
+                <Route path="/profile" element={<Profile />} />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <AdminRoute>
+                      <Dashboard />
+                    </AdminRoute>
+                  }
+                />
+                <Route path="/allproducts" element={<AllProducts />} />
+              </Route>
+              <Route
+                path="/register"
+                element={
+                  <PublicRoute>
+                    <Register />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/login"
+                element={
+                  <PublicRoute>
+                    <Login />
+                  </PublicRoute>
+                }
+              />
+              <Route path="/forgotpassword" element={<ForgotPassword />} />
+              <Route path="/newpassword/:token" element={<NewPassword />} />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </AuthProvider>
         </BrowserRouter>
       </QueryClientProvider>
     </Suspense>
