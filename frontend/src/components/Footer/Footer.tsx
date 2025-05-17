@@ -133,7 +133,7 @@ const Footer = () => {
               {
                 icon: <MapPinHouse />,
                 text: "Address:",
-                value: "New Amda, Damak",
+                value: "Urlabari",
               },
             ].map((item, index) => (
               <motion.h3
