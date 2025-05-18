@@ -7,8 +7,14 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useGetAllProducts } from "@/services/productList";
 
 const ProductList = () => {
-  const { data: productData, isLoading } = useGetAllProducts();
+  const { data: productData, isLoading, isError } = useGetAllProducts();
   if (isLoading) return <ProductListSkeleton />;
+  if (isError)
+    return (
+      <p className="text-center font-inter text-muted-foreground">
+        Error fetching products
+      </p>
+    );
   return (
     <div className="container mx-auto max-w-6xl px-2 xl:px-0 py-2" id="books">
       <section className="flex items-center justify-between pb-2">
@@ -44,7 +50,10 @@ const ProductList = () => {
                 <div className="space-y-2">
                   <h3 className="font-medium text-sm truncate">{el.title}</h3>
                   <p className="text-sm font-semibold">
-                    Rs.<span className="text-green-500">{el.priceAfterDiscount}</span>
+                    Rs.
+                    <span className="text-green-500">
+                      {el.priceAfterDiscount}
+                    </span>
                   </p>
                 </div>
 
