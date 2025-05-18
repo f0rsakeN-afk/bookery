@@ -1,13 +1,28 @@
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { useParams } from "react-router-dom";
+import { motion } from "motion/react";
+import { cn } from "@/lib/utils";
 import { Heart, Minus, Plus, ShoppingCart } from "lucide-react";
 import { useGetProductDetails } from "@/services/product";
 import ProductDetailsSkeleton from "@/components/productDetails/Loader";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+import ProductExtraInfo from "@/components/productDetails/ExtraInfo";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i = 1) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.15,
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  }),
+};
 
 const ProductDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -25,6 +40,8 @@ const ProductDetails = () => {
     isError,
   } = useGetProductDetails(id ?? "");
 
+  if (isLoading) return <ProductDetailsSkeleton />;
+
   if (!id || isError || !productData?.data) {
     return (
       <div className="container max-w-3xl mx-auto py-20 text-center">
@@ -38,10 +55,7 @@ const ProductDetails = () => {
     );
   }
 
-  if (isLoading) return <ProductDetailsSkeleton />;
-
   const product = productData.data;
-
   const isProductAvailable: boolean = Number(product.quantity) > 0;
 
   const handleQuantityChange = (type: "increase" | "decrease") => {
@@ -55,41 +69,48 @@ const ProductDetails = () => {
   };
 
   const handleAddToCart = () => {
-    // Implement cart logic here
     toast.success(`${product.title} added to cart!`);
   };
 
   const handleToggleWishlist = () => {
-    // Implement wishlist logic here
     toast.info("Wishlist toggled!");
   };
 
   return (
-    <div className="container mx-auto max-w-6xl px-2 xl:px-0 py-10">
+    <motion.div
+      className="container mx-auto max-w-6xl px-2 xl:px-0 py-10"
+      initial="hidden"
+      animate="visible"
+      variants={fadeUp}
+    >
       <div className="grid md:grid-cols-2 gap-8 font-inter">
-        {/* Image Section */}
-        <div className="aspect-square overflow-hidden rounded-xl bg-muted">
+        {/* Image */}
+        <motion.div
+          className="aspect-square overflow-hidden rounded-xl bg-muted"
+          variants={fadeUp}
+          custom={0}
+        >
           <img
             src={product.image}
             alt={product.title}
             className="w-full h-full object-cover"
             onError={(e) => (e.currentTarget.src = "/fallback.jpg")}
           />
-        </div>
+        </motion.div>
 
-        {/* Details Section */}
-        <div className="space-y-6">
-          <div>
+        {/* Details */}
+        <motion.div className="space-y-6" variants={fadeUp} custom={0.3}>
+          <motion.div variants={fadeUp} custom={0.4}>
             <h1 className="text-3xl font-bold text-primary/90">
               {product.title}
             </h1>
             <p className="text-lg text-muted-foreground">
               Brand: {product.brand}
             </p>
-          </div>
+          </motion.div>
 
           {/* Price */}
-          <div className="space-y-1">
+          <motion.div className="space-y-1" variants={fadeUp} custom={0.5}>
             <div className="flex items-center gap-3">
               <span className="text-2xl font-bold">
                 Rs.{product.priceAfterDiscount.toFixed(2)}
@@ -111,24 +132,32 @@ const ProductDetails = () => {
             >
               In Stock ({product.quantity} available)
             </p>
-          </div>
+          </motion.div>
 
           <Separator />
 
           {/* Category */}
-          <div className="flex items-center gap-1">
+          <motion.div
+            className="flex items-center gap-1"
+            variants={fadeUp}
+            custom={0.6}
+          >
             <span className="text-sm text-muted-foreground">Category:</span>
             <Badge variant={"outline"}>{product.category}</Badge>
-          </div>
+          </motion.div>
 
           {/* Description */}
-          <div>
+          <motion.div variants={fadeUp} custom={0.7}>
             <h3 className="font-semibold mb-2">Description</h3>
             <p className="text-muted-foreground">{product.description}</p>
-          </div>
+          </motion.div>
 
-          {/* Quantity Selector */}
-          <div className="flex items-center gap-4">
+          {/* Quantity */}
+          <motion.div
+            className="flex items-center gap-4"
+            variants={fadeUp}
+            custom={0.8}
+          >
             <span className="font-medium">Quantity:</span>
             <div className="flex items-center gap-2">
               <Button
@@ -149,9 +178,10 @@ const ProductDetails = () => {
                 <Plus className="w-4 h-4" />
               </Button>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="flex gap-4">
+          {/* Buttons */}
+          <motion.div className="flex gap-4" variants={fadeUp} custom={0.9}>
             <Button
               className="flex-1 gap-2"
               onClick={handleAddToCart}
@@ -169,10 +199,13 @@ const ProductDetails = () => {
             >
               <Heart className="w-4 h-4 fill-current" />
             </Button>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
-    </div>
+
+      {/* Extra Info Component */}
+      <ProductExtraInfo />
+    </motion.div>
   );
 };
 
