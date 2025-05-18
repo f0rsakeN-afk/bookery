@@ -42,6 +42,6 @@ export interface ResetPasswordResponse {
 
 /* User details */
 export interface userDetailsResponse {
-  name: string;
-  email: string;
+  status: string;
+  data: dataProps;
 }
