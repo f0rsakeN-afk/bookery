@@ -27,6 +27,7 @@ export interface LoginProps {
 export interface LoginResponse {
   status: string;
   message: string;
+  data: dataProps;
 }
 
 /* Register */
