@@ -13,15 +13,16 @@ import {
 } from "@/types/user";
 import { useNavigate } from "react-router-dom";
 
-async function getUserDetails(): Promise<userDetailsResponse> {
-  const response = await axiosInstance.get<userDetailsResponse>(``);
+async function getUserDetails(id: string): Promise<userDetailsResponse> {
+  const response = await axiosInstance.get<userDetailsResponse>(`users/${id}`);
   return response.data;
 }
 
-export function useGetUserDetails() {
+export function useGetUserDetails(id: string) {
   return useQuery<userDetailsResponse>({
-    queryFn: getUserDetails,
-    queryKey: ["userDetails"],
+    queryFn: () => getUserDetails(id),
+    queryKey: ["userDetails", id],
+    enabled: !!id,
   });
 }
 
@@ -50,7 +51,10 @@ export function useResetPassword() {
   });
 }
 
-async function NewPassword({data,token}:NewPasswordProps): Promise<NewPasswordResponse> {
+async function NewPassword({
+  data,
+  token,
+}: NewPasswordProps): Promise<NewPasswordResponse> {
   const response = await axiosInstance.patch<NewPasswordResponse>(
     `/users/newpassword/${token}`,
     data
@@ -67,16 +71,20 @@ export function useNewPassword() {
       navigate("/login");
     },
     onError: (error) => {
-      console.log(error)
+      console.log(error);
       toast.error(error.message || "Password reset failed");
     },
   });
 }
 
-async function updatePassword(
-  {data,id}: updatePasswordProps
-): Promise<updatePasswordResponse> {
-  const response = await axiosInstance.post<updatePasswordResponse>(`/users/updatepassword/${id}`, data);
+async function updatePassword({
+  data,
+  id,
+}: updatePasswordProps): Promise<updatePasswordResponse> {
+  const response = await axiosInstance.post<updatePasswordResponse>(
+    `/users/updatepassword/${id}`,
+    data
+  );
   return response.data;
 }
 
