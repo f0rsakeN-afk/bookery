@@ -12,21 +12,31 @@ snapkart
 ├─ backend
 │  ├─ .env
 │  ├─ controllers
-│  │  └─ contactController.js
+│  │  ├─ authController.js
+│  │  ├─ contactController.js
+│  │  ├─ errorController.js
+│  │  └─ productController.js
 │  ├─ example.env
 │  ├─ index.js
 │  ├─ models
 │  │  ├─ contactModel.js
+│  │  ├─ product.js
 │  │  └─ userModel.js
 │  ├─ package-lock.json
 │  ├─ package.json
 │  ├─ routes
-│  │  └─ contactRoutes.js
+│  │  ├─ contactRoutes.js
+│  │  ├─ productRoutes.js
+│  │  └─ userRoutes.js
 │  ├─ server.js
 │  └─ utils
-│     └─ catchAsync.js
+│     ├─ apiFeatures.js
+│     ├─ appError.js
+│     ├─ catchAsync.js
+│     └─ email.js
 └─ frontend
-   ├─ .env
+   ├─ .env.development
+   ├─ .env.production
    ├─ README.md
    ├─ components.json
    ├─ eslint.config.js
@@ -40,6 +50,11 @@ snapkart
    │  ├─ assets
    │  │  ├─ about.avif
    │  │  ├─ about2.avif
+   │  │  ├─ banner1.jpg
+   │  │  ├─ banner2.jpg
+   │  │  ├─ banner3.jpg
+   │  │  ├─ banner4.jpg
+   │  │  ├─ banner5.jpg
    │  │  ├─ cart.svg
    │  │  ├─ carttransparent.png
    │  │  ├─ empty-wishlist.svg
@@ -55,13 +70,14 @@ snapkart
    │  │  ├─ hero1.png
    │  │  ├─ hero2.png
    │  │  ├─ hero3.png
-   │  │  ├─ hero3_800x800.png
    │  │  ├─ logo.webp
    │  │  └─ search.png
    │  ├─ components
    │  │  ├─ DashBoard
    │  │  │  ├─ AddProduct.tsx
-   │  │  │  └─ Analytics.tsx
+   │  │  │  ├─ Analytics.tsx
+   │  │  │  ├─ DashBoardTableItems.tsx
+   │  │  │  └─ Notifications.tsx
    │  │  ├─ Footer
    │  │  │  ├─ Footer.tsx
    │  │  │  ├─ FooterBottom.tsx
@@ -71,14 +87,19 @@ snapkart
    │  │  │  └─ Navbar.tsx
    │  │  ├─ Home
    │  │  │  ├─ Hero.tsx
+   │  │  │  ├─ ImageSlider.tsx
    │  │  │  ├─ ProductList.tsx
    │  │  │  ├─ ProductListSkeleton.tsx
    │  │  │  ├─ SocialFeed.tsx
    │  │  │  └─ Testimonial.tsx
+   │  │  ├─ allproducts
+   │  │  │  └─ Filter.tsx
    │  │  ├─ cart
    │  │  │  ├─ CartItems.tsx
    │  │  │  ├─ Cartheader.tsx
    │  │  │  └─ EmptyCart.tsx
+   │  │  ├─ productDetails
+   │  │  │  └─ Loader.tsx
    │  │  ├─ profile
    │  │  │  ├─ PasswordForm.tsx
    │  │  │  └─ UserDetailsForm.tsx
@@ -86,6 +107,7 @@ snapkart
    │  │  │  ├─ Layout.tsx
    │  │  │  ├─ Loader.tsx
    │  │  │  ├─ Logo.tsx
+   │  │  │  ├─ ProductTile.tsx
    │  │  │  └─ ScrollToTop.tsx
    │  │  ├─ ui
    │  │  │  ├─ AceternityTabs.tsx
@@ -107,6 +129,8 @@ snapkart
    │  │  │  ├─ separator.tsx
    │  │  │  ├─ sheet.tsx
    │  │  │  ├─ skeleton.tsx
+   │  │  │  ├─ slider.tsx
+   │  │  │  ├─ sonner.tsx
    │  │  │  ├─ switch.tsx
    │  │  │  ├─ table.tsx
    │  │  │  ├─ tabs.tsx
@@ -147,13 +171,17 @@ snapkart
    │  │  ├─ cart.ts
    │  │  ├─ checkout.ts
    │  │  ├─ contact.ts
+   │  │  ├─ dashboard.ts
    │  │  ├─ payment.ts
    │  │  ├─ product.ts
+   │  │  ├─ productList.ts
+   │  │  ├─ search.ts
    │  │  ├─ user.ts
    │  │  └─ wishlist.ts
    │  ├─ types
    │  │  ├─ auth.ts
    │  │  ├─ contact.ts
+   │  │  ├─ filter.ts
    │  │  ├─ product.ts
    │  │  └─ user.ts
    │  ├─ utils
