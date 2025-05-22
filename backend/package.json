@@ -26,6 +26,7 @@
     "mongoose": "^8.13.2",
     "morgan": "^1.10.0",
     "nodemailer": "^7.0.3",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "xss-clean": "^0.1.4"
   }
 }
