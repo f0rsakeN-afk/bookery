@@ -1,27 +1,26 @@
 import LogoImage from "../assets/logo.webp";
 import HeroImage from "../assets/hero.webp";
-import HeroImage1 from "../assets/hero.png";
-import HeroImage2 from "../assets/hero1.png";
-import HeroImage3 from "../assets/hero2.png";
-import HeroImage4 from "../assets/hero3.png";
-import aboutImage from "../assets/about.avif";
-import about2Image from "../assets/about2.avif";
+import HeroImage1 from "../assets/hero4.webp";
+import HeroImage2 from "../assets/hero1.webp";
+import HeroImage3 from "../assets/hero2.webp";
+import HeroImage4 from "../assets/hero3.webp";
+import aboutImage from "../assets/about.webp";
+import about2Image from "../assets/about2.webp";
 import cart from "../assets/cart.svg";
-import carttransparent from "../assets/carttransparent.png";
+import carttransparent from "../assets/carttransparent.webp";
 import empty_wishlist from "../assets/empty-wishlist.svg";
-import emptyCart from "../assets/emptyCart.png";
-import searchImage from "../assets/search.png";
-import feed1 from "../assets/feed1.png";
-import feed2 from "../assets/feed2.png";
-import feed3 from "../assets/feed3.png";
-import feed4 from "../assets/feed4.png";
-import feed5 from "../assets/feed5.png";
-import feed6 from "../assets/feed6.png";
-import banner1 from "../assets/banner1.jpg";
-import banner2 from "../assets/banner2.jpg";
-import banner3 from "../assets/banner3.jpg";
-import banner4 from "../assets/banner4.jpg";
-import banner5 from "../assets/banner5.jpg";
+import emptyCart from "../assets/emptyCart.webp";
+import feed1 from "../assets/feed1.webp";
+import feed2 from "../assets/feed2.webp";
+import feed3 from "../assets/feed3.webp";
+import feed4 from "../assets/feed4.webp";
+import feed5 from "../assets/feed5.webp";
+import feed6 from "../assets/feed6.webp";
+import banner1 from "../assets/banner1.webp";
+import banner2 from "../assets/banner2.webp";
+import banner3 from "../assets/banner3.webp";
+import banner4 from "../assets/banner4.webp";
+import banner5 from "../assets/banner5.webp";
 
 export {
   LogoImage,
@@ -36,7 +35,6 @@ export {
   carttransparent,
   empty_wishlist,
   emptyCart,
-  searchImage,
   feed1,
   feed2,
   feed3,

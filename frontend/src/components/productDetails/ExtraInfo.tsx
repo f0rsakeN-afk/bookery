@@ -30,7 +30,7 @@ const infoItems: infoItemsProps[] = [
     title: "24/7 Support",
     description: "We’re here whenever you need assistance.",
     bgLight: "bg-gradient-to-br from-blue-50 to-sky-50",
-    bgDark: "dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900",
+    bgDark: "dark:bg-gradient-to-br dark:from-stone-800 dark:to-stone-900",
   },
 ];
 
