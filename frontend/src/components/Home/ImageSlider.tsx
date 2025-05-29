@@ -81,7 +81,7 @@ const ImageSlider = () => {
 
   return (
     <div className="bg-figmaBgSecondary w-full  dark:bg-background">
-      <div className="container mx-auto max-w-6xl px-2 xl:px-0">
+      <div className="container mx-auto max-w-6xl px-2 xl:px-0 my-8">
         <motion.div
           className="relative aspect-[1320/400] w-full overflow-hidden rounded-lg"
           onHoverStart={() => setIsAutoPlaying(false)}

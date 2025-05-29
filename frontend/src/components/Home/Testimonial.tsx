@@ -1,47 +1,67 @@
 import { motion } from "motion/react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { AnimatedTestimonials } from "../ui/testimonial";
+import {
+  testimonial1,
+  testimonial2,
+  testimonial3,
+  testimonial4,
+  testimonial5,
+} from "@/utils/ImageExports";
 
 interface testimonialTypes {
   name: string;
-  role: string;
-  image: string;
+  designation: string;
+  src: string;
   quote: string;
 }
 
 const testimonials: testimonialTypes[] = [
   {
+    quote:
+      "SnapKart has completely changed the way I shop online. The intuitive interface and lightning-fast checkout make the whole experience seamless and enjoyable.",
+    name: "Sarah Chen",
+    designation: "Verified Buyer",
+    src: testimonial3,
+  },
+  {
+    quote:
+      "From order to delivery, SnapKart nails it. Their product range is vast, and my items arrived right on time in perfect condition. Highly recommended!",
+    name: "Michael Rodriguez",
+    designation: "Frequent Shopper",
+    src: testimonial4,
+  },
+  {
+    quote:
+      "I love how easy it is to find deals on SnapKart. Their filtering and search tools are top-notch, and the checkout process is the fastest I’ve used.",
+    name: "Emily Watson",
+    designation: "Deal Hunter",
+    src: testimonial2,
+  },
+  {
+    quote:
+      "What impressed me the most was SnapKart’s customer support. They were quick, friendly, and resolved my issue in no time. Great service goes a long way!",
+    name: "f0rsakeN-afk",
+    designation: "Happy Customer",
+    src: testimonial5,
+  },
+  {
+    quote:
+      "SnapKart offers incredible variety and quality. From fashion to gadgets, everything I’ve ordered has met or exceeded my expectations.",
     name: "Naresh Rajbanshi",
-    role: "Verified Buyer",
-    image: "https://i.pravatar.cc/150?img=1",
-    quote:
-      "Absolutely love the quality! Fast delivery and the product was exactly as described.",
-  },
-  {
-    name: "Zaralizara",
-    role: "Loyal Customer",
-    image: "https://i.pravatar.cc/150?img=2",
-    quote:
-      "Customer support was excellent. I had an issue and they resolved it within a day!",
-  },
-  {
-    name: "Sara Kim",
-    role: "First-time Buyer",
-    image: "https://i.pravatar.cc/150?img=3",
-    quote:
-      "Great experience overall! The UI is clean, and checkout was super easy.",
+    designation: "Loyal Customer",
+    src: testimonial1,
   },
 ];
 
 const Testimonial = () => {
   return (
     <section
-      className="py-16 px-4 md:px-8 lg:px-20 bg-muted/40"
+      className="pt-16 px-4 md:px-8 lg:px-20 bg-muted/40 overflow-hidden"
       id="testimonials"
     >
       <div className="max-w-6xl mx-auto text-center">
         <motion.h2
-          className="text-3xl font-bold mb-6 font-playfair text-primary/90"
+          className="text-3xl font-bold mb-4 font-playfair text-primary/90"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -49,37 +69,7 @@ const Testimonial = () => {
         >
           What Our Customers Say
         </motion.h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((t, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.2 }}
-              viewport={{ once: true }}
-            >
-              <Card className="h-full shadow-sm hover:shadow-md transition-shadow duration-300">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4 mb-4">
-                    <Avatar>
-                      <AvatarImage src={t.image} alt={t.name} />
-                      <AvatarFallback>{t.name[0]}</AvatarFallback>
-                    </Avatar>
-                    <div className="text-left">
-                      <p className="font-medium font-inter">{t.name}</p>
-                      <p className="text-xs text-muted-foreground font-inter">
-                        {t.role}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-sm text-muted-foreground italic">
-                    “{t.quote}”
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+        <AnimatedTestimonials testimonials={testimonials} />
       </div>
     </section>
   );
