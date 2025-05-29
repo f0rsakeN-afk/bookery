@@ -12,6 +12,14 @@ export interface productTypes {
   createdAt?: string;
   updatedAt?: string;
   priceAfterDiscount: number;
+  shipping: {
+    weight: number;
+    dimensions: {
+      length: number;
+      width: number;
+      height: number;
+    };
+  };
 }
 
 export interface productDetailTypes {
