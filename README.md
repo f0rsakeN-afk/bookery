@@ -15,12 +15,13 @@ snapkart
 │  │  ├─ authController.js
 │  │  ├─ contactController.js
 │  │  ├─ errorController.js
-│  │  └─ productController.js
+│  │  ├─ productController.js
+│  │  └─ userController.js
 │  ├─ example.env
 │  ├─ index.js
 │  ├─ models
 │  │  ├─ contactModel.js
-│  │  ├─ product.js
+│  │  ├─ productModel.js
 │  │  └─ userModel.js
 │  ├─ package-lock.json
 │  ├─ package.json
@@ -38,6 +39,8 @@ snapkart
    ├─ .env.development
    ├─ .env.production
    ├─ README.md
+   ├─ components
+   │  └─ ProductDetails.tsx
    ├─ components.json
    ├─ eslint.config.js
    ├─ example.env
@@ -48,30 +51,38 @@ snapkart
    │  ├─ App.tsx
    │  ├─ Loader.css
    │  ├─ assets
-   │  │  ├─ about.avif
-   │  │  ├─ about2.avif
-   │  │  ├─ banner1.jpg
-   │  │  ├─ banner2.jpg
-   │  │  ├─ banner3.jpg
-   │  │  ├─ banner4.jpg
-   │  │  ├─ banner5.jpg
+   │  │  ├─ about.webp
+   │  │  ├─ about2.webp
+   │  │  ├─ banner1.webp
+   │  │  ├─ banner2.webp
+   │  │  ├─ banner3.webp
+   │  │  ├─ banner4.webp
+   │  │  ├─ banner5.webp
    │  │  ├─ cart.svg
-   │  │  ├─ carttransparent.png
+   │  │  ├─ carttransparent.webp
+   │  │  ├─ cod.webp
    │  │  ├─ empty-wishlist.svg
-   │  │  ├─ emptyCart.png
-   │  │  ├─ feed1.png
-   │  │  ├─ feed2.png
-   │  │  ├─ feed3.png
-   │  │  ├─ feed4.png
-   │  │  ├─ feed5.png
-   │  │  ├─ feed6.png
-   │  │  ├─ hero.png
+   │  │  ├─ emptyCart.webp
+   │  │  ├─ esewa.webp
+   │  │  ├─ feed1.webp
+   │  │  ├─ feed2.webp
+   │  │  ├─ feed3.webp
+   │  │  ├─ feed4.webp
+   │  │  ├─ feed5.webp
+   │  │  ├─ feed6.webp
    │  │  ├─ hero.webp
-   │  │  ├─ hero1.png
-   │  │  ├─ hero2.png
-   │  │  ├─ hero3.png
+   │  │  ├─ hero1.webp
+   │  │  ├─ hero2.webp
+   │  │  ├─ hero3.webp
+   │  │  ├─ hero4.webp
+   │  │  ├─ icon-small.png
    │  │  ├─ logo.webp
-   │  │  └─ search.png
+   │  │  ├─ stripe.webp
+   │  │  ├─ testimonial1.webp
+   │  │  ├─ testimonial2.webp
+   │  │  ├─ testimonial3.webp
+   │  │  ├─ testimonial4.webp
+   │  │  └─ testimonial5.webp
    │  ├─ components
    │  │  ├─ DashBoard
    │  │  │  ├─ AddProduct.tsx
@@ -88,6 +99,7 @@ snapkart
    │  │  ├─ Home
    │  │  │  ├─ Hero.tsx
    │  │  │  ├─ ImageSlider.tsx
+   │  │  │  ├─ PaymentMethods.tsx
    │  │  │  ├─ ProductList.tsx
    │  │  │  ├─ ProductListSkeleton.tsx
    │  │  │  ├─ SocialFeed.tsx
@@ -99,15 +111,19 @@ snapkart
    │  │  │  ├─ Cartheader.tsx
    │  │  │  └─ EmptyCart.tsx
    │  │  ├─ productDetails
+   │  │  │  ├─ ExtraInfo.tsx
    │  │  │  └─ Loader.tsx
    │  │  ├─ profile
    │  │  │  ├─ PasswordForm.tsx
    │  │  │  └─ UserDetailsForm.tsx
    │  │  ├─ shared
+   │  │  │  ├─ AdminRoute.tsx
    │  │  │  ├─ Layout.tsx
    │  │  │  ├─ Loader.tsx
    │  │  │  ├─ Logo.tsx
    │  │  │  ├─ ProductTile.tsx
+   │  │  │  ├─ ProtectedRoute.tsx
+   │  │  │  ├─ PublicRoute.tsx
    │  │  │  └─ ScrollToTop.tsx
    │  │  ├─ ui
    │  │  │  ├─ AceternityTabs.tsx
@@ -134,6 +150,7 @@ snapkart
    │  │  │  ├─ switch.tsx
    │  │  │  ├─ table.tsx
    │  │  │  ├─ tabs.tsx
+   │  │  │  ├─ testimonial.tsx
    │  │  │  ├─ textarea.tsx
    │  │  │  └─ tooltip.tsx
    │  │  └─ wishlist
@@ -141,6 +158,7 @@ snapkart
    │  │     ├─ WishlistHeader.tsx
    │  │     └─ WishlistItems.tsx
    │  ├─ context
+   │  │  ├─ AuthContext.tsx
    │  │  └─ Theme-provider.tsx
    │  ├─ data
    │  │  └─ policyContent.ts
