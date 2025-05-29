@@ -21,8 +21,24 @@ import banner2 from "../assets/banner2.webp";
 import banner3 from "../assets/banner3.webp";
 import banner4 from "../assets/banner4.webp";
 import banner5 from "../assets/banner5.webp";
+import testimonial1 from "../assets/testimonial1.webp";
+import testimonial2 from "../assets/testimonial2.webp";
+import testimonial3 from "../assets/testimonial3.webp";
+import testimonial4 from "../assets/testimonial4.webp";
+import testimonial5 from "../assets/testimonial5.webp";
+import stripe from "../assets/stripe.webp";
+import cod from "../assets/cod.webp";
+import esewa from "../assets/esewa.webp";
 
 export {
+  stripe,
+  cod,
+  esewa,
+  testimonial1,
+  testimonial2,
+  testimonial3,
+  testimonial4,
+  testimonial5,
   LogoImage,
   HeroImage,
   HeroImage1,
