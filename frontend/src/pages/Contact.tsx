@@ -9,15 +9,21 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useContact } from "@/services/contact";
+import { useAuth } from "@/context/AuthContext";
 
 const Contact = () => {
   const { handleSubmit, register, reset } = useForm<ContactProps>();
 
+  const { user: contextUser } = useAuth();
+
   const mutation = useContact();
 
   const onSubmit = (data: ContactProps) => {
-    console.log(data);
-    mutation.mutate(data, {
+    const dataWithUser = {
+      ...data,
+      user: contextUser!._id,
+    };
+    mutation.mutate(dataWithUser, {
       onSuccess: () => {
         reset();
       },
@@ -94,7 +100,7 @@ const Contact = () => {
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-5 pt-3 font-inter"
           >
-            <motion.div variants={itemVariants}>
+            {/*  <motion.div variants={itemVariants}>
               <Wrapper>
                 <Label className="font-inter">Email</Label>
                 <Input
@@ -102,7 +108,7 @@ const Contact = () => {
                   {...register("email", { required: "This field is required" })}
                 />
               </Wrapper>
-            </motion.div>
+            </motion.div> */}
 
             <motion.div variants={itemVariants}>
               <Wrapper>

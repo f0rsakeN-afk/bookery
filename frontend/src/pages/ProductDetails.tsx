@@ -115,7 +115,7 @@ const ProductDetails = () => {
               <span className="text-2xl font-bold">
                 Rs.{product.priceAfterDiscount.toFixed(2)}
               </span>
-              <span className="text-lg text-muted-foreground line-through">
+              <span className="text-base text-muted-foreground line-through decoration-red-500">
                 Rs.{product.price.toFixed(2)}
               </span>
               <span className="text-sm text-green-600">
@@ -148,8 +148,28 @@ const ProductDetails = () => {
 
           {/* Description */}
           <motion.div variants={fadeUp} custom={0.7}>
-            <h3 className="font-semibold mb-2">Description</h3>
-            <p className="text-muted-foreground">{product.description}</p>
+            <section className="">
+              <h3 className="font-semibold mb-2">Description</h3>
+              <p className="text-muted-foreground mb-4">
+                {product.description}
+              </p>
+
+              <h3 className="font-semibold mb-2">Shipping Details</h3>
+              <div className="text-muted-foreground space-y-1">
+                <p>
+                  <span className="font-medium text-primary/90">Weight:</span>{" "}
+                  {product.shipping.weight} kg
+                </p>
+                <p>
+                  <span className="font-medium text-primary/90">
+                    Dimensions (L × W × H):
+                  </span>{" "}
+                  {product.shipping.dimensions.length} ×{" "}
+                  {product.shipping.dimensions.width} ×{" "}
+                  {product.shipping.dimensions.height} cm
+                </p>
+              </div>
+            </section>
           </motion.div>
 
           {/* Quantity */}
