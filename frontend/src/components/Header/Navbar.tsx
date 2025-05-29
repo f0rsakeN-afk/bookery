@@ -112,6 +112,7 @@ const Navbar = ({ hasScrolled }: NavbarProps) => {
   const { theme, setTheme } = useTheme();
 
   const { user: contextUser } = useAuth();
+  /*   console.log(contextUser) */
 
   const mutation = useLogout();
 

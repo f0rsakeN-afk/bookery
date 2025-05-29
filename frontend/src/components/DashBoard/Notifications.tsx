@@ -12,33 +12,57 @@ const Notifications = ({ contactData }: NotificationsProps) => {
 
   if (messages.length === 0) {
     return (
-      <div className="p-4 text-sm text-muted-foreground font-inter">
+      <section className="p-6 text-center text-sm text-muted-foreground font-inter">
         No new messages.
-      </div>
+      </section>
     );
   }
 
   return (
-    <ScrollArea className="h-64 w-80 p-4 ">
-      <div className="space-y-4 font-inter">
-        {messages.map((msg, i) => (
-          <div key={msg._id} className="space-y-1 ">
-            <div className="text-sm font-medium">{msg.subject}</div>
-            <div className="text-xs text-muted-foreground">
-              {msg.query.length > 100
-                ? msg.query.slice(0, 200) + "..."
-                : msg.query}
-            </div>
-            <div className="text-[10px] text-gray-400">
-              {formatDistanceToNow(new Date(msg.createdAt), {
-                addSuffix: true,
-              })}
-            </div>
-            {i !== messages.length - 1 && <Separator />}
-          </div>
-        ))}
-      </div>
-    </ScrollArea>
+    <section aria-label="Notifications" className="w-80">
+      <ScrollArea className="h-72 p-4">
+        <div className="space-y-2 font-inter">
+          {messages.map((msg, i) => (
+            <article
+              key={msg._id}
+              className="space-y-1 cursor-pointer"
+              aria-label={`Message from ${msg.user.name}`}
+            >
+              <header className="flex justify-between gap-1">
+                <section className="">
+                  <h3 className="text-[14px] font-semibold text-primary capitalize">
+                    {msg.user.name}
+                  </h3>
+                  <p className="text-[12px] text-muted-foreground">
+                    {msg.user.email}
+                  </p>
+                </section>
+                <time
+                  dateTime={new Date(msg.createdAt).toISOString()}
+                  className="text-[11px] text-gray-400"
+                >
+                  {formatDistanceToNow(new Date(msg.createdAt), {
+                    addSuffix: true,
+                  })}
+                </time>
+              </header>
+
+              <h4 className="text-[14px] font-medium text-foreground">
+                {msg.subject}
+              </h4>
+
+              <p className="text-[10px] text-muted-foreground line-clamp-3 leading-relaxed">
+                {msg.query.length > 200
+                  ? `${msg.query.slice(0, 200)}...`
+                  : msg.query}
+              </p>
+
+              {i !== messages.length - 1 && <Separator className="mt-3" />}
+            </article>
+          ))}
+        </div>
+      </ScrollArea>
+    </section>
   );
 };
 

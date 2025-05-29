@@ -9,8 +9,9 @@ import {
   getAllMessagesResponse,
 } from "@/types/contact";
 
-async function contact(data: ContactProps): Promise<ContactResponse> {
-  const response = await axiosInstance.post(`contact/`, data);
+async function contact(dataWithUser: ContactProps): Promise<ContactResponse> {
+  console.log(dataWithUser)
+  const response = await axiosInstance.post(`contact/`, dataWithUser);
   return response.data;
 }
 
