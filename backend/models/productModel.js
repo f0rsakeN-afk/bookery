@@ -60,6 +60,14 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: [true, "A product image is required"],
     },
+    shipping: {
+      weight: Number,
+      dimensions: {
+        length: Number,
+        width: Number,
+        height: Number,
+      },
+    },
   },
   {
     toJSON: {
