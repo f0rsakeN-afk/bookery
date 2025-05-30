@@ -18,3 +18,11 @@ exports.getAllMessages = catchAsync(async (req, res, next) => {
     data: messages,
   });
 });
+
+exports.deleteContactMessages = catchAsync(async (req, res, next) => {
+  await Contact.findByIdAndDelete(req.params.id);
+  res.status(204).json({
+    status: "success",
+    message: "Message deleted successfully",
+  });
+});

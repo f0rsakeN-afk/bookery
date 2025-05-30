@@ -16,4 +16,11 @@ router
     contactController.getAllMessages
   );
 
+router.delete(
+  "/:id",
+  authController.protect,
+  authController.restrictTo("admin"),
+  contactController.deleteContactMessages
+);
+
 module.exports = router;
