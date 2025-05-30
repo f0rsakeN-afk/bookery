@@ -1,4 +1,4 @@
-const Product = require("../models/product");
+const Product = require("../models/productModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 const APIFeatures = require("../utils/apiFeatures");
@@ -77,5 +77,13 @@ exports.searchProducts = catchAsync(async (req, res, next) => {
     status: "success",
     results: products.length,
     data: products,
+  });
+});
+
+exports.deleteProduct = catchAsync(async (req, res, next) => {
+  await Product.findByIdAndDelete(req.params.id);
+  res.status(204).json({
+    status: "success",
+    data: "Product deleted successfully",
   });
 });
