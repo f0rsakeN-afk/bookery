@@ -53,6 +53,7 @@ const SocialFeed = () => {
         <DraggableCardBody className={item.className} key={item.title}>
           <img
             src={item.image}
+            loading="lazy"
             alt={item.title}
             className="pointer-events-none relative z-10  object-cover contrast-150"
           />

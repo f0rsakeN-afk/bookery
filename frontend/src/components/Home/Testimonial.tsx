@@ -26,7 +26,7 @@ const testimonials: testimonialTypes[] = [
   {
     quote:
       "From order to delivery, SnapKart nails it. Their product range is vast, and my items arrived right on time in perfect condition. Highly recommended!",
-    name: "Michael Rodriguez",
+    name: "Rakesh ray",
     designation: "Frequent Shopper",
     src: testimonial4,
   },

@@ -116,6 +116,7 @@ const ImageSlider = () => {
               className="absolute h-full w-full"
             >
               <img
+                loading="lazy"
                 src={sliderData[currentSlide].name}
                 alt={sliderData[currentSlide].alt}
                 className="h-full w-full rounded-lg object-cover"

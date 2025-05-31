@@ -47,6 +47,7 @@ const PaymentMethods: React.FC = () => {
             <img
               src={method.image}
               alt={method.name}
+              loading="lazy"
               className="w-20 h-20 object-contain mb-2"
             />
             <span className="text-center text-sm font-medium font-inter">

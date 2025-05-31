@@ -34,18 +34,21 @@ const ProductList = () => {
         <div className="flex space-x-4 pb-4 font-inter">
           {productData &&
             productData.data?.map((el, index: number) => (
-              <NavLink
-                to={`/productDetails/${el.id}`}
+              <div
                 key={el.id || index}
                 className="group w-[160px] md:w-[200px] shrink-0 flex flex-col space-y-3 hover:shadow-lg rounded-lg p-3 transition-all duration-300"
               >
-                <div className="relative aspect-[2/3] overflow-hidden rounded-md">
+                <NavLink
+                  to={`/productDetails/${el.id}`}
+                  className="relative aspect-[2/3] overflow-hidden rounded-md"
+                >
                   <img
                     src={el.image}
+                    loading="lazy"
                     alt={el.title}
                     className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
                   />
-                </div>
+                </NavLink>
 
                 <div className="space-y-2">
                   <h3 className="font-medium text-sm truncate">{el.title}</h3>
@@ -76,7 +79,7 @@ const ProductList = () => {
                     <Heart className="h-4 w-4" />
                   </Button>
                 </div>
-              </NavLink>
+              </div>
             ))}
         </div>
         <ScrollBar orientation="horizontal" />
