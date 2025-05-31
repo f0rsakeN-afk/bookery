@@ -11,7 +11,7 @@ interface infoItemsProps {
 }
 
 const infoItems: infoItemsProps[] = [
-  {
+  { 
     icon: RefreshCcw,
     title: "Easy Returns",
     description: "Return within 7 days. Hassle-free experience.",
@@ -53,12 +53,12 @@ const item = {
 
 const ProductExtraInfo = () => {
   return (
-    <section className="mt-20">
+    <section className="mt-6">
       <div className="text-center mb-10">
-        <h2 className="text-2xl sm:text-3xl font-bold text-primary">
+        <h2 className="text-2xl sm:text-3xl font-bold text-primary font-playfair">
           Why Shop With Us?
         </h2>
-        <p className="text-muted-foreground mt-2 text-sm sm:text-base">
+        <p className="text-muted-foreground mt-2 text-sm sm:text-base font-inter">
           Trusted experience, fast delivery, and support at your fingertips.
         </p>
       </div>
@@ -75,6 +75,7 @@ const ProductExtraInfo = () => {
           return (
             <motion.div
               key={idx}
+              className="font-inter"
               variants={item}
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 160, damping: 18 }}
