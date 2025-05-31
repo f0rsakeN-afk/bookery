@@ -9,7 +9,8 @@ const FooterBottom: React.FC = () => {
           Designed by&nbsp;
           <a
             href="https://www.nareshrajbanshi.com.np"
-            className="hover:underline underline-offset-2 hover:text-blue-600 hover:decoration-blue-600"
+            target="__blank"
+            className="hover:underline underline-offset-2 hover:text-blue-600 hover:decoration-blue-600 font-cursive"
           >
             Naresh Rajbanshi
           </a>
