@@ -29,8 +29,12 @@ import testimonial5 from "../assets/testimonial5.webp";
 import stripe from "../assets/stripe.webp";
 import cod from "../assets/cod.webp";
 import esewa from "../assets/esewa.webp";
+import appBanner from "../assets/appBanner.webp";
+import qrcode from "../assets/qrcode.svg";
 
 export {
+  appBanner,
+  qrcode,
   stripe,
   cod,
   esewa,
