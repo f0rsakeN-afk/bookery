@@ -6,11 +6,13 @@ import { toast } from "sonner";
 import {
   ContactProps,
   ContactResponse,
+  deleteMessagesProps,
+  deleteMessagesResponse,
   getAllMessagesResponse,
 } from "@/types/contact";
 
 async function contact(dataWithUser: ContactProps): Promise<ContactResponse> {
-  console.log(dataWithUser)
+  console.log(dataWithUser);
   const response = await axiosInstance.post(`contact/`, dataWithUser);
   return response.data;
 }
@@ -42,5 +44,29 @@ export function useGetAllMessages() {
     queryFn: getAllMessages,
     retry: 2,
     staleTime: 60000,
+  });
+}
+
+async function deleteMessages({
+  id,
+}: deleteMessagesProps): Promise<deleteMessagesResponse> {
+  const response = await axiosInstance.delete<deleteMessagesResponse>(
+    `/contact/${id}`
+  );
+  return response.data;
+}
+
+export function useDeleteMessages() {
+  const queryClient = useQueryClient();
+  return useMutation<deleteMessagesResponse, AxiosError, deleteMessagesProps>({
+    mutationFn: deleteMessages,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["getAllMessages"] });
+      toast.success(data.message || "Message deleted successfully");
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error(error.message || "Message deletion failed");
+    },
   });
 }
