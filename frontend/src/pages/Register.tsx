@@ -211,6 +211,7 @@ const Register: React.FC = () => {
           <div className="relative z-10">
             <img
               src={LogoImage}
+              loading="lazy"
               alt="Snapkart logo"
               className="w-44 mb-3 md:mb-8 contrast-200"
             />

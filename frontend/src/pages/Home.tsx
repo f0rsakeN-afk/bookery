@@ -4,6 +4,7 @@ import Testimonial from "@/components/Home/Testimonial";
 import SocialFeed from "@/components/Home/SocialFeed";
 import ImageSlider from "@/components/Home/ImageSlider";
 import PaymentMethods from "@/components/Home/PaymentMethods";
+import AppBanner from "@/components/Home/AppBanner";
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
         <SocialFeed />
         <Testimonial />
         <PaymentMethods />
+        <AppBanner />
       </section>
     </div>
   );

@@ -62,6 +62,7 @@ const Login: React.FC = () => {
         >
           <div className="">
             <img
+              loading="lazy"
               src={LogoImage}
               alt="Snapkart logo"
               className="w-44 mb-4 contrast-200  dark:invert-0"
@@ -79,6 +80,7 @@ const Login: React.FC = () => {
             <img
               src={carttransparent}
               alt="carttransparent image"
+              loading="lazy"
               className="md:h-96 xl:h-80 w-full p-4 hidden md:block"
             />
           </div>

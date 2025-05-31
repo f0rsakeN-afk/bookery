@@ -37,6 +37,7 @@ const About: React.FC = () => {
           transition={{ duration: 1.5 }}
           whileHover={{ scale: 1.1 }}
           src={aboutImage}
+          loading="lazy"
           alt="about image"
           className="object-cover h-[250px] w-full brightness-50"
         />
@@ -109,13 +110,14 @@ const About: React.FC = () => {
               upgrading your home, refreshing your wardrobe, or looking for the
               perfect gift, we're here to be your trusted destination. Join us
               in celebrating smart shopping and everyday inspiration. Welcome to
-              ShopNest, where quality meets convenience, and customers come
+              SnapKart, where quality meets convenience, and customers come
               first.
             </motion.p>
           </motion.section>
         </motion.div>
 
         <motion.img
+          loading="lazy"
           variants={scaleIn}
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}

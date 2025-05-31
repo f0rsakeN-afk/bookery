@@ -114,6 +114,7 @@ const Contact = () => {
               <Wrapper>
                 <Label className="font-inter">Subject</Label>
                 <Input
+                  disabled={mutation.isPending || contextUser?.role === "admin"}
                   type="text"
                   {...register("subject", {
                     required: "This field is required",
@@ -126,6 +127,7 @@ const Contact = () => {
               <Wrapper>
                 <Label className="font-inter">Query</Label>
                 <Textarea
+                  disabled={mutation.isPending || contextUser?.role === "admin"}
                   {...register("query")}
                   className="max-h-[200px] min-h-[150px]"
                 />
@@ -142,7 +144,7 @@ const Contact = () => {
               >
                 <Button
                   type="submit"
-                  disabled={mutation.isPending}
+                  disabled={mutation.isPending || contextUser?.role === "admin"}
                   className="min-w-[100px]"
                 >
                   {mutation.isPending ? (
