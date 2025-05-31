@@ -9,7 +9,7 @@ async function getAllProducts(): Promise<allProductTypesResponse> {
 
 export function useGetAllProducts() {
   return useQuery<allProductTypesResponse>({
-    queryKey: ["dashboardAllProducts"],
+    queryKey: ["productListHome"],
     queryFn: getAllProducts,
   });
 }
