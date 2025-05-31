@@ -30,3 +30,12 @@ export interface getAllMessagesResponse {
   results: number;
   data: dataTypes[];
 }
+
+export interface deleteMessagesProps {
+  id: string;
+}
+
+export interface deleteMessagesResponse {
+  status: string;
+  message: string;
+}
