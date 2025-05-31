@@ -1,6 +1,9 @@
 import { allProductTypesResponse } from "@/types/product";
 import axiosInstance from "./axios";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { deleteProductProps, deleteProductResponse } from "@/types/dashboard";
+import { AxiosError } from "axios";
 
 async function getAllProducts(): Promise<allProductTypesResponse> {
   const response = await axiosInstance.get<allProductTypesResponse>(
@@ -13,5 +16,37 @@ export function useGetAllProducts() {
   return useQuery<allProductTypesResponse>({
     queryKey: ["dashboardAllProducts"],
     queryFn: getAllProducts,
+  });
+}
+
+async function deleteProduct({
+  id,
+}: deleteProductProps): Promise<deleteProductResponse> {
+  /*   console.log(id); */
+  const response = await axiosInstance.delete<deleteProductResponse>(
+    `product/${id}`
+  );
+  return response.data;
+}
+
+export function useDeleteProduct() {
+  const queryClient = useQueryClient();
+  return useMutation<deleteProductResponse, AxiosError, deleteProductProps>({
+    mutationFn: deleteProduct,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["dashboardAllProducts"],
+      });
+      queryClient.invalidateQueries({ queryKey: ["productListHome"] });
+      queryClient.invalidateQueries({
+        queryKey: ["allproducts"],
+        exact: false,
+      });
+      toast.success(data.message || "Product deleted successfully");
+    },
+    onError: (error) => {
+      /*       console.log(error) */
+      toast.error(error.message || "Product deletion failed");
+    },
   });
 }
