@@ -20,6 +20,21 @@ export interface productTypes {
       height: number;
     };
   };
+  reviews?: reviewTypes[];
+}
+
+export interface reviewTypes {
+  _id?: string;
+  text?: string;
+  rating?: number;
+  product?: string;
+  user?: {
+    _id: string;
+    name: string;
+    email: string;
+  };
+  __v?: number;
+  id?: string;
 }
 
 export interface productDetailTypes {
