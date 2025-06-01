@@ -4,6 +4,8 @@ SnapKart is a full-featured e-commerce web application built using the MERN (Mon
 
 ## 📌 Project Status
 
+Project snapshots:https://drive.google.com/drive/folders/1BVJe5mmownInOv-Un6TLoWhun7f171Xu?usp=drive_link
+
 🚧 In Development – To be submitted by the end of the semester.
 
 ```
