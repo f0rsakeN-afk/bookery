@@ -10,17 +10,18 @@ interface productTileProps {
 
 const ProductTile = ({ el }: productTileProps) => {
   return (
-    <NavLink
-      to={`/productDetails/${el.id}`}
-      className="group w-full flex flex-col space-y-3 hover:shadow-lg rounded-xl p-3 transition-all duration-300 border "
-    >
-      <div className="relative aspect-[3/4] overflow-hidden rounded-md">
+    <div className="group w-full flex flex-col space-y-3 hover:shadow-lg rounded-xl p-3 transition-all duration-300 border ">
+      <NavLink
+        to={`/productDetails/${el.id}`}
+        className="relative aspect-[3/4] overflow-hidden rounded-md"
+      >
         <img
           src={el.image}
           alt={el.title}
+          loading="lazy"
           className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
         />
-      </div>
+      </NavLink>
 
       <div className="space-y-2">
         <h3 className="font-medium text-sm truncate">{el.title}</h3>
@@ -58,7 +59,7 @@ const ProductTile = ({ el }: productTileProps) => {
           <Heart className="h-4 w-4" />
         </Button>
       </div>
-    </NavLink>
+    </div>
   );
 };
 
