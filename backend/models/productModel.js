@@ -86,5 +86,11 @@ productSchema.virtual("priceAfterDiscount").get(function () {
   return Math.round((this.price - discount) * 100) / 100;
 });
 
+productSchema.virtual("reviews", {
+  ref: "reviews",
+  foreignField: "product",
+  localField: "_id",
+});
+
 const Product = mongoose.model("products", productSchema);
 module.exports = Product;
