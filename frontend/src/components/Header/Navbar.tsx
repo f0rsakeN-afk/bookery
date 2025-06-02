@@ -16,6 +16,8 @@ import {
   Contact,
   ShieldQuestion,
   Box,
+  BarChart3,
+  ShoppingBag,
 } from "lucide-react";
 import Logo from "../shared/Logo";
 import { Avatar, AvatarFallback } from "../ui/avatar";
@@ -45,6 +47,7 @@ interface NavItem {
   name: string;
   path: string;
   requiresAdmin?: boolean;
+  hideForAdmin?: boolean;
 }
 
 interface headerTopProps {
@@ -78,57 +81,57 @@ const navItems: NavItem[] = [
     name: "All Products",
     path: "/allproducts",
   },
-  { icon: <Heart className="h-5 w-5" />, name: "Wishlist", path: "/wishlist" },
-  { icon: <ShoppingCart className="h-5 w-5" />, name: "Cart", path: "/cart" },
-
+  {
+    icon: <Heart className="h-5 w-5" />,
+    name: "Wishlist",
+    path: "/wishlist",
+    hideForAdmin: true,
+  },
+  {
+    icon: <ShoppingCart className="h-5 w-5" />,
+    name: "Cart",
+    path: "/cart",
+    hideForAdmin: true,
+  },
   {
     icon: <LayoutDashboard className="h-5 w-5" />,
     name: "Dashboard",
     path: "/dashboard",
     requiresAdmin: true,
   },
+  {
+    icon: <ShoppingBag className="h-5 w-5" />,
+    name: "Orders",
+    path: "/order",
+    requiresAdmin: true,
+  },
+  {
+    icon: <BarChart3 className="h-5 w-5" />,
+    name: "Analytics",
+    path: "/analytics",
+    requiresAdmin: true,
+  },
 ];
-
-/* const animations = {
-  menuItem: {
-    hidden: { opacity: 0, x: 20 },
-    visible: (i: number) => ({
-      opacity: 1,
-      x: 0,
-      transition: { delay: i * 0.1, duration: 0.3 },
-    }),
-  },
-  container: {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 },
-    },
-  },
-}; */
 
 const Navbar = ({ hasScrolled }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { theme, setTheme } = useTheme();
-
   const { user: contextUser } = useAuth();
-  /*   console.log(contextUser) */
-
   const mutation = useLogout();
 
-  const filteredNavItems = navItems.filter(
-    (item) =>
-      !item.requiresAdmin ||
-      (item.requiresAdmin && contextUser?.role === "admin")
-  );
+  const filteredNavItems = navItems.filter((item) => {
+    if (item.requiresAdmin && contextUser?.role !== "admin") return false;
+    if (item.hideForAdmin && contextUser?.role === "admin") return false;
+    return true;
+  });
 
   return (
     <nav
       className={`
-      bg-background/95 backdrop-blur-sm 
-      transition-all duration-200
-      ${hasScrolled ? "shadow-sm border-b" : ""}
-    `}
+        bg-background/95 backdrop-blur-sm 
+        transition-all duration-200
+        ${hasScrolled ? "shadow-sm border-b" : ""}
+      `}
     >
       <div className="container mx-auto max-w-6xl px-4 xl:px-0 py-4">
         <div className="flex items-center justify-between">
@@ -149,10 +152,9 @@ const Navbar = ({ hasScrolled }: NavbarProps) => {
               </SheetHeader>
 
               <div className="flex flex-col gap-2 p-4">
-                <div className="flex  items-center justify-between  gap-3 p-4 bg-secondary rounded-lg">
-                  <div className="flex items-center justify-between gap-3 capitalize ">
+                <div className="flex items-center justify-between gap-3 p-4 bg-secondary rounded-lg">
+                  <div className="flex items-center gap-3 capitalize">
                     <Avatar>
-                      {/*  <AvatarImage src={user.avatar} alt={user.name} /> */}
                       <AvatarFallback>
                         {contextUser?.name.charAt(0)}
                       </AvatarFallback>
@@ -166,7 +168,7 @@ const Navbar = ({ hasScrolled }: NavbarProps) => {
                       </span>
                       <span
                         className={cn(
-                          "text-xs  capitalize  font-semibold",
+                          "text-xs capitalize font-semibold",
                           contextUser?.role === "admin"
                             ? "text-red-600"
                             : "text-green-600"
@@ -194,19 +196,18 @@ const Navbar = ({ hasScrolled }: NavbarProps) => {
 
                 <Separator className="my-2" />
 
-                {filteredNavItems.map((item, index: number) => (
+                {filteredNavItems.map((item, index) => (
                   <NavLink
                     key={item.name || index}
                     to={item.path}
                     onClick={() => setIsOpen(false)}
-                    className={({ isActive }) => `
-                      flex items-center gap-3 p-3 rounded-lg transition-all
-                      ${
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 p-3 rounded-lg transition-all ${
                         isActive
                           ? "bg-primary/10 text-primary font-semibold"
                           : "hover:bg-secondary"
-                      }
-                    `}
+                      }`
+                    }
                   >
                     {item.icon}
                     <span>{item.name}</span>
@@ -218,19 +219,19 @@ const Navbar = ({ hasScrolled }: NavbarProps) => {
                     key={el.name}
                     to={el.path}
                     onClick={() => setIsOpen(false)}
-                    className={({
-                      isActive,
-                    }) => `flex items-center gap-3 p-3 rounded-lg transition-all ${
-                      isActive
-                        ? "bg-primary/10 text-primary font-semibold"
-                        : "hover:bg-secondary"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 p-3 rounded-lg transition-all ${
+                        isActive
+                          ? "bg-primary/10 text-primary font-semibold"
+                          : "hover:bg-secondary"
+                      }`
                     }
-   `}
                   >
                     {el.icon}
                     <span>{el.name}</span>
                   </NavLink>
                 ))}
+
                 <Button
                   variant="destructive"
                   disabled={mutation.isPending}
@@ -280,7 +281,6 @@ const Navbar = ({ hasScrolled }: NavbarProps) => {
                   className="relative h-8 w-8 rounded-full"
                 >
                   <Avatar className="h-8 w-8 capitalize">
-                    {/*  <AvatarImage src={contextUser?.avatar} alt={contextUser?.name} /> */}
                     <AvatarFallback>
                       {contextUser?.name.charAt(0)}
                     </AvatarFallback>
@@ -290,7 +290,6 @@ const Navbar = ({ hasScrolled }: NavbarProps) => {
               <DropdownMenuContent align="end" className="w-56">
                 <NavLink to="/profile" className="flex items-center gap-2 p-2">
                   <Avatar className="h-8 w-8">
-                    {/*  <AvatarImage src={contextUser?.avatar} alt={contextUser?.name} /> */}
                     <AvatarFallback className="capitalize">
                       {contextUser?.name.charAt(0)}
                     </AvatarFallback>
