@@ -10,6 +10,7 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/shared/ProtectedRoute";
 import PublicRoute from "./components/shared/PublicRoute";
 import AdminRoute from "./components/shared/AdminRoute";
+import UserOnlyRoute from "./components/shared/UserOnlyRoute";
 const About = lazy(() => import("./pages/About"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -26,6 +27,8 @@ const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const Profile = lazy(() => import("./pages/Profile"));
 const NewPassword = lazy(() => import("./pages/NewPassword"));
 const AllProducts = lazy(() => import("./pages/AllProducts"));
+const Orders = lazy(() => import("./pages/Orders"));
+const Analytics = lazy(() => import("./pages/Analytics"));
 
 const App = () => {
   const queryClient = new QueryClient({
@@ -55,9 +58,23 @@ const App = () => {
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/privacypolicy" element={<PrivacyPolicy />} />
-                <Route path="/cart" element={<Cart />} />
+                <Route
+                  path="/cart"
+                  element={
+                    <UserOnlyRoute>
+                      <Cart />
+                    </UserOnlyRoute>
+                  }
+                />
                 <Route path="/Search" element={<Search />} />
-                <Route path="/wishlist" element={<Wishlist />} />
+                <Route
+                  path="/wishlist"
+                  element={
+                    <UserOnlyRoute>
+                      <Wishlist />
+                    </UserOnlyRoute>
+                  }
+                />
                 <Route
                   path="/productdetails/:id"
                   element={<ProductDetails />}
@@ -68,6 +85,22 @@ const App = () => {
                   element={
                     <AdminRoute>
                       <Dashboard />
+                    </AdminRoute>
+                  }
+                />
+                <Route
+                  path="/order"
+                  element={
+                    <AdminRoute>
+                      <Orders />
+                    </AdminRoute>
+                  }
+                />
+                <Route
+                  path="/analytics"
+                  element={
+                    <AdminRoute>
+                      <Analytics />
                     </AdminRoute>
                   }
                 />
