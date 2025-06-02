@@ -41,9 +41,16 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
 });
 
 exports.getProductById = catchAsync(async (req, res, next) => {
-  const product = await Product.findById(req.params.id);
-  if (!product)
-    next(new AppError(`The product with this id doesn't exist`, 404));
+  const product = await Product.findById(req.params.id).populate({
+    path: "reviews",
+    options: {
+      sort: { createdAt: -1 },
+      limit: 30,
+    },
+  });
+  if (!product) {
+    return next(new AppError(`The product with this id doesn't exist`, 404));
+  }
 
   res.status(200).json({
     status: "success",
