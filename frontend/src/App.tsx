@@ -29,6 +29,7 @@ const NewPassword = lazy(() => import("./pages/NewPassword"));
 const AllProducts = lazy(() => import("./pages/AllProducts"));
 const Orders = lazy(() => import("./pages/Orders"));
 const Analytics = lazy(() => import("./pages/Analytics"));
+const Users = lazy(() => import("./pages/Users"));
 
 const App = () => {
   const queryClient = new QueryClient({
@@ -101,6 +102,14 @@ const App = () => {
                   element={
                     <AdminRoute>
                       <Analytics />
+                    </AdminRoute>
+                  }
+                />
+                <Route
+                  path="/users"
+                  element={
+                    <AdminRoute>
+                      <Users />
                     </AdminRoute>
                   }
                 />
