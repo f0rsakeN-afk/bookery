@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { Heart, Minus, Plus, ShoppingCart } from "lucide-react";
-
 import { useGetProductDetails } from "@/services/product";
 import ProductDetailsSkeleton from "@/components/productDetails/Loader";
 import { Button } from "@/components/ui/button";
@@ -13,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import ProductExtraInfo from "@/components/productDetails/ExtraInfo";
 import Reviews from "@/components/productDetails/Reviews";
 import Placeholder from "@/components/productDetails/Placeholder";
+import { useAuth } from "@/context/AuthContext";
 
 // Animation config
 const fadeUp = {
@@ -37,6 +37,7 @@ const ProductDetails = () => {
       toast.error("No product ID provided in the URL.");
     }
   }, [id]);
+  const { user } = useAuth();
 
   const {
     data: productData,
@@ -190,7 +191,7 @@ const ProductDetails = () => {
             <Button
               className="flex-1 gap-2"
               onClick={handleAddToCart}
-              disabled={!isProductAvailable}
+              disabled={!isProductAvailable || user?.role === "admin"}
             >
               <ShoppingCart className="w-4 h-4" />
               Add to Cart
@@ -198,7 +199,7 @@ const ProductDetails = () => {
             <Button
               variant="outline"
               onClick={handleToggleWishlist}
-              disabled={!isProductAvailable}
+              disabled={!isProductAvailable || user?.role === "admin"}
               className="text-red-500 gap-2"
             >
               <Heart className="w-4 h-4 fill-current" />
@@ -243,8 +244,8 @@ const ProductDetails = () => {
         </section>
       </motion.div>
       <Separator />
-      {/* Additional Sections */}
-      <Reviews />
+
+      <Reviews reviews={product.reviews} id={product._id!} />
 
       <ProductExtraInfo />
     </motion.div>

@@ -76,7 +76,9 @@ const Dashboard: React.FC = () => {
       {isLoading ? (
         <Loader />
       ) : isError ? (
-        <p className="text-center font-inter text-muted-foreground">Error fetching products</p>
+        <p className="text-center font-inter text-muted-foreground">
+          Error fetching products
+        </p>
       ) : (
         <section>
           <Card>
