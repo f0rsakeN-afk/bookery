@@ -2,12 +2,17 @@ import { getAllMessagesResponse } from "@/types/contact";
 import { formatDistanceToNow } from "date-fns";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { Trash } from "lucide-react";
+import { Button } from "../ui/button";
+import { useDeleteMessages } from "@/services/contact";
 
 interface NotificationsProps {
   contactData?: getAllMessagesResponse;
 }
 
 const Notifications = ({ contactData }: NotificationsProps) => {
+  const deleteMutation = useDeleteMessages();
+
   const messages = contactData?.data ?? [];
 
   if (messages.length === 0) {
@@ -25,11 +30,11 @@ const Notifications = ({ contactData }: NotificationsProps) => {
           {messages.map((msg, i) => (
             <article
               key={msg._id}
-              className="space-y-1 cursor-pointer"
+              className="space-y-1"
               aria-label={`Message from ${msg.user.name}`}
             >
-              <header className="flex justify-between gap-1">
-                <section className="">
+              <header className="flex justify-between gap-2">
+                <section>
                   <h3 className="text-[14px] font-semibold text-primary capitalize">
                     {msg.user.name}
                   </h3>
@@ -37,14 +42,26 @@ const Notifications = ({ contactData }: NotificationsProps) => {
                     {msg.user.email}
                   </p>
                 </section>
-                <time
-                  dateTime={new Date(msg.createdAt).toISOString()}
-                  className="text-[11px] text-gray-400"
-                >
-                  {formatDistanceToNow(new Date(msg.createdAt), {
-                    addSuffix: true,
-                  })}
-                </time>
+
+                <div className="flex flex-col items-end gap-1">
+                  <time
+                    dateTime={new Date(msg.createdAt).toISOString()}
+                    className="text-[11px] text-gray-400"
+                  >
+                    {formatDistanceToNow(new Date(msg.createdAt), {
+                      addSuffix: true,
+                    })}
+                  </time>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    disabled={deleteMutation.isPending}
+                    className="h-4 w-4 p-0  hover:text-destructive text-red-400"
+                    onClick={() => deleteMutation.mutate({ id: msg._id })}
+                  >
+                    <Trash className="h-3 w-3" />
+                  </Button>
+                </div>
               </header>
 
               <h4 className="text-[14px] font-medium text-foreground">

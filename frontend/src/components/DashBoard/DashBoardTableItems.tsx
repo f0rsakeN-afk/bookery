@@ -13,18 +13,22 @@ import {
   AlertDialogAction,
 } from "../ui/alert-dialog";
 import { productTypes } from "@/types/product";
+import { useDeleteProduct } from "@/services/dashboard";
 
 interface dashboardTableItemsProps {
   product: productTypes;
 }
 
 const DashBoardTableItems = ({ product }: dashboardTableItemsProps) => {
+  const deleteMutation = useDeleteProduct();
+
   return (
     <TableRow>
       <TableCell>
         <img
           src={product.image}
           alt={product.title}
+          loading="lazy"
           className="w-16 h-16 object-cover rounded-md"
         />
       </TableCell>
@@ -50,12 +54,17 @@ const DashBoardTableItems = ({ product }: dashboardTableItemsProps) => {
                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                 <AlertDialogDescription>
                   This action cannot be undone. This will permanently delete the
-                  product and remove all associated data from our servers.
+                  and remove all associated data from our servers.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction>Continue</AlertDialogAction>
+                <AlertDialogAction
+                  disabled={deleteMutation.isPending}
+                  onClick={() => deleteMutation.mutate({ id: product._id! })}
+                >
+                  {deleteMutation.isPending ? "Deleting..." : "Delete"}
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

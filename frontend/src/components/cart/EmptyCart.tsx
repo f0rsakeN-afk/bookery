@@ -16,6 +16,7 @@ const EmptyCart: React.FC = () => {
       <motion.img
         src={emptyCart}
         alt="Empty Cart"
+        loading="lazy"
         className="w-44 h-44 mb-4"
         whileHover={{
           scale: 1.2,

@@ -5,9 +5,11 @@ import { Button } from "../ui/button";
 import ProductListSkeleton from "./ProductListSkeleton";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useGetAllProducts } from "@/services/productList";
+import { useAuth } from "@/context/AuthContext";
 
 const ProductList = () => {
   const { data: productData, isLoading, isError } = useGetAllProducts();
+  const { user } = useAuth();
   if (isLoading) return <ProductListSkeleton />;
   if (isError)
     return (
@@ -63,6 +65,7 @@ const ProductList = () => {
                 <div className="flex gap-2 mt-auto">
                   <Button
                     variant="default"
+                    disabled={user?.role === "admin"}
                     size="sm"
                     className="flex-1 text-xs items-center"
                   >
@@ -71,6 +74,7 @@ const ProductList = () => {
                   <Button
                     variant="outline"
                     size="icon"
+                    disabled={user?.role === "admin"}
                     className={cn(
                       "h-8 w-8",
                       "hover:text-red-500 hover:border-red-500"
