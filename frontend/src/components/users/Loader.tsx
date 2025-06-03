@@ -3,6 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -18,6 +19,10 @@ const UsersSkeleton: React.FC = () => {
 
       <div className="overflow-x-auto rounded-xl border">
         <Table>
+          <TableCaption>
+            A list of all products listed on{" "}
+            <span className="font-semibold text-yellow-500">SnapKart</span>
+          </TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead className="w-[200px]">Name</TableHead>
