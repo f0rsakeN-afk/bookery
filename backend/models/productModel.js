@@ -9,6 +9,7 @@ const productSchema = new mongoose.Schema(
       trim: true,
       minlength: [5, "A product title must be of 5 characters"],
       maxlength: [40, "A product title must be less than 40 characters"],
+      lowercase: true,
     },
     description: {
       type: String,

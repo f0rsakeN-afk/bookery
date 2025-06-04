@@ -2,6 +2,7 @@ const Product = require("../models/productModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 const APIFeatures = require("../utils/apiFeatures");
+const mongoose = require("mongoose");
 
 exports.addProduct = catchAsync(async (req, res, next) => {
   const product = await Product.create(req.body);
@@ -21,7 +22,8 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
   const totalItems = await filteredQuery.query.clone().countDocuments();
 
   const paginatedQuery = filteredQuery.paginate();
-  const products = await paginatedQuery.query;
+  const products =
+    await paginatedQuery.query; /* .populate({ path: "reviews" }); */
 
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 12;
@@ -41,13 +43,20 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
 });
 
 exports.getProductById = catchAsync(async (req, res, next) => {
-  const product = await Product.findById(req.params.id).populate({
+  const { id } = req.params;
+  /*  console.log(id, "hello"); */
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return next(new AppError("Invalid product ID", 400));
+  }
+
+  const product = await Product.findById(id).populate({
     path: "reviews",
     options: {
       sort: { createdAt: -1 },
       limit: 30,
     },
   });
+
   if (!product) {
     return next(new AppError(`The product with this id doesn't exist`, 404));
   }

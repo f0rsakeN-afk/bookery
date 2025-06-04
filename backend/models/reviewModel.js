@@ -13,19 +13,23 @@ const reviewSchema = new mongoose.Schema(
     product: {
       type: mongoose.Schema.ObjectId,
       ref: "products",
+      required: [true, "A product is required to post review"],
     },
     user: {
       type: mongoose.Schema.ObjectId,
       ref: "users",
+      required: [true, "A user is required to post review"],
     },
   },
   {
-    timestamps:true,
+    timestamps: true,
     versionKey: false,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }
 );
+
+reviewSchema.index({ product: 1, user: 1 }, { unique: true });
 
 reviewSchema.pre(/^find/, function (next) {
   this.populate({
