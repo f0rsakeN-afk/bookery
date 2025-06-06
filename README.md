@@ -8,6 +8,53 @@ Project snapshots:https://drive.google.com/drive/folders/1BVJe5mmownInOv-Un6TLoW
 
 🚧 In Development – To be submitted by the end of the semester.
 
+
+## Route Structure
+
+### 🔐 User Routes (`/api/users`)
+
+| Method | Endpoint | Description | Authentication | Role |
+|--------|----------|-------------|----------------|------|
+| POST | `/register` | User registration | None | Public |
+| POST | `/login` | User login | None | Public |
+| POST | `/logout` | User logout | None | Public |
+| GET | `/me` | Get current user profile | Required | User/Admin |
+| POST | `/forgetpassword` | Request password reset | None | Public |
+| PATCH | `/newpassword/:token` | Reset password with token | None | Public |
+| GET | `/:id` | Get user details by ID | Required | User/Admin |
+| GET | `/` | Get all users | Required | Admin |
+| PATCH | `/updatepassword` | Update user password | Required | User/Admin |
+
+### 🛍️ Product Routes (`/api/products`)
+
+| Method | Endpoint | Description | Authentication | Role |
+|--------|----------|-------------|----------------|------|
+| POST | `/` | Add new product | Required | Admin |
+| GET | `/` | Get all products | Required | User/Admin |
+| GET | `/search` | Search products | Required | User/Admin |
+| GET | `/:id` | Get product by ID | Required | User/Admin |
+| DELETE | `/:id` | Delete product | Required | Admin |
+
+**Note**: Product creation includes photo upload and resizing functionality.
+
+### ⭐ Review Routes (`/api/reviews`)
+
+| Method | Endpoint | Description | Authentication | Role |
+|--------|----------|-------------|----------------|------|
+| GET | `/` | Get all reviews | Required | Admin |
+| POST | `/` | Create new review | Required | User |
+| PATCH | `/:id` | Update review | Required | User |
+| DELETE | `/:id` | Delete review | Required | User |
+
+### 📧 Contact Routes (`/api/contact`)
+
+| Method | Endpoint | Description | Authentication | Role |
+|--------|----------|-------------|----------------|------|
+| POST | `/` | Send contact message | Required | User |
+| GET | `/` | Get all contact messages | Required | Admin |
+| DELETE | `/:id` | Delete contact message | Required | Admin |
+
+
 ```
 snapkart
 ├─ README.md
