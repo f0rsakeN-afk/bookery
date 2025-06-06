@@ -33,7 +33,7 @@ const testimonials: testimonialTypes[] = [
   {
     quote:
       "I love how easy it is to find deals on SnapKart. Their filtering and search tools are top-notch, and the checkout process is the fastest I’ve used.",
-    name: "Emily Watson",
+    name: "Cynthia",
     designation: "Deal Hunter",
     src: testimonial2,
   },

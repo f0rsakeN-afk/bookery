@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ImagePlus, Loader2 } from "lucide-react";
+import { ImagePlus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import { ScrollArea } from "../ui/scroll-area";
+import { useAddProduct } from "@/services/product";
 
 interface ProductFormData {
   title: string;
@@ -29,11 +30,18 @@ interface ProductFormData {
   category: string;
   brand: string;
   discountPercentage: string;
+  shippingWeight: string;
+  shippingLength: string;
+  shippingWidth: string;
+  shippingHeight: string;
 }
 
 const AddProduct = () => {
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
+  const mutation = useAddProduct();
+  /*   const { reset } = useForm(); */
   const form = useForm<ProductFormData>({
     defaultValues: {
       title: "",
@@ -43,17 +51,21 @@ const AddProduct = () => {
       category: "",
       brand: "",
       discountPercentage: "0",
+      shippingWeight: "",
+      shippingLength: "",
+      shippingWidth: "",
+      shippingHeight: "",
     },
   });
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 2000000) {
-        // 2MB limit
+      if (file.size > 2 * 1024 * 1024) {
         toast.warning("Image size should be less than 2MB");
         return;
       }
+      setImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
@@ -64,13 +76,13 @@ const AddProduct = () => {
 
   const onSubmit = (data: ProductFormData) => {
     try {
-      if (!imagePreview) {
+      if (!imageFile) {
         toast.warning("Please upload a product image");
         return;
       }
 
-      if (data.title.length < 3) {
-        toast.warning("Title must be at least 3 characters long");
+      if (data.title.length < 5) {
+        toast.warning("Title must be at least 5 characters long");
         return;
       }
 
@@ -103,15 +115,44 @@ const AddProduct = () => {
       if (
         isNaN(discountPercent) ||
         discountPercent < 0 ||
-        discountPercent > 100
+        discountPercent > 60
       ) {
-        toast.warning("Please enter a valid discount percentage (0-100)");
+        toast.warning("Discount must be between 0% and 60%");
         return;
       }
 
-      console.log(data);
+      const shippingFields = [
+        { name: "Weight", value: data.shippingWeight },
+        { name: "Length", value: data.shippingLength },
+        { name: "Width", value: data.shippingWidth },
+        { name: "Height", value: data.shippingHeight },
+      ];
+
+      for (const field of shippingFields) {
+        const numValue = Number(field.value);
+        if (isNaN(numValue) || numValue <= 0) {
+          toast.warning(`${field.name} must be a valid number greater than 0`);
+          return;
+        }
+      }
+
+      const productData = {
+        ...data,
+        image: imageFile,
+        shipping: {
+          weight: data.shippingWeight,
+          dimensions: {
+            length: data.shippingLength,
+            width: data.shippingWidth,
+            height: data.shippingHeight,
+          },
+        },
+      };
+
+      mutation.mutate(productData, { onSuccess: () => form.reset() });
+      /*    toast.success("Product added successfully!"); */
     } catch (error) {
-      console.error(error);
+      /*  console.error(error); */
       toast.warning("Something went wrong!");
     }
   };
@@ -129,6 +170,7 @@ const AddProduct = () => {
               onChange={handleImageChange}
               className="hidden"
               id="image-upload"
+              disabled={mutation.isPending}
             />
             <label
               htmlFor="image-upload"
@@ -159,7 +201,11 @@ const AddProduct = () => {
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="Product title" {...field} />
+                  <Input
+                    placeholder="Product title"
+                    {...field}
+                    disabled={mutation.isPending}
+                  />
                 </FormControl>
               </FormItem>
             )}
@@ -174,6 +220,7 @@ const AddProduct = () => {
                 <FormLabel>Description</FormLabel>
                 <FormControl>
                   <Textarea
+                    disabled={mutation.isPending}
                     placeholder="Product description"
                     className="resize-none"
                     {...field}
@@ -193,6 +240,7 @@ const AddProduct = () => {
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  disabled={mutation.isPending}
                 >
                   <FormControl>
                     <SelectTrigger className="w-full">
@@ -221,7 +269,12 @@ const AddProduct = () => {
                 <FormItem>
                   <FormLabel>Price</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="0.00" {...field} />
+                    <Input
+                      type="number"
+                      placeholder="0.00"
+                      {...field}
+                      disabled={mutation.isPending}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -235,7 +288,12 @@ const AddProduct = () => {
                 <FormItem>
                   <FormLabel>Quantity</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="0" {...field} />
+                    <Input
+                      type="number"
+                      placeholder="0"
+                      {...field}
+                      disabled={mutation.isPending}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -251,7 +309,11 @@ const AddProduct = () => {
                 <FormItem>
                   <FormLabel>Brand</FormLabel>
                   <FormControl>
-                    <Input placeholder="Brand name" {...field} />
+                    <Input
+                      placeholder="Brand name"
+                      {...field}
+                      disabled={mutation.isPending}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -265,23 +327,116 @@ const AddProduct = () => {
                 <FormItem>
                   <FormLabel>Discount (%)</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="0" {...field} />
+                    <Input
+                      min={0}
+                      max={60}
+                      type="number"
+                      placeholder="0"
+                      {...field}
+                      disabled={mutation.isPending}
+                    />
                   </FormControl>
                 </FormItem>
               )}
             />
           </div>
 
-          <Button type="submit" className="w-full">
-            {/* {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Adding Product...
-              </>
-            ) : (
-              "Add Product"
-            )} */}
-            Add Product
+          <div className="border rounded-lg p-4 space-y-4">
+            <h3 className="font-semibold text-lg">Shipping Info</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {/* Weight */}
+              <FormField
+                control={form.control}
+                name="shippingWeight"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Weight (kg)</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={mutation.isPending}
+                        type="number"
+                        step="any"
+                        placeholder="0"
+                        {...field}
+                        min={0}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              {/* Length */}
+              <FormField
+                control={form.control}
+                name="shippingLength"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Length (cm)</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={mutation.isPending}
+                        type="number"
+                        step="any"
+                        placeholder="0"
+                        {...field}
+                        min={0}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              {/* Width */}
+              <FormField
+                control={form.control}
+                name="shippingWidth"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Width (cm)</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={mutation.isPending}
+                        type="number"
+                        step="any"
+                        min={0}
+                        placeholder="0"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              {/* Height */}
+              <FormField
+                control={form.control}
+                name="shippingHeight"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Height (cm)</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={mutation.isPending}
+                        type="number"
+                        step="any"
+                        min={0}
+                        placeholder="0"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={mutation.isPending}
+          >
+            {mutation.isPending ? "Adding product..." : "Add Product"}
           </Button>
         </form>
       </Form>
