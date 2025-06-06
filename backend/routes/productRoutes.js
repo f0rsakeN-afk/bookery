@@ -8,6 +8,8 @@ router
   .post(
     authController.protect,
     authController.restrictTo("admin"),
+    productController.uploadPhoto,
+    productController.resizeProductPhoto,
     productController.addProduct
   )
   .get(authController.protect, productController.getAllProducts);

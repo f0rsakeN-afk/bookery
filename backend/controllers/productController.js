@@ -3,6 +3,38 @@ const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 const APIFeatures = require("../utils/apiFeatures");
 const mongoose = require("mongoose");
+const multer = require("multer");
+const sharp = require("sharp");
+
+const multerStorage = multer.memoryStorage();
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith("image")) {
+    cb(null, true);
+  } else {
+    cb(new AppError("Not an image! Please upload only image", 400), false);
+  }
+};
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
+
+exports.uploadPhoto = upload.single("image");
+
+exports.resizeProductPhoto = catchAsync(async (req, res, next) => {
+  if (!req.file) return next();
+  req.file.filename = `product-${req.user.id}-${Date.now()}.jpeg`;
+  await sharp(req.file.buffer)
+    .resize()   
+    .toFormat("jpeg")
+    .jpeg({ quality: 90 })
+    .toFile(`public/product/${req.file.filename}`);
+  /* save image to the database */
+  req.body.image = req.file.filename;
+  next();
+});
 
 exports.addProduct = catchAsync(async (req, res, next) => {
   const product = await Product.create(req.body);
