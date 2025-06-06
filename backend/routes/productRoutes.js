@@ -2,14 +2,15 @@ const express = require("express");
 const router = express.Router();
 const productController = require("../controllers/productController");
 const authController = require("../controllers/authController");
+const { uploadPhoto, resizeProductPhoto } = require("../utils/multer");
 
 router
   .route("/")
   .post(
     authController.protect,
     authController.restrictTo("admin"),
-    productController.uploadPhoto,
-    productController.resizeProductPhoto,
+    uploadPhoto,
+    resizeProductPhoto,
     productController.addProduct
   )
   .get(authController.protect, productController.getAllProducts);
