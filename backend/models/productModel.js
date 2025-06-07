@@ -28,7 +28,7 @@ const productSchema = new mongoose.Schema(
     quantity: {
       type: Number,
       required: [true, "A product quantity is required"],
-      min: [0, "A product quantity cannot be less than 0"],
+      min: [1, "A product quantity cannot be less than 1"],
     },
     category: {
       type: String,
@@ -62,11 +62,23 @@ const productSchema = new mongoose.Schema(
       required: [true, "A product image is required"],
     },
     shipping: {
-      weight: Number,
+      weight: {
+        type: Number,
+        required: [true, "A product weight is required"],
+      },
       dimensions: {
-        length: Number,
-        width: Number,
-        height: Number,
+        length: {
+          type: Number,
+          required: [true, "A product's length is required"],
+        },
+        width: {
+          type: Number,
+          required: [true, "A product's width is required"],
+        },
+        height: {
+          type: Number,
+          required: [true, "A product's height is required"],
+        },
       },
     },
   },
