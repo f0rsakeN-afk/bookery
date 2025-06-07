@@ -42,7 +42,7 @@ const Placeholder: React.FC = () => {
         <img
           src={qrcode}
           alt="qr image"
-          className="rounded-md h-44 w-full"
+          className="rounded-md h-44 w-full dark:invert"
           loading="lazy"
         />
         <h4 className="flex items-center gap-1 text-center pt-1 text-xs text-muted-foreground">
