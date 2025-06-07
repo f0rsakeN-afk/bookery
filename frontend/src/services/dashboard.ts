@@ -68,3 +68,66 @@ export function useGetAllUsers() {
     staleTime: 9000,
   });
 }
+
+//@ts-ignore
+async function addProduct(productData) {
+  const response = await axiosInstance.post(`product/`, productData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+}
+
+export function useAddProduct() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: addProduct,
+    onSuccess: (data) => {
+      /* console.log(data) */
+      queryClient.invalidateQueries({ queryKey: ["productListHome"] });
+      queryClient.invalidateQueries({
+        queryKey: ["allproducts"],
+        exact: false,
+      });
+      toast.success(data.message || "Product added successfully");
+    },
+    onError: (err) => {
+      toast.error(err.message || "Failed to add product");
+    },
+  });
+}
+
+async function updateProduct(data) {
+  const response = await axiosInstance.patch(``, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+}
+
+export function useUpdateProduct() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: updateProduct,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["dashboardAllProducts"],
+      });
+      queryClient.invalidateQueries({ queryKey: ["productListHome"] });
+      queryClient.invalidateQueries({
+        queryKey: ["allproducts"],
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["productDetails"],
+        exact: false,
+      });
+      toast.success(data.message || "Product updated successfully");
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to update the product");
+    },
+  });
+}

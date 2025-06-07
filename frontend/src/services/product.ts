@@ -67,31 +67,4 @@ export function useGetProductDetails(id: string) {
   });
 }
 
-//@ts-ignore
-async function addProduct(productData) {
-  const response = await axiosInstance.post(`product/`, productData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-  return response.data;
-}
 
-export function useAddProduct() {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: addProduct,
-    onSuccess: (data) => {
-      /* console.log(data) */
-      queryClient.invalidateQueries({ queryKey: ["productListHome"] });
-      queryClient.invalidateQueries({
-        queryKey: ["allproducts"],
-        exact: false,
-      });
-      toast.success(data.message || "Product added successfully");
-    },
-    onError: (err) => {
-      toast.error(err.message || "Failed to add product");
-    },
-  });
-}
