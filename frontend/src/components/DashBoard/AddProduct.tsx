@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import { ScrollArea } from "../ui/scroll-area";
-import { useAddProduct } from "@/services/product";
+import { useAddProduct } from "@/services/dashboard";
 
 interface ProductFormData {
   title: string;
@@ -36,7 +36,12 @@ interface ProductFormData {
   shippingHeight: string;
 }
 
-const AddProduct = () => {
+interface addProductProps {
+  /*   open: boolean; */
+  onSuccess: () => void;
+}
+
+const AddProduct = ({ onSuccess }: addProductProps) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -149,7 +154,12 @@ const AddProduct = () => {
         },
       };
 
-      mutation.mutate(productData, { onSuccess: () => form.reset() });
+      mutation.mutate(productData, {
+        onSuccess: () => {
+          form.reset();
+          onSuccess();
+        },
+      });
       /*    toast.success("Product added successfully!"); */
     } catch (error) {
       /*  console.error(error); */

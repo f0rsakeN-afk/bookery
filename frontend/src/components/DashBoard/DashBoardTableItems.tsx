@@ -14,6 +14,8 @@ import {
 } from "../ui/alert-dialog";
 import { productTypes } from "@/types/product";
 import { useDeleteProduct } from "@/services/dashboard";
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import EditProduct from "./EditProduct";
 
 interface dashboardTableItemsProps {
   product: productTypes;
@@ -39,9 +41,16 @@ const DashBoardTableItems = ({ product }: dashboardTableItemsProps) => {
       <TableCell>{new Date(product.createdAt!).toLocaleDateString()}</TableCell>
       <TableCell className="text-right">
         <div className="flex justify-end gap-2">
-          <Button variant="outline" size="icon">
-            <Pencil className="h-4 w-4" />
-          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="icon">
+                <Pencil className="h-4 w-4" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <EditProduct id={product._id!} />
+            </DialogContent>
+          </Dialog>
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
