@@ -85,6 +85,9 @@ export function useAddProduct() {
     mutationFn: addProduct,
     onSuccess: (data) => {
       /* console.log(data) */
+      queryClient.invalidateQueries({
+        queryKey: ["dashboardAllProducts"],
+      });
       queryClient.invalidateQueries({ queryKey: ["productListHome"] });
       queryClient.invalidateQueries({
         queryKey: ["allproducts"],
