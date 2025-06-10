@@ -16,12 +16,16 @@ import { productTypes } from "@/types/product";
 import { useDeleteProduct } from "@/services/dashboard";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import EditProduct from "./EditProduct";
+import { useState } from "react";
 
 interface dashboardTableItemsProps {
   product: productTypes;
 }
 
 const DashBoardTableItems = ({ product }: dashboardTableItemsProps) => {
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
+  const [editDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
+
   const deleteMutation = useDeleteProduct();
 
   return (
@@ -52,7 +56,10 @@ const DashBoardTableItems = ({ product }: dashboardTableItemsProps) => {
             </DialogContent>
           </Dialog>
 
-          <AlertDialog>
+          <AlertDialog
+            open={isDeleteDialogOpen}
+            onOpenChange={setIsDeleteDialogOpen}
+          >
             <AlertDialogTrigger asChild>
               <Button variant="destructive" size="icon">
                 <Trash2 className="h-4 w-4" />
@@ -70,7 +77,12 @@ const DashBoardTableItems = ({ product }: dashboardTableItemsProps) => {
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                 <AlertDialogAction
                   disabled={deleteMutation.isPending}
-                  onClick={() => deleteMutation.mutate({ id: product._id! })}
+                  onClick={() =>
+                    deleteMutation.mutate(
+                      { id: product._id! },
+                      { onSuccess: () => setIsDeleteDialogOpen(false) }
+                    )
+                  }
                 >
                   {deleteMutation.isPending ? "Deleting..." : "Delete"}
                 </AlertDialogAction>
