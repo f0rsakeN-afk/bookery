@@ -20,9 +20,10 @@ import { useUpdateProduct } from "@/services/dashboard";
 
 interface editProductProps {
   id: string;
+  onSuccess: () => void;
 }
 
-const EditProduct: React.FC<editProductProps> = ({ id }) => {
+const EditProduct: React.FC<editProductProps> = ({ id, onSuccess }) => {
   const form = useForm();
 
   const { data: productData, isLoading } = useGetProductDetails(id);
@@ -60,7 +61,12 @@ const EditProduct: React.FC<editProductProps> = ({ id }) => {
 
   const onSubmit = (data) => {
     console.log(data);
-    mutation.mutate(data, { onSuccess: () => form.reset() });
+    mutation.mutate(data, {
+      onSuccess: () => {
+        form.reset();
+        onSuccess();
+      },
+    });
   };
 
   return (
