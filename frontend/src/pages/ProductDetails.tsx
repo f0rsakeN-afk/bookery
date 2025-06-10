@@ -49,7 +49,7 @@ const ProductDetails = () => {
 
   if (!id || isError || !productData?.data) {
     return (
-      <div className="container max-w-3xl mx-auto py-20 text-center">
+      <div className="container max-w-3xl mx-auto py-20 text-center font-inter">
         <h2 className="text-2xl font-semibold text-destructive">
           Product Not Found
         </h2>

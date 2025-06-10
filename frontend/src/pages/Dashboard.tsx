@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Bell, CirclePlus } from "lucide-react";
 import { productTypes } from "@/types/product";
 import { useGetAllMessages } from "@/services/contact";
@@ -27,6 +27,7 @@ import Loader from "@/components/shared/Loader";
 /* import Analytics from "@/components/DashBoard/Analytics"; */
 
 const Dashboard: React.FC = () => {
+  const [open, setOpen] = useState<boolean>(false);
   //Fetch contact messages
   const { data: contactData } = useGetAllMessages();
   /* fetch all products */
@@ -40,7 +41,7 @@ const Dashboard: React.FC = () => {
         </h2>
 
         <section className="flex items-center gap-1">
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <Button className="flex items-center gap-2">
                 <CirclePlus className="h-5 w-5" />
@@ -48,7 +49,7 @@ const Dashboard: React.FC = () => {
               </Button>
             </DialogTrigger>
             <DialogContent>
-              <AddProduct />
+              <AddProduct /* open={open} */ onSuccess={() => setOpen(false)} />
             </DialogContent>
           </Dialog>
 
