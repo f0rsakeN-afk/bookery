@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Rating } from "@smastrom/react-rating";
 import { Button } from "../ui/button";
 import { useUpdateReview } from "@/services/reviews";
+import { toast } from "sonner";
 
 interface editReviewProps {
   review: reviewTypes;
@@ -20,7 +21,11 @@ const EditReview = ({ review, onSuccess }: editReviewProps) => {
 
   //@ts-ignore
   const onSubmit = (data) => {
-    console.log(data);
+    /*     console.log(data); */
+    if (!data.text) {
+      toast.error("Please fillup the review input box");
+      return;
+    }
     const dataWithRating = { ...data, rating };
     updateMutation.mutate(
       { id: review._id!, dataWithRating },

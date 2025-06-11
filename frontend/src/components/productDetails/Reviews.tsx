@@ -32,6 +32,7 @@ interface reviewProps {
 }
 
 const Reviews = ({ reviews, id }: reviewProps) => {
+  const [deleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
   const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
   const { reset, register, handleSubmit } = useForm();
 
@@ -167,7 +168,10 @@ const Reviews = ({ reviews, id }: reviewProps) => {
                     </DialogContent>
                   </Dialog>
 
-                  <AlertDialog>
+                  <AlertDialog
+                    open={deleteDialogOpen}
+                    onOpenChange={setIsDeleteDialogOpen}
+                  >
                     <AlertDialogTrigger asChild>
                       <Button size="sm" variant="destructive">
                         <Trash2 className="h-4 w-4 mr-1" />
@@ -194,7 +198,10 @@ const Reviews = ({ reviews, id }: reviewProps) => {
                         <AlertDialogAction
                           disabled={deleteReviewMutation.isPending}
                           onClick={() =>
-                            deleteReviewMutation.mutate({ id: review._id! })
+                            deleteReviewMutation.mutate(
+                              { id: review._id! },
+                              { onSuccess: () => setIsDeleteDialogOpen(false) }
+                            )
                           }
                         >
                           Delete
