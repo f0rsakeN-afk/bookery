@@ -73,6 +73,27 @@ const userSchema = new mongoose.Schema(
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetTokenExpires: Date,
+
+    wishlist: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "products",
+      },
+    ],
+    cart: [
+      {
+        product: {
+          type: mongoose.Schema.ObjectId,
+          ref: "products",
+        },
+        quantity: {
+          type: Number,
+          required: [true, "A product quantity is required"],
+          min: [1, "Product quantity cannot be less than 1"],
+          default: 1,
+        },
+      },
+    ],
   },
   { timestamps: true, versionKey: false }
 );
