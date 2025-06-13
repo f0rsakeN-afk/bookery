@@ -1,9 +1,9 @@
+const mongoose = require("mongoose");
+const User = require("../models/userModel");
 const Product = require("../models/productModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 const APIFeatures = require("../utils/apiFeatures");
-const mongoose = require("mongoose");
-
 
 exports.addProduct = catchAsync(async (req, res, next) => {
   const product = await Product.create(req.body);
@@ -98,9 +98,26 @@ exports.searchProducts = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteProduct = catchAsync(async (req, res, next) => {
-  await Product.findByIdAndDelete(req.params.id);
+  const { id } = req.params;
+
+  const deletedProduct = await Product.findByIdAndDelete(id);
+
+  if (!deletedProduct) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Product not found",
+    });
+  }
+
+  await User.updateMany({ wishlist: id }, { $pull: { wishlist: id } });
+
+  await User.updateMany(
+    { "cart.product": id },
+    { $pull: { cart: { product: id } } }
+  );
+
   res.status(204).json({
     status: "success",
-    data: "Product deleted successfully",
+    data: null,
   });
 });
