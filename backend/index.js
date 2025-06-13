@@ -11,6 +11,7 @@ const productRoute = require("./routes/productRoutes");
 const userRoutes = require("./routes/userRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const wishListRoutes = require("./routes/wishListRoutes");
+const cartRoutes = require("./routes/cartRoutes");
 
 /* app.use(express.json()); */
 app.use(bodyParser.json());
@@ -42,6 +43,7 @@ app.use("/api/v1/contact", contactRoute);
 app.use("/api/v1/product", productRoute);
 app.use("/api/v1/review", reviewRoutes);
 app.use("/api/v1/wishlist", wishListRoutes);
+app.use("/api/v1/cart", cartRoutes);
 
 app.use(globalErrorHandler);
 
