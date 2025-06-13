@@ -3,7 +3,7 @@ import axiosInstance from "./axios";
 import { toast } from "sonner";
 
 async function getWishlist() {
-  const response = await axiosInstance.get(``);
+  const response = await axiosInstance.get(`wishlist/`);
   return response.data;
 }
 
@@ -11,6 +11,7 @@ export function useGetWishlist() {
   return useQuery({
     queryKey: ["wishlist"],
     queryFn: getWishlist,
+    refetchOnWindowFocus: true,
   });
 }
 
