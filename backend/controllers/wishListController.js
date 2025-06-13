@@ -5,7 +5,7 @@ const AppError = require("../utils/appError");
 
 exports.getWishList = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user.id).populate("wishlist");
-  console.log(user.id);
+  /*   console.log(user.id); */
   res.status(200).json({
     status: "success",
     results: user.wishlist.length,
@@ -18,7 +18,7 @@ exports.addToWishlist = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user.id);
 
   if (user.wishlist.includes(productId)) {
-    return next(new AppError("Product already in wishlist"));
+    return next(new AppError("Product already in wishlist", 400));
   }
 
   user.wishlist.push(productId);
