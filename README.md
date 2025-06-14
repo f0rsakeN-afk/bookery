@@ -8,52 +8,50 @@ Project snapshots:https://drive.google.com/drive/folders/1BVJe5mmownInOv-Un6TLoW
 
 🚧 In Development – To be submitted by the end of the semester.
 
-
 ## Route Structure
 
 ### 🔐 User Routes (`/api/users`)
 
-| Method | Endpoint | Description | Authentication | Role |
-|--------|----------|-------------|----------------|------|
-| POST | `/register` | User registration | None | Public |
-| POST | `/login` | User login | None | Public |
-| POST | `/logout` | User logout | None | Public |
-| GET | `/me` | Get current user profile | Required | User/Admin |
-| POST | `/forgetpassword` | Request password reset | None | Public |
-| PATCH | `/newpassword/:token` | Reset password with token | None | Public |
-| GET | `/:id` | Get user details by ID | Required | User/Admin |
-| GET | `/` | Get all users | Required | Admin |
-| PATCH | `/updatepassword` | Update user password | Required | User/Admin |
+| Method | Endpoint              | Description               | Authentication | Role       |
+| ------ | --------------------- | ------------------------- | -------------- | ---------- |
+| POST   | `/register`           | User registration         | None           | Public     |
+| POST   | `/login`              | User login                | None           | Public     |
+| POST   | `/logout`             | User logout               | None           | Public     |
+| GET    | `/me`                 | Get current user profile  | Required       | User/Admin |
+| POST   | `/forgetpassword`     | Request password reset    | None           | Public     |
+| PATCH  | `/newpassword/:token` | Reset password with token | None           | Public     |
+| GET    | `/:id`                | Get user details by ID    | Required       | User/Admin |
+| GET    | `/`                   | Get all users             | Required       | Admin      |
+| PATCH  | `/updatepassword`     | Update user password      | Required       | User/Admin |
 
 ### 🛍️ Product Routes (`/api/products`)
 
-| Method | Endpoint | Description | Authentication | Role |
-|--------|----------|-------------|----------------|------|
-| POST | `/` | Add new product | Required | Admin |
-| GET | `/` | Get all products | Required | User/Admin |
-| GET | `/search` | Search products | Required | User/Admin |
-| GET | `/:id` | Get product by ID | Required | User/Admin |
-| DELETE | `/:id` | Delete product | Required | Admin |
+| Method | Endpoint  | Description       | Authentication | Role       |
+| ------ | --------- | ----------------- | -------------- | ---------- |
+| POST   | `/`       | Add new product   | Required       | Admin      |
+| GET    | `/`       | Get all products  | Required       | User/Admin |
+| GET    | `/search` | Search products   | Required       | User/Admin |
+| GET    | `/:id`    | Get product by ID | Required       | User/Admin |
+| DELETE | `/:id`    | Delete product    | Required       | Admin      |
 
 **Note**: Product creation includes photo upload and resizing functionality.
 
 ### ⭐ Review Routes (`/api/reviews`)
 
-| Method | Endpoint | Description | Authentication | Role |
-|--------|----------|-------------|----------------|------|
-| GET | `/` | Get all reviews | Required | Admin |
-| POST | `/` | Create new review | Required | User |
-| PATCH | `/:id` | Update review | Required | User |
-| DELETE | `/:id` | Delete review | Required | User |
+| Method | Endpoint | Description       | Authentication | Role  |
+| ------ | -------- | ----------------- | -------------- | ----- |
+| GET    | `/`      | Get all reviews   | Required       | Admin |
+| POST   | `/`      | Create new review | Required       | User  |
+| PATCH  | `/:id`   | Update review     | Required       | User  |
+| DELETE | `/:id`   | Delete review     | Required       | User  |
 
 ### 📧 Contact Routes (`/api/contact`)
 
-| Method | Endpoint | Description | Authentication | Role |
-|--------|----------|-------------|----------------|------|
-| POST | `/` | Send contact message | Required | User |
-| GET | `/` | Get all contact messages | Required | Admin |
-| DELETE | `/:id` | Delete contact message | Required | Admin |
-
+| Method | Endpoint | Description              | Authentication | Role  |
+| ------ | -------- | ------------------------ | -------------- | ----- |
+| POST   | `/`      | Send contact message     | Required       | User  |
+| GET    | `/`      | Get all contact messages | Required       | Admin |
+| DELETE | `/:id`   | Delete contact message   | Required       | Admin |
 
 ```
 snapkart
@@ -62,34 +60,46 @@ snapkart
 │  ├─ .env
 │  ├─ controllers
 │  │  ├─ authController.js
+│  │  ├─ cartController.js
 │  │  ├─ contactController.js
 │  │  ├─ errorController.js
+│  │  ├─ orderController.js
 │  │  ├─ productController.js
-│  │  └─ userController.js
+│  │  ├─ reviewController.js
+│  │  ├─ userController.js
+│  │  └─ wishListController.js
 │  ├─ example.env
 │  ├─ index.js
 │  ├─ models
 │  │  ├─ contactModel.js
+│  │  ├─ orderModel.js
+│  │  ├─ paymentModel.js
 │  │  ├─ productModel.js
+│  │  ├─ reviewModel.js
 │  │  └─ userModel.js
 │  ├─ package-lock.json
 │  ├─ package.json
+│  ├─ public
+│  │  └─ product
 │  ├─ routes
+│  │  ├─ cartRoutes.js
 │  │  ├─ contactRoutes.js
+│  │  ├─ orderRoutes.js
 │  │  ├─ productRoutes.js
-│  │  └─ userRoutes.js
+│  │  ├─ reviewRoutes.js
+│  │  ├─ userRoutes.js
+│  │  └─ wishListRoutes.js
 │  ├─ server.js
 │  └─ utils
 │     ├─ apiFeatures.js
 │     ├─ appError.js
 │     ├─ catchAsync.js
-│     └─ email.js
+│     ├─ email.js
+│     └─ multer.js
 └─ frontend
    ├─ .env.development
    ├─ .env.production
    ├─ README.md
-   ├─ components
-   │  └─ ProductDetails.tsx
    ├─ components.json
    ├─ eslint.config.js
    ├─ example.env
@@ -102,6 +112,7 @@ snapkart
    │  ├─ assets
    │  │  ├─ about.webp
    │  │  ├─ about2.webp
+   │  │  ├─ appBanner.webp
    │  │  ├─ banner1.webp
    │  │  ├─ banner2.webp
    │  │  ├─ banner3.webp
@@ -126,6 +137,7 @@ snapkart
    │  │  ├─ hero4.webp
    │  │  ├─ icon-small.png
    │  │  ├─ logo.webp
+   │  │  ├─ qrcode.svg
    │  │  ├─ stripe.webp
    │  │  ├─ testimonial1.webp
    │  │  ├─ testimonial2.webp
@@ -133,10 +145,14 @@ snapkart
    │  │  ├─ testimonial4.webp
    │  │  └─ testimonial5.webp
    │  ├─ components
+   │  │  ├─ Analytics
+   │  │  │  └─ Chart.tsx
    │  │  ├─ DashBoard
    │  │  │  ├─ AddProduct.tsx
    │  │  │  ├─ Analytics.tsx
    │  │  │  ├─ DashBoardTableItems.tsx
+   │  │  │  ├─ EditProduct.tsx
+   │  │  │  ├─ EditProductLoader.tsx
    │  │  │  └─ Notifications.tsx
    │  │  ├─ Footer
    │  │  │  ├─ Footer.tsx
@@ -146,6 +162,7 @@ snapkart
    │  │  │  ├─ HeaderTop.tsx
    │  │  │  └─ Navbar.tsx
    │  │  ├─ Home
+   │  │  │  ├─ AppBanner.tsx
    │  │  │  ├─ Hero.tsx
    │  │  │  ├─ ImageSlider.tsx
    │  │  │  ├─ PaymentMethods.tsx
@@ -158,10 +175,18 @@ snapkart
    │  │  ├─ cart
    │  │  │  ├─ CartItems.tsx
    │  │  │  ├─ Cartheader.tsx
-   │  │  │  └─ EmptyCart.tsx
-   │  │  ├─ productDetails
-   │  │  │  ├─ ExtraInfo.tsx
+   │  │  │  ├─ EmptyCart.tsx
    │  │  │  └─ Loader.tsx
+   │  │  ├─ orders
+   │  │  │  ├─ EditOrder.tsx
+   │  │  │  └─ Loader.tsx
+   │  │  ├─ productDetails
+   │  │  │  ├─ EditReview.tsx
+   │  │  │  ├─ ExtraInfo.tsx
+   │  │  │  ├─ Loader.tsx
+   │  │  │  ├─ Placeholder.tsx
+   │  │  │  ├─ Reviews.tsx
+   │  │  │  └─ StarRating.tsx
    │  │  ├─ profile
    │  │  │  ├─ PasswordForm.tsx
    │  │  │  └─ UserDetailsForm.tsx
@@ -173,16 +198,19 @@ snapkart
    │  │  │  ├─ ProductTile.tsx
    │  │  │  ├─ ProtectedRoute.tsx
    │  │  │  ├─ PublicRoute.tsx
-   │  │  │  └─ ScrollToTop.tsx
+   │  │  │  ├─ ScrollToTop.tsx
+   │  │  │  └─ UserOnlyRoute.tsx
    │  │  ├─ ui
    │  │  │  ├─ AceternityTabs.tsx
    │  │  │  ├─ DraggableCard.tsx
    │  │  │  ├─ alert-dialog.tsx
+   │  │  │  ├─ alert.tsx
    │  │  │  ├─ avatar.tsx
    │  │  │  ├─ badge.tsx
    │  │  │  ├─ button.tsx
    │  │  │  ├─ card.tsx
    │  │  │  ├─ carousel.tsx
+   │  │  │  ├─ chart.tsx
    │  │  │  ├─ dialog.tsx
    │  │  │  ├─ dropdown-menu.tsx
    │  │  │  ├─ form.tsx
@@ -202,8 +230,11 @@ snapkart
    │  │  │  ├─ testimonial.tsx
    │  │  │  ├─ textarea.tsx
    │  │  │  └─ tooltip.tsx
+   │  │  ├─ users
+   │  │  │  └─ Loader.tsx
    │  │  └─ wishlist
    │  │     ├─ EmptyWishlist.tsx
+   │  │     ├─ WishListLoader.tsx
    │  │     ├─ WishlistHeader.tsx
    │  │     └─ WishlistItems.tsx
    │  ├─ context
@@ -218,6 +249,7 @@ snapkart
    │  ├─ pages
    │  │  ├─ About.tsx
    │  │  ├─ AllProducts.tsx
+   │  │  ├─ Analytics.tsx
    │  │  ├─ Cart.tsx
    │  │  ├─ Contact.tsx
    │  │  ├─ Dashboard.tsx
@@ -225,12 +257,14 @@ snapkart
    │  │  ├─ Home.tsx
    │  │  ├─ Login.tsx
    │  │  ├─ NewPassword.tsx
+   │  │  ├─ Orders.tsx
    │  │  ├─ PageNotFound.tsx
    │  │  ├─ PrivacyPolicy.tsx
    │  │  ├─ ProductDetails.tsx
    │  │  ├─ Profile.tsx
    │  │  ├─ Register.tsx
    │  │  ├─ Search.tsx
+   │  │  ├─ Users.tsx
    │  │  └─ Wishlist.tsx
    │  ├─ services
    │  │  ├─ auth.ts
@@ -242,18 +276,22 @@ snapkart
    │  │  ├─ payment.ts
    │  │  ├─ product.ts
    │  │  ├─ productList.ts
+   │  │  ├─ reviews.ts
    │  │  ├─ search.ts
    │  │  ├─ user.ts
    │  │  └─ wishlist.ts
    │  ├─ types
    │  │  ├─ auth.ts
    │  │  ├─ contact.ts
+   │  │  ├─ dashboard.ts
    │  │  ├─ filter.ts
    │  │  ├─ product.ts
+   │  │  ├─ review.ts
    │  │  └─ user.ts
    │  ├─ utils
    │  │  ├─ ImageExports.ts
-   │  │  └─ config.ts
+   │  │  ├─ config.ts
+   │  │  └─ maskEmail.ts
    │  └─ vite-env.d.ts
    ├─ tsconfig.app.json
    ├─ tsconfig.json
