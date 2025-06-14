@@ -13,6 +13,9 @@ import ProductExtraInfo from "@/components/productDetails/ExtraInfo";
 import Reviews from "@/components/productDetails/Reviews";
 import Placeholder from "@/components/productDetails/Placeholder";
 import { useAuth } from "@/context/AuthContext";
+import { useAddToCart } from "@/services/cart";
+import { useAddToWishlist } from "@/services/wishlist";
+import { add } from "date-fns";
 
 // Animation config
 const fadeUp = {
@@ -37,6 +40,10 @@ const ProductDetails = () => {
       toast.error("No product ID provided in the URL.");
     }
   }, [id]);
+
+  const addToCartMutation = useAddToCart();
+  const addToWishlistMutation = useAddToWishlist();
+
   const { user } = useAuth();
 
   const {
@@ -61,6 +68,7 @@ const ProductDetails = () => {
   }
 
   const product = productData.data;
+  /*   console.log(product) */
   const isProductAvailable = Number(product.quantity) > 0;
 
   const handleQuantityChange = (type: "increase" | "decrease") => {
@@ -74,11 +82,14 @@ const ProductDetails = () => {
   };
 
   const handleAddToCart = () => {
-    toast.success(`${product.title} added to cart!`);
+    addToCartMutation.mutate({
+      productId: product.id!,
+      quantity: cartQuantity,
+    });
   };
 
   const handleToggleWishlist = () => {
-    toast.info("Wishlist toggled!");
+    addToWishlistMutation.mutate({ productId: product.id! });
   };
 
   return (
@@ -191,7 +202,11 @@ const ProductDetails = () => {
             <Button
               className="flex-1 gap-2"
               onClick={handleAddToCart}
-              disabled={!isProductAvailable || user?.role === "admin"}
+              disabled={
+                !isProductAvailable ||
+                user?.role === "admin" ||
+                addToCartMutation.isPending
+              }
             >
               <ShoppingCart className="w-4 h-4" />
               Add to Cart
@@ -199,7 +214,11 @@ const ProductDetails = () => {
             <Button
               variant="outline"
               onClick={handleToggleWishlist}
-              disabled={!isProductAvailable || user?.role === "admin"}
+              disabled={
+                !isProductAvailable ||
+                user?.role === "admin" ||
+                addToWishlistMutation.isPending
+              }
               className="text-red-500 gap-2"
             >
               <Heart className="w-4 h-4 fill-current" />
