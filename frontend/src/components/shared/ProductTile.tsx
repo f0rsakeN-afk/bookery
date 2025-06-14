@@ -3,12 +3,20 @@ import { cn } from "@/lib/utils";
 import { ShoppingCart, Heart } from "lucide-react";
 import { Button } from "../ui/button";
 import { productTypes } from "@/types/product";
+import { useAddToCart } from "@/services/cart";
+import { useAddToWishlist } from "@/services/wishlist";
+import { useAuth } from "@/context/AuthContext";
 
 interface productTileProps {
   el: productTypes;
 }
 
 const ProductTile = ({ el }: productTileProps) => {
+  const addToCartMutation = useAddToCart();
+  const addToWishlistMutation = useAddToWishlist();
+
+  const { user } = useAuth();
+
   return (
     <div className="group w-full flex flex-col space-y-3 hover:shadow-lg rounded-xl p-3 transition-all duration-300 border ">
       <NavLink
@@ -46,6 +54,12 @@ const ProductTile = ({ el }: productTileProps) => {
         <Button
           variant="default"
           size="sm"
+          disabled={
+            user?.role === "admin" ||
+            addToWishlistMutation.isPending ||
+            addToCartMutation.isPending
+          }
+          onClick={() => addToCartMutation.mutate({ productId: el._id! })}
           className="flex-1 text-xs flex items-center gap-1 justify-center"
         >
           <ShoppingCart className="w-4 h-4" />
@@ -54,6 +68,12 @@ const ProductTile = ({ el }: productTileProps) => {
         <Button
           variant="outline"
           size="icon"
+          disabled={
+            user?.role === "admin" ||
+            addToWishlistMutation.isPending ||
+            addToCartMutation.isPending
+          }
+          onClick={() => addToWishlistMutation.mutate({ productId: el.id! })}
           className={cn("h-8 w-8", "hover:text-red-500 hover:border-red-500")}
         >
           <Heart className="h-4 w-4" />
