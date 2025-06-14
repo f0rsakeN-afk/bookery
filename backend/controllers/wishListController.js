@@ -32,10 +32,12 @@ exports.addToWishlist = catchAsync(async (req, res, next) => {
 
 exports.removeFromWishlist = catchAsync(async (req, res, next) => {
   const { productId } = req.params;
+  /*   console.log(productId); */
   const user = await User.findById(req.user.id);
 
-  user.wishlist = user.wishlist.filter((item) => item.toString() !== productId);
-
+  user.wishlist = user.wishlist.filter(
+    (item) => item && item.toString() !== productId
+  );
   await user.save();
 
   res.status(200).json({

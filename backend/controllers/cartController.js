@@ -15,7 +15,7 @@ exports.getMyCart = catchAsync(async (req, res, next) => {
 exports.addToCart = catchAsync(async (req, res, next) => {
   const { productId, quantity } = req.body;
 
-  if (!productId || !quantity)
+  if (!productId)
     return next(new AppError("Please provide productId & quantity", 400));
 
   const user = await User.findById(req.user.id);
@@ -43,6 +43,7 @@ exports.addToCart = catchAsync(async (req, res, next) => {
 exports.updateCartItem = catchAsync(async (req, res, next) => {
   const { productId } = req.params;
   const { quantity } = req.body;
+  /*   console.log(productId, quantity); */
   const user = await User.findById(req.user.id);
 
   const item = user.cart.find((item) => item.product.toString() === productId);
@@ -60,6 +61,7 @@ exports.updateCartItem = catchAsync(async (req, res, next) => {
 
 exports.removeFromCart = catchAsync(async (req, res, next) => {
   const { productId } = req.params;
+  /*   console.log(productId.toString()); */
   if (!productId)
     return next(
       new AppError(
@@ -70,7 +72,13 @@ exports.removeFromCart = catchAsync(async (req, res, next) => {
 
   const user = await User.findById(req.user.id);
 
-  user.cart = user.cart.filter((item) => item.product.toString() !== productId);
+  /*  console.log(user.cart); */
+
+  user.cart = user.cart.filter(
+    (item) => item.product && item.product.toString() !== productId.toString()
+  );
+
+  /*  console.log(user.cart); */
   await user.save();
 
   res.status(200).json({
