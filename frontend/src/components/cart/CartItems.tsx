@@ -20,8 +20,12 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import { Button } from "../ui/button";
+import { useRemoveFromCart, useUpdateCartQuantity } from "@/services/cart";
 
 const CartItems = ({ items }) => {
+  const removeFromCartMutation = useRemoveFromCart();
+  const updateCartQuantityMutation = useUpdateCartQuantity();
+
   return (
     <div className="rounded-md border overflow-x-auto">
       <Table className="min-w-[600px] font-inter">
@@ -35,41 +39,67 @@ const CartItems = ({ items }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {items.map((el, index) => (
+          {items.map((el, index: number) => (
             <motion.tr
-              key={el.id}
+              key={el.id || index}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: index * 0.1 }}
-              className="group hover:bg-muted/50"
+              className="group hover:bg-muted/50 "
             >
               <TableCell>
                 <img
-                  src={el.image}
-                  alt={el.title}
-                  className="w-full max-w-[160px] aspect-[3/2] object-cover rounded"
+                  src={el.product.image}
+                  loading="lazy"
+                  alt={el.product.title}
+                  className="w-full xl:max-w-[160px]  aspect-[3/2] object-cover rounded"
                 />
               </TableCell>
               <TableCell>
-                <p className="font-medium">{el.title}</p>
+                <p className="font-medium">{el.product.title}</p>
               </TableCell>
               <TableCell>
-                <h2 className="font-medium">Rs.{el.price.toFixed(2)}</h2>
+                <h2 className="font-medium">
+                  Rs.{el.product.priceAfterDiscount?.toFixed(2)}
+                </h2>
               </TableCell>
               <TableCell className="">
                 <div className="flex items-center gap-2">
-                  <Button variant={"outline"}>
+                  <Button
+                    variant={"outline"}
+                    disabled={
+                      el.quantity <= 1 || updateCartQuantityMutation.isPending
+                    }
+                    onClick={() => {
+                      updateCartQuantityMutation.mutate({
+                        productId: el.product.id,
+                        quantity: el.quantity - 1,
+                      });
+                    }}
+                  >
                     <Minus className="h-4 w-4" />
                   </Button>
                   <h2 className="font-medium">{el.quantity}</h2>{" "}
-                  <Button variant={"outline"}>
+                  <Button
+                    variant={"outline"}
+                    disabled={
+                      updateCartQuantityMutation.isPending ||
+                      el.quantity === el.product.quantity
+                    }
+                    onClick={() => {
+                      updateCartQuantityMutation.mutate({
+                        productId: el.product.id,
+                        quantity: el.quantity + 1,
+                      });
+                    }}
+                  >
                     <Plus className="h-4 w-4" />
                   </Button>
                 </div>
               </TableCell>
               <TableCell>
                 <AlertDialog>
-                  <AlertDialogTrigger>
+                  <AlertDialogTrigger asChild>
                     <Button variant={"destructive"} size={"sm"}>
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -85,8 +115,23 @@ const CartItems = ({ items }) => {
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction>Continue</AlertDialogAction>
+                      <AlertDialogCancel
+                        disabled={removeFromCartMutation.isPending}
+                      >
+                        Cancel
+                      </AlertDialogCancel>
+                      <AlertDialogAction
+                        disabled={removeFromCartMutation.isPending}
+                        onClick={() =>
+                          removeFromCartMutation.mutate({
+                            productId: el.product.id,
+                          })
+                        }
+                      >
+                        {removeFromCartMutation.isPending
+                          ? "Deleting"
+                          : "Continue"}
+                      </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
