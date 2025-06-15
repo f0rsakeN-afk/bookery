@@ -20,3 +20,24 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
     data: users,
   });
 });
+
+exports.updateUser = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const { phone, location, bio, occupation, company, timeZone, language } =
+    req.body;
+
+  /*     console.log(phone, location, bio, occupation, company, timeZone, language) */
+  const updatedUser = await User.findByIdAndUpdate(
+    id,
+    { phone, location, bio, occupation, company, timeZone, language },
+    { new: true, runValidators: true, useFindAndModify: false }
+  );
+
+  if (!updatedUser) return next(new AppError("User not found", 404));
+
+  res.status(200).json({
+    status: "success",
+    message: "User updated successfully",
+    data: updatedUser,
+  });
+});

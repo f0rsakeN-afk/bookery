@@ -79,7 +79,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-/*   console.log(decoded); */
+  /*   console.log(decoded); */
 
   const freshUser = await User.findById(decoded.id);
   /*   console.log(freshUser); */
@@ -181,11 +181,19 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 exports.updatePassword = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.params.id).select("+password");
 
-  if (!(await user.correctPassword(req.body.password, user.password))) {
+  const { currentPassword, password, passwordConfirm } = req.body;
+
+  if (!(await user.correctPassword(currentPassword, user.password))) {
     return next(new AppError("Your current password is wrong", 401));
   }
 
-  user.password = req.body.password;
+  if (password !== passwordConfirm) {
+    return next(
+      new AppError("New password and confirmation do not match", 400)
+    );
+  }
+
+  user.password = password;
   await user.save();
 
   createSendToken(user, 200, res, "Password updated successfully");
@@ -197,7 +205,6 @@ exports.getMe = catchAsync(async (req, res, next) => {
     data: req.user,
   });
 });
-
 
 exports.logout = catchAsync(async (req, res) => {
   res.cookie("jwt", "loggedout", {
