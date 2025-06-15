@@ -1,4 +1,11 @@
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
+import { NavLink } from "react-router-dom";
+import {
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  AreaChart,
+  Area,
+} from "recharts";
 import {
   Card,
   CardContent,
@@ -13,24 +20,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "../ui/chart";
-import { NavLink } from "react-router-dom";
+import { useGetSalesAnalytics } from "@/services/analytics";
 
-/* dummy data ho la */
-export const salesData = [
-  { date: "2025-05-21", sales: 1200 },
-  { date: "2025-05-22", sales: 90 },
-  { date: "2025-05-23", sales: 140 },
-  { date: "2025-05-24", sales: 2000 },
-  { date: "2025-05-25", sales: 160 },
-  { date: "2025-05-26", sales: 1800 },
-  { date: "2025-05-27", sales: 2400 },
-  { date: "2025-05-28", sales: 170 },
-  { date: "2025-05-29", sales: 150 },
-  { date: "2025-05-30", sales: 210 },
-  { date: "2025-05-31", sales: 250 },
-];
-
-const AnalyticsLineChart = () => {
+const AnalyticsAreaChart = () => {
   const chartConfig = {
     sales: {
       label: "Sales",
@@ -38,8 +30,24 @@ const AnalyticsLineChart = () => {
     },
   } satisfies ChartConfig;
 
+  const { data, isLoading, isError } = useGetSalesAnalytics();
+
+  if (isLoading) return <h2 className="text-center py-10">Loading...</h2>;
+
+  if (isError || !data || !Array.isArray(data.data)) {
+    return (
+      <div className="text-center py-10 text-destructive">
+        Failed to load sales data.
+      </div>
+    );
+  }
+
+  const salesData = data.data;
+  const startDate = salesData?.[0]?.date || "N/A";
+  const endDate = salesData?.[salesData.length - 1]?.date || "N/A";
+
   return (
-    <div className="container mx-auto max-w-6xl px-2 xl:px-0 my-6  xl:my-16">
+    <div className="container mx-auto max-w-6xl px-2 xl:px-0 my-6 xl:my-16">
       <section className="flex justify-end pb-2">
         <NavLink
           to="/users"
@@ -50,19 +58,16 @@ const AnalyticsLineChart = () => {
       </section>
       <Card className="font-inter">
         <CardHeader>
-          <CardTitle>Sales Line Chart</CardTitle>
-          <CardDescription>May 21 - May 31, 2025</CardDescription>
+          <CardTitle>Sales Area Chart</CardTitle>
+          <CardDescription>
+            {startDate} - {endDate}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig}>
-            <LineChart
+            <AreaChart
               data={salesData}
-              margin={{
-                top: 20,
-                right: 20,
-                left: 0,
-                bottom: 0,
-              }}
+              margin={{ top: 20, right: 20, left: 0, bottom: 0 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
@@ -70,26 +75,28 @@ const AnalyticsLineChart = () => {
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
-                tickFormatter={(value) => value.slice(5)}
+                tickFormatter={(value) => value.slice(5)} 
               />
               <YAxis tickLine={false} axisLine={false} />
               <ChartTooltip
                 cursor={{ strokeDasharray: "3 3" }}
                 content={<ChartTooltipContent hideLabel={false} />}
               />
-              <Line
+              <Area
                 type="monotone"
                 dataKey="sales"
                 stroke="var(--color-sales)"
+                fill="var(--color-sales)"
+                fillOpacity={0.3}
                 strokeWidth={2}
                 dot={{ r: 3 }}
               />
-            </LineChart>
+            </AreaChart>
           </ChartContainer>
         </CardContent>
         <CardFooter className="flex-col items-start gap-2 text-sm">
           <div className="text-muted-foreground leading-none">
-            Showing total sales for the last 11 days
+            Showing total sales for the last {salesData.length} days
           </div>
         </CardFooter>
       </Card>
@@ -97,4 +104,4 @@ const AnalyticsLineChart = () => {
   );
 };
 
-export default AnalyticsLineChart;
+export default AnalyticsAreaChart;
