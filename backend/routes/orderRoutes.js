@@ -11,9 +11,17 @@ router.get(
   orderController.getMyOrders
 );
 
+router.post(
+  "/",
+  authController.restrictTo("user"),
+  orderController.createOrder
+);
+
 router.use(authController.restrictTo("admin"));
 
-router.patch("/:productId", orderController.updateOrderStatus);
+router.patch("/:orderId", orderController.updateOrderStatus);
+
+router.get("/analytics", orderController.getAnalytics);
 
 router.get("/", orderController.getAllOrders);
 
