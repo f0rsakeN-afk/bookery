@@ -153,7 +153,7 @@ const Navbar = ({ hasScrolled }: NavbarProps) => {
 
               <div className="flex flex-col gap-2 p-4">
                 <div className="flex items-center justify-between gap-3 p-4 bg-secondary rounded-lg">
-                  <div className="flex items-center gap-3 capitalize">
+                  <NavLink to={'profile'} className="flex items-center gap-3 capitalize">
                     <Avatar>
                       <AvatarFallback>
                         {contextUser?.name.charAt(0)}
@@ -177,7 +177,7 @@ const Navbar = ({ hasScrolled }: NavbarProps) => {
                         {contextUser?.role}
                       </span>
                     </div>
-                  </div>
+                  </NavLink>
                   <Button
                     variant="ghost"
                     size="icon"
