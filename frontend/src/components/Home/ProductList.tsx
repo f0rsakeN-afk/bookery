@@ -6,10 +6,16 @@ import ProductListSkeleton from "./ProductListSkeleton";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useGetAllProducts } from "@/services/productList";
 import { useAuth } from "@/context/AuthContext";
+import { useAddToWishlist } from "@/services/wishlist";
+import { useAddToCart } from "@/services/cart";
 
 const ProductList = () => {
   const { data: productData, isLoading, isError } = useGetAllProducts();
   const { user } = useAuth();
+
+  const addToWishlistMutation = useAddToWishlist();
+  const addToCartMutation = useAddToCart();
+
   if (isLoading) return <ProductListSkeleton />;
   if (isError)
     return (
@@ -65,7 +71,14 @@ const ProductList = () => {
                 <div className="flex gap-2 mt-auto">
                   <Button
                     variant="default"
-                    disabled={user?.role === "admin"}
+                    disabled={
+                      user?.role === "admin" ||
+                      addToWishlistMutation.isPending ||
+                      addToCartMutation.isPending
+                    }
+                    onClick={() =>
+                      addToCartMutation.mutate({ productId: el._id! })
+                    }
                     size="sm"
                     className="flex-1 text-xs items-center"
                   >
@@ -74,7 +87,14 @@ const ProductList = () => {
                   <Button
                     variant="outline"
                     size="icon"
-                    disabled={user?.role === "admin"}
+                    disabled={
+                      user?.role === "admin" ||
+                      addToWishlistMutation.isPending ||
+                      addToCartMutation.isPending
+                    }
+                    onClick={() =>
+                      addToWishlistMutation.mutate({ productId: el.id! })
+                    }
                     className={cn(
                       "h-8 w-8",
                       "hover:text-red-500 hover:border-red-500"
