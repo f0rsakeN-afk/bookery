@@ -21,8 +21,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import { useRemoveFromWishlist } from "@/services/wishlist";
+import { NavLink } from "react-router-dom";
 
 const WishlistTable = ({ items }) => {
+  const deleteMutation = useRemoveFromWishlist();
   return (
     <div className="rounded-md border overflow-x-auto">
       <Table className="min-w-[700px] font-inter">
@@ -53,23 +56,25 @@ const WishlistTable = ({ items }) => {
                 />
               </TableCell>
               <TableCell>
-                <div>
+                <NavLink to={`/productDetails/${item.id}`}>
                   <p className="font-medium">{item.title}</p>
-                  <p className="text-xs text-muted-foreground">{item.author}</p>
-                </div>
+                  {/* <p className="text-xs text-muted-foreground">{item.author}</p> */}
+                </NavLink>
               </TableCell>
               <TableCell>
-                <div className="font-medium">${item.price.toFixed(2)}</div>
+                <div className="font-medium">
+                  Rs.{item.priceAfterDiscount.toFixed(2)}
+                </div>
               </TableCell>
               <TableCell>
                 <Badge
                   className={`${
-                    item.inStock
+                    item.quantity > 10
                       ? "text-green-600 bg-green-50 dark:bg-gray-900"
                       : "text-red-600 bg-red-50 dark:bg-gray-900"
                   } px-2 py-1 rounded-full text-sm`}
                 >
-                  {item.inStock ? "In Stock" : "Out of Stock"}
+                  {item.quantity > 10 ? "In Stock" : "Out of Stock"}
                 </Badge>
               </TableCell>
               <TableCell className="text-right">
@@ -77,24 +82,18 @@ const WishlistTable = ({ items }) => {
                   <Button
                     variant="default"
                     size="sm"
-                    disabled={!item.inStock}
+                    disabled={!item.quantity}
                     onClick={() => {
                       /* Handle add to cart */
                     }}
                   >
-                    <ShoppingCart className="h-4 w-4 mr-2" />
-                    Add to Cart
+                    <ShoppingCart className="h-4 w-4" />
+                    {/*       Add to Cart */}
                   </Button>
 
                   <AlertDialog>
-                    <AlertDialogTrigger>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => {
-                          /* Handle remove */
-                        }}
-                      >
+                    <AlertDialogTrigger asChild>
+                      <Button variant="destructive" size="sm">
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </AlertDialogTrigger>
@@ -110,8 +109,17 @@ const WishlistTable = ({ items }) => {
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction>Continue</AlertDialogAction>
+                        <AlertDialogCancel disabled={deleteMutation.isPending}>
+                          Cancel
+                        </AlertDialogCancel>
+                        <AlertDialogAction
+                          disabled={deleteMutation.isPending}
+                          onClick={() => {
+                            deleteMutation.mutate({ productId: item._id });
+                          }}
+                        >
+                          {deleteMutation.isPending ? "Deleting" : "Continue"}
+                        </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
