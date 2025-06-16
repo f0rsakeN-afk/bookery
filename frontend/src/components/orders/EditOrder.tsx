@@ -1,9 +1,5 @@
 import { useForm, Controller } from "react-hook-form";
-import {
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "../ui/dialog";
+import { DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
@@ -14,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { useUpdateStatus } from "@/services/Order";
 
 interface EditOrderProps {
   onSuccess: () => void;
@@ -51,16 +48,24 @@ const EditOrder = ({
   orderStatus,
   paymentStatus,
 }: EditOrderProps) => {
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       orderStatus,
       paymentStatus,
     },
   });
 
+  const updateOrderMutation = useUpdateStatus();
+
   const onSubmit = (data: any) => {
-    const dataWithId = { ...data, productId: id };
-    console.log(dataWithId);
+    const dataWithId = { ...data, orderId: id };
+
+    updateOrderMutation.mutate(dataWithId, {
+      onSuccess: () => {
+        reset();
+        onSuccess();
+      },
+    });
   };
 
   return (
@@ -82,7 +87,11 @@ const EditOrder = ({
             name="orderStatus"
             control={control}
             render={({ field }) => (
-              <Select onValueChange={field.onChange} value={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                value={field.value}
+                disabled={updateOrderMutation.isPending}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Please select an order status" />
                 </SelectTrigger>
@@ -104,7 +113,11 @@ const EditOrder = ({
             name="paymentStatus"
             control={control}
             render={({ field }) => (
-              <Select onValueChange={field.onChange} value={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                value={field.value}
+                disabled={updateOrderMutation.isPending}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Please select payment status" />
                 </SelectTrigger>
@@ -120,8 +133,12 @@ const EditOrder = ({
           />
         </div>
 
-        <Button type="submit" className="w-full">
-          Save Changes
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={updateOrderMutation.isPending}
+        >
+          {updateOrderMutation.isPending ? "Saving" : "Save Changes"}
         </Button>
       </form>
     </div>
