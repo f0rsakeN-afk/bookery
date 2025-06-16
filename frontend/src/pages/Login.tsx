@@ -85,7 +85,7 @@ const Login: React.FC = () => {
             />
           </div>
 
-          <div className="relative mt-8">
+          <div className="relative mt-8 hidden md:block">
             <p className="text-white/80 text-sm ">
               Join millions of satisfied customers shopping with confidence
             </p>
