@@ -25,7 +25,7 @@ const WishlistHeader = ({ itemCount }: WishlistHeaderProps) => {
           itemCount === 0 ? "hidden" : "block"
         )}
       >
-        {itemCount} items
+        {itemCount} {itemCount === 1 ? "item" : "items"}
       </p>
     </motion.div>
   );

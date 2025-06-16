@@ -30,6 +30,7 @@ const AllProducts = lazy(() => import("./pages/AllProducts"));
 const Orders = lazy(() => import("./pages/Orders"));
 const Analytics = lazy(() => import("./pages/Analytics"));
 const Users = lazy(() => import("./pages/Users"));
+const Checkout = lazy(() => import("./pages/Checkout"));
 
 const App = () => {
   const queryClient = new QueryClient({
@@ -65,6 +66,14 @@ const App = () => {
                     <UserOnlyRoute>
                       <Cart />
                     </UserOnlyRoute>
+                  }
+                />
+                <Route
+                  path="/checkout"
+                  element={
+                    <ProtectedRoute>
+                      <Checkout />
+                    </ProtectedRoute>
                   }
                 />
                 <Route path="/Search" element={<Search />} />

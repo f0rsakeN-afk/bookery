@@ -11,7 +11,7 @@ const EmptyWishlist = () => {
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="text-center py-16 flex flex-col items-center"
+      className="text-center py-16 flex flex-col items-center font-inter"
     >
       {/* <Heart className="h-16 w-16 mx-auto mb-4  font-inter animate-pulse duration-75 text-red-500" /> */}
       <img src={empty_wishlist} alt="empty-wishlist" className="h-64 p-3" />
