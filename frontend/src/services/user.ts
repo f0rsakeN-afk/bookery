@@ -1,7 +1,7 @@
 import axiosInstance from "./axios";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   NewPasswordProps,
   NewPasswordResponse,
@@ -78,12 +78,14 @@ export function useNewPassword() {
 }
 
 async function updatePassword({
-  data,
+  password,
+  currentPassword,
+  passwordConfirm,
   id,
 }: updatePasswordProps): Promise<updatePasswordResponse> {
-  const response = await axiosInstance.post<updatePasswordResponse>(
+  const response = await axiosInstance.patch<updatePasswordResponse>(
     `/users/updatepassword/${id}`,
-    data
+    { password, currentPassword, passwordConfirm }
   );
   return response.data;
 }
@@ -95,7 +97,46 @@ export function useUpdatePassword() {
       toast.message(data.message || "Password updated successfully");
     },
     onError: (error) => {
+      console.log(error);
       toast.error(error.message || "Failed to update password");
+    },
+  });
+}
+
+async function updateUserInfo({
+  id,
+  data,
+}: {
+  id: string;
+  data: {
+    phone: string;
+    location: string;
+    bio: string;
+    occupation: string;
+    company: string;
+    timeZone: string;
+    language: string;
+  };
+}) {
+  const response = await axiosInstance.patch(`/users/updateme/${id}`, data);
+  return response.data;
+}
+
+export function useUpdateUserInfo() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: updateUserInfo,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["allusers"] });
+      queryClient.invalidateQueries({
+        queryKey: ["userDetails"],
+        exact: false,
+      });
+      toast.success(data.message);
+    },
+    onError: (error) => {
+      /*       console.log(error); */
+      toast.error(error.message);
     },
   });
 }
