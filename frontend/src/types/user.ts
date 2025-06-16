@@ -2,9 +2,10 @@ import { dataProps } from "./auth";
 
 /* Update password*/
 export interface updatePasswordProps {
-  oldPassword: string;
-  newPassword: string;
-  newPassword2: string;
+  id:string;
+  password: string;
+  currentPassword: string;
+  passwordConfirm: string;
 }
 
 export interface updatePasswordResponse {
