@@ -11,10 +11,10 @@ export interface addReviewProps {
   dataWithReview: {
     text: string;
     rating: number;
-    user: string;
+    user: string | undefined;
     product: string;
-    createdAt: string;
-    updatedAt: string;
+    createdAt?: string;
+    updatedAt?: string;
   };
 }
 
