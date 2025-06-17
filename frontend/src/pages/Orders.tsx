@@ -8,15 +8,14 @@ import { motion } from "motion/react";
 import { Pencil } from "lucide-react";
 import { format } from "date-fns";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { DialogTrigger } from "@radix-ui/react-dialog";
 import EditOrder from "@/components/orders/EditOrder";
 import { maskEmail } from "@/utils/maskEmail";
 import OrderCardSkeleton from "@/components/orders/Loader";
 import { useGetAllOrders } from "@/services/Order";
+import { Order } from "@/types/orderAdmin";
 
 const Orders: React.FC = () => {
-  const [openEditDialog, setOpenEditDialog] = useState<boolean>(false);
-
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const { data, isLoading, isError } = useGetAllOrders();
 
   return (
@@ -25,7 +24,7 @@ const Orders: React.FC = () => {
         All Orders
       </h2>
 
-      <ScrollArea className="h-[80dvh] ">
+      <ScrollArea className="h-[80dvh]">
         <div className="space-y-4">
           {isLoading ? (
             Array.from({ length: 2 }).map((_, idx) => (
@@ -35,7 +34,7 @@ const Orders: React.FC = () => {
             <p className="text-center text-red-500">Error loading orders</p>
           ) : (
             data.data &&
-            data.data.map((order) => (
+            data.data.map((order: Order) => (
               <motion.div
                 key={order._id}
                 initial={{ opacity: 0, y: 30 }}
@@ -68,24 +67,13 @@ const Orders: React.FC = () => {
                       </div>
                     </div>
 
-                    <Dialog
-                      open={openEditDialog}
-                      onOpenChange={setOpenEditDialog}
+                    <Button
+                      variant="outline"
+                      size={"icon"}
+                      onClick={() => setSelectedOrder(order)}
                     >
-                      <DialogTrigger asChild>
-                        <Button variant="outline" size={"icon"}>
-                          <Pencil className="w-4 h-4" />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="w-[400px]">
-                        <EditOrder
-                          onSuccess={() => setOpenEditDialog(false)}
-                          id={order._id}
-                          orderStatus={order.orderStatus}
-                          paymentStatus={order.paymentStatus}
-                        />
-                      </DialogContent>
-                    </Dialog>
+                      <Pencil className="w-4 h-4" />
+                    </Button>
                   </CardHeader>
 
                   <CardContent>
@@ -96,7 +84,7 @@ const Orders: React.FC = () => {
                         {order.user.name} (
                         <span className="text-muted-foreground text-xs">
                           {maskEmail(order.user.email)}
-                        </span>{" "}
+                        </span>
                         )
                       </p>
                       <p className="text-muted-foreground text-xs">
@@ -105,13 +93,13 @@ const Orders: React.FC = () => {
                       </p>
                     </div>
 
-                    <h4 className="font-medium mb-1  text-primary/90">
+                    <h4 className="font-medium mb-1 text-primary/90">
                       Products
                     </h4>
                     <div className="space-y-2">
-                      {order.products.map((item, i) => (
+                      {order.products.map((item, i: number) => (
                         <React.Fragment key={i}>
-                          <div className="flex items-center gap-4 ">
+                          <div className="flex items-center gap-4">
                             <img
                               src={item.product.image}
                               alt={item.product.title}
@@ -122,11 +110,11 @@ const Orders: React.FC = () => {
                                 {item.product.title}
                               </p>
                               <p className="text-sm text-muted-foreground">
-                                Rs.{item.product.price} × {item.quantity}
+                                Rs.{item.product.priceAfterDiscount} × {item.quantity}
                               </p>
                             </div>
                             <p className="font-semibold text-sm text-green-500">
-                              Rs.{item.product.price * item.quantity}
+                              Rs.{item.product.priceAfterDiscount * item.quantity}
                             </p>
                           </div>
                           <Separator />
@@ -140,6 +128,24 @@ const Orders: React.FC = () => {
           )}
         </div>
       </ScrollArea>
+
+      <Dialog
+        open={!!selectedOrder}
+        onOpenChange={(open) => {
+          if (!open) setSelectedOrder(null);
+        }}
+      >
+        <DialogContent className="w-[400px]">
+          {selectedOrder && (
+            <EditOrder
+              id={selectedOrder._id}
+              orderStatus={selectedOrder.orderStatus}
+              paymentStatus={selectedOrder.paymentStatus}
+              onSuccess={() => setSelectedOrder(null)}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

@@ -31,10 +31,14 @@ interface reviewProps {
   id: string;
 }
 
+interface ReviewFormData {
+  text: string;
+}
+
 const Reviews = ({ reviews, id }: reviewProps) => {
   const [deleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
   const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
-  const { reset, register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm<ReviewFormData>();
 
   const { user } = useAuth();
 
@@ -43,8 +47,7 @@ const Reviews = ({ reviews, id }: reviewProps) => {
 
   const [rating, setRating] = useState<number>(3);
 
-  //@ts-ignore
-  const onSubmit = (data) => {
+  const onSubmit = (data: ReviewFormData) => {
     if (!data.text) {
       toast.warning("Please write a review before submitting");
       return;
@@ -61,6 +64,7 @@ const Reviews = ({ reviews, id }: reviewProps) => {
       user: user?._id,
       rating,
     };
+
     addReviewMutation.mutate(
       { dataWithReview },
       {
@@ -69,7 +73,6 @@ const Reviews = ({ reviews, id }: reviewProps) => {
         },
       }
     );
-    /*console.log(dataWithReview); */
   };
 
   return (
@@ -90,7 +93,7 @@ const Reviews = ({ reviews, id }: reviewProps) => {
             disabled={addReviewMutation.isPending || user?.role === "admin"}
             placeholder="Write a review..."
             {...register("text")}
-            className="w-full md:flex-1"
+            className="w-full md:flex-1 rounded-full shadow-none"
           />
 
           <div className="flex justify-center md:justify-start">

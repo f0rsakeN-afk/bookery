@@ -30,7 +30,7 @@ const AllProducts = lazy(() => import("./pages/AllProducts"));
 const Orders = lazy(() => import("./pages/Orders"));
 const Analytics = lazy(() => import("./pages/Analytics"));
 const Users = lazy(() => import("./pages/Users"));
-const Checkout = lazy(() => import("./pages/Checkout"));
+/* const Checkout = lazy(() => import("./pages/Checkout")); */
 
 const App = () => {
   const queryClient = new QueryClient({
@@ -68,14 +68,14 @@ const App = () => {
                     </UserOnlyRoute>
                   }
                 />
-                <Route
+                {/*     <Route
                   path="/checkout"
                   element={
                     <ProtectedRoute>
                       <Checkout />
                     </ProtectedRoute>
                   }
-                />
+                /> */}
                 <Route path="/Search" element={<Search />} />
                 <Route
                   path="/wishlist"

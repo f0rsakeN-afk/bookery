@@ -15,7 +15,7 @@ import Placeholder from "@/components/productDetails/Placeholder";
 import { useAuth } from "@/context/AuthContext";
 import { useAddToCart } from "@/services/cart";
 import { useAddToWishlist } from "@/services/wishlist";
-import { add } from "date-fns";
+/* import { add } from "date-fns"; */
 
 // Animation config
 const fadeUp = {
