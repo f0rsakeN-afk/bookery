@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "./axios";
 import { toast } from "sonner";
+import { addToWishlistProps } from "@/types/wishlist";
 
 async function getWishlist() {
   const response = await axiosInstance.get(`wishlist/`);
@@ -15,7 +16,7 @@ export function useGetWishlist() {
   });
 }
 
-async function addToWishlist(data) {
+async function addToWishlist(data: addToWishlistProps) {
   const response = await axiosInstance.post(`wishlist/`, data);
   return response.data;
 }

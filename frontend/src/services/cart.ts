@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "./axios";
 import { toast } from "sonner";
+import { addToCartProps } from "@/types/cart";
 
 async function getMyCart() {
   const response = await axiosInstance.get(`cart/`);
@@ -15,8 +16,7 @@ export function useGetMyCart() {
   });
 }
 
-/* type error will be fixed later on */
-async function addToCart(data) {
+async function addToCart(data: addToCartProps) {
   const response = await axiosInstance.post("cart/", data);
   return response.data;
 }
@@ -75,7 +75,7 @@ export function useUpdateCartQuantity() {
       toast.success(data.message);
     },
     onError: (error) => {
-      console.log(error);
+      /*       console.log(error); */
       toast.error(error.message);
     },
   });

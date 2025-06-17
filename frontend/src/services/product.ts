@@ -1,7 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "./axios";
 import { allProductTypesResponse, productDetailTypes } from "@/types/product";
-import { toast } from "sonner";
+/* import { toast } from "sonner"; */
 
 interface getAllProductsProps {
   category?: string;
@@ -66,5 +66,3 @@ export function useGetProductDetails(id: string) {
     refetchOnWindowFocus: true,
   });
 }
-
-
