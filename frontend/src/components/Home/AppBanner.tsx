@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { FaGooglePlay, FaApple } from "react-icons/fa";
 import { appBanner } from "@/utils/ImageExports";
 import { ClockAlert, Truck } from "lucide-react";

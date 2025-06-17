@@ -58,7 +58,7 @@ const EditProductSkeleton: React.FC = () => {
       <div className="border rounded-lg p-4 space-y-4">
         <Skeleton className="h-5 w-32 mb-2" />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {["Weight", "Length", "Width", "Height"].map((label: string, i) => (
+          {["Weight", "Length", "Width", "Height"].map((_, i) => (
             <div key={i}>
               <Skeleton className="h-4 w-24 mb-2" />
               <Skeleton className="h-10 w-full" />

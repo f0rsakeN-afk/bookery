@@ -6,6 +6,7 @@ import { motion } from "motion/react";
 import { format } from "date-fns";
 import { useGetMyOrders } from "@/services/Order";
 import OrderCardSkeleton from "./OrderCardSkeleton";
+import { Order } from "@/types/order";
 
 const statusColors: Record<string, string> = {
   paid: "bg-green-100 text-green-700",
@@ -34,7 +35,7 @@ const UserOrderHistory: React.FC = () => {
           appear here!
         </h3>
       ) : (
-        orders.data.map((order) => (
+        orders.data.map((order: Order) => (
           <motion.div
             key={order._id}
             initial={{ opacity: 0, y: 20 }}

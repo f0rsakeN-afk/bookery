@@ -21,8 +21,14 @@ import {
 } from "../ui/alert-dialog";
 import { Button } from "../ui/button";
 import { useRemoveFromCart, useUpdateCartQuantity } from "@/services/cart";
+import { NavLink } from "react-router-dom";
+import { CartItem } from "@/types/cart";
 
-const CartItems = ({ items }) => {
+interface CartItemProps {
+  items: CartItem[];
+}
+
+const CartItems = ({ items }: CartItemProps) => {
   const removeFromCartMutation = useRemoveFromCart();
   const updateCartQuantityMutation = useUpdateCartQuantity();
 
@@ -41,7 +47,7 @@ const CartItems = ({ items }) => {
         <TableBody>
           {items.map((el, index: number) => (
             <motion.tr
-              key={el.id || index}
+              key={el._id || index}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: index * 0.1 }}
@@ -56,7 +62,9 @@ const CartItems = ({ items }) => {
                 />
               </TableCell>
               <TableCell>
-                <p className="font-medium">{el.product.title}</p>
+                <NavLink to={`/productDetails/${el.product.id}`}>
+                  <p className="font-medium">{el.product.title}</p>
+                </NavLink>
               </TableCell>
               <TableCell>
                 <h2 className="font-medium">

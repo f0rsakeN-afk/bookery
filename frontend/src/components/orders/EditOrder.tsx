@@ -48,12 +48,14 @@ const EditOrder = ({
   orderStatus,
   paymentStatus,
 }: EditOrderProps) => {
-  const { control, handleSubmit, reset } = useForm({
+  console.log(orderStatus,paymentStatus)
+  const { control, handleSubmit, reset } =
+    useForm(/* {
     defaultValues: {
       orderStatus,
       paymentStatus,
     },
-  });
+  } */);
 
   const updateOrderMutation = useUpdateStatus();
 
@@ -88,6 +90,7 @@ const EditOrder = ({
             control={control}
             render={({ field }) => (
               <Select
+                defaultValue={orderStatus}
                 onValueChange={field.onChange}
                 value={field.value}
                 disabled={updateOrderMutation.isPending}
@@ -114,6 +117,7 @@ const EditOrder = ({
             control={control}
             render={({ field }) => (
               <Select
+                defaultValue={paymentStatus}
                 onValueChange={field.onChange}
                 value={field.value}
                 disabled={updateOrderMutation.isPending}

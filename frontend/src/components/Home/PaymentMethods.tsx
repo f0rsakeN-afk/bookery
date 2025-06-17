@@ -1,6 +1,6 @@
 import React from "react";
 import { stripe, cod, esewa } from "@/utils/ImageExports";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const paymentMethods = [
   { name: "Stripe", image: stripe },
