@@ -7,9 +7,15 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { ScrollArea } from "../ui/scroll-area";
 import { toast } from "sonner";
 import { useCreateOrder } from "@/services/Order";
+import { CartItem } from "@/types/cart";
 
-const CheckoutDialog = ({ items, onSuccess }) => {
-  /*   console.log(items) */
+interface CheckoutDialogProps {
+  onSuccess: () => void;
+  items: CartItem[];
+}
+
+const CheckoutDialog = ({ items, onSuccess }: CheckoutDialogProps) => {
+  console.log(items);
   const {
     register,
     control,

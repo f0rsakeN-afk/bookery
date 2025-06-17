@@ -23,8 +23,13 @@ import {
 } from "../ui/alert-dialog";
 import { useRemoveFromWishlist } from "@/services/wishlist";
 import { NavLink } from "react-router-dom";
+import { Product } from "@/types/wishlist";
 
-const WishlistTable = ({ items }) => {
+interface WishlistTableProps {
+  items: Product[];
+}
+
+const WishlistTable = ({ items }: WishlistTableProps) => {
   const deleteMutation = useRemoveFromWishlist();
   return (
     <div className="rounded-md border overflow-x-auto">
@@ -39,7 +44,7 @@ const WishlistTable = ({ items }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {items.map((item, index) => (
+          {items.map((item: Product, index: number) => (
             <motion.tr
               key={item.id}
               initial={{ opacity: 0 }}
