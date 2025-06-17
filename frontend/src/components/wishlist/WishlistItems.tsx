@@ -24,6 +24,7 @@ import {
 import { useRemoveFromWishlist } from "@/services/wishlist";
 import { NavLink } from "react-router-dom";
 import { Product } from "@/types/wishlist";
+import { useAddToCart } from "@/services/cart";
 
 interface WishlistTableProps {
   items: Product[];
@@ -31,6 +32,7 @@ interface WishlistTableProps {
 
 const WishlistTable = ({ items }: WishlistTableProps) => {
   const deleteMutation = useRemoveFromWishlist();
+  const addToCartMutation = useAddToCart();
   return (
     <div className="rounded-md border overflow-x-auto">
       <Table className="min-w-[700px] font-inter">
@@ -89,7 +91,7 @@ const WishlistTable = ({ items }: WishlistTableProps) => {
                     size="sm"
                     disabled={!item.quantity}
                     onClick={() => {
-                      /* Handle add to cart */
+                      addToCartMutation.mutate({ productId: item._id });
                     }}
                   >
                     <ShoppingCart className="h-4 w-4" />

@@ -27,6 +27,7 @@ export function useAddToCart() {
     mutationFn: addToCart,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["cart"] });
+      queryClient.invalidateQueries({ queryKey: ["wishlist"] });
       toast.success(data.message);
     },
     onError: (error) => {
