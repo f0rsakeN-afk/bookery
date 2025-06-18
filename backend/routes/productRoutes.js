@@ -26,6 +26,13 @@ router
     authController.protect,
     authController.restrictTo("admin"),
     productController.deleteProduct
+  )
+  .patch(
+    authController.protect,
+    authController.restrictTo("admin"),
+    uploadPhoto,
+    resizeProductPhoto,
+    productController.updateProduct
   );
 
 module.exports = router;

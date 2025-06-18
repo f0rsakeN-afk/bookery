@@ -121,3 +121,23 @@ exports.deleteProduct = catchAsync(async (req, res, next) => {
     data: null,
   });
 });
+
+exports.updateProduct = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  /*   console.log(id); */
+
+  const updatedProduct = await Product.findByIdAndUpdate(id, req.body, {
+    new: true,
+    runValidators: true,
+    /*     useFindAndModify: false, */
+  });
+
+  if (!updatedProduct)
+    return next(new AppError("No product found with that ID", 404));
+
+  res.status(200).json({
+    status: "success",
+    message: "Product updated successfully",
+    data: updatedProduct,
+  });
+});

@@ -7,7 +7,7 @@ const User = require("../models/userModel");
 exports.getAllOrders = catchAsync(async (req, res, next) => {
   const orders = await Order.find()
     .populate("user", "name email")
-    .populate("products.product", "title price image")
+    .populate("products.product", "title price image discountPercentage")
     .sort("-createdAt");
 
   res.status(200).json({
