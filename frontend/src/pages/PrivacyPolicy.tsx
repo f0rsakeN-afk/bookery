@@ -10,8 +10,8 @@ const PolicySection = ({ title, content }: policyContentTypes) => {
       viewport={{ once: true }}
       className="mb-8"
     >
-      <h2 className="font-playfair text-lg font-semibold mb-3">{title}</h2>
-      <div className="font-playfair text-normal text-primary/90 space-y-2">
+      <h2 className="font-playfair text-lg font-semibold mb-2">{title}</h2>
+      <div className="font-inter text-normal text-primary/90 space-y-1">
         {content.map((text, index) => (
           <p key={index}>{text}</p>
         ))}
@@ -22,7 +22,7 @@ const PolicySection = ({ title, content }: policyContentTypes) => {
 
 const PrivacyPolicy = () => {
   return (
-    <div className="container mx-auto max-w-6xl px-2 xl:px-0 xl:py-8 select-none">
+    <div className="container mx-auto max-w-6xl px-2 xl:px-0 xl:py-8">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
