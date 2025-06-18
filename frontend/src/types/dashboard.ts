@@ -20,3 +20,27 @@ export interface getAllUsersResponse {
   results: number;
   data?: user[];
 }
+
+export interface productTypes {
+  _id?: string;
+  id?: string;
+  title: string;
+  description: string;
+  price: number;
+  quantity: number ;
+  category: string;
+  brand: string;
+  discountPercentage: number;
+  image: string | File;
+  createdAt?: string;
+  updatedAt?: string;
+  priceAfterDiscount?: number;
+  shipping: {
+    weight: number;
+    dimensions: {
+      length: number;
+      width: number;
+      height: number;
+    };
+  };
+}

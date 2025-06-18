@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ImagePlus } from "lucide-react";
 import { toast } from "sonner";
 import { ScrollArea } from "../ui/scroll-area";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -15,28 +15,64 @@ import {
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import { useUpdateProduct } from "@/services/dashboard";
-import { productTypes } from "@/types/product";
+import { productTypes } from "@/types/dashboard";
 
-interface editProductProps {
+interface EditProductProps {
   product: productTypes;
-  id: string;
+  /*   id: string; */
   onSuccess: () => void;
 }
 
-const EditProduct: React.FC<editProductProps> = ({
-  id,
+type FormInputs = Omit<
+  productTypes,
+  | "shipping"
+  | "image"
+  | "quantity"
+  | "_id"
+  | "createdAt"
+  | "updatedAt"
+  | "priceAfterDiscount"
+> & {
+  quantity: number;
+  shippingWeight: number;
+  shippingLength: number;
+  shippingWidth: number;
+  shippingHeight: number;
+  image?: File | string;
+};
+
+const EditProduct: React.FC<EditProductProps> = ({
+  /*   id, */
   onSuccess,
   product,
 }) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>();
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  const form = useForm();
+  const form = useForm<FormInputs>({
+    defaultValues: {
+      title: product.title,
+      description: product.description,
+      category: product.category,
+      price: product.price,
+      quantity: Number(product.quantity),
+      brand: product.brand,
+      discountPercentage: product.discountPercentage,
+      shippingWeight: product.shipping.weight,
+      shippingLength: product.shipping.dimensions.length,
+      shippingWidth: product.shipping.dimensions.width,
+      shippingHeight: product.shipping.dimensions.height,
+      image: product.image,
+    },
+  });
+
   const { control, handleSubmit, reset } = form;
 
   useEffect(() => {
     if (product.image) {
-      setImagePreview(product.image);
+      if (typeof product.image === "string") {
+        setImagePreview(product.image);
+      }
     }
   }, [product.image]);
 
@@ -58,21 +94,34 @@ const EditProduct: React.FC<editProductProps> = ({
     }
   };
 
-  const onSubmit = (data: any) => {
-    let dataImage = { ...data };
-
-    if (imageFile) {
-      dataImage = {
-        ...dataImage,
-        image: imageFile, 
-      };
-    }
+  const onSubmit: SubmitHandler<FormInputs> = (data) => {
+    // Compose final product data
+    const finalData: productTypes = {
+      ...product,
+      title: data.title,
+      description: data.description,
+      category: data.category,
+      price: data.price,
+      quantity: data.quantity,
+      brand: data.brand,
+      discountPercentage: data.discountPercentage,
+      image: imageFile ?? product.image,
+      priceAfterDiscount: product.priceAfterDiscount,
+      shipping: {
+        weight: data.shippingWeight,
+        dimensions: {
+          length: data.shippingLength,
+          width: data.shippingWidth,
+          height: data.shippingHeight,
+        },
+      },
+    };
 
     mutation.mutate(
-      { data: dataImage, id: product._id },
+      { data: finalData, id: product._id! },
       {
         onSuccess: () => {
-          reset();
+          reset(data);
           onSuccess();
         },
       }
@@ -85,7 +134,7 @@ const EditProduct: React.FC<editProductProps> = ({
 
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* image section */}
+          {/* Image upload */}
           <div className="flex flex-col items-center gap-4 p-4 border-2 border-dashed rounded-lg">
             <Input
               type="file"
@@ -116,6 +165,7 @@ const EditProduct: React.FC<editProductProps> = ({
             </label>
           </div>
 
+          {/* Title */}
           <FormField
             name="title"
             control={control}
@@ -127,7 +177,6 @@ const EditProduct: React.FC<editProductProps> = ({
                     type="text"
                     disabled={mutation.isPending}
                     placeholder="Product title"
-                    defaultValue={product.title}
                     {...field}
                   />
                 </FormControl>
@@ -135,6 +184,7 @@ const EditProduct: React.FC<editProductProps> = ({
             )}
           />
 
+          {/* Description */}
           <FormField
             control={control}
             name="description"
@@ -146,7 +196,6 @@ const EditProduct: React.FC<editProductProps> = ({
                     disabled={mutation.isPending}
                     placeholder="Product description"
                     className="resize-none"
-                    defaultValue={product.description}
                     {...field}
                   />
                 </FormControl>
@@ -154,6 +203,7 @@ const EditProduct: React.FC<editProductProps> = ({
             )}
           />
 
+          {/* Category */}
           <FormField
             control={control}
             name="category"
@@ -162,7 +212,7 @@ const EditProduct: React.FC<editProductProps> = ({
                 <FormLabel>Category</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={product.category}
+                  value={field.value}
                   disabled={mutation.isPending}
                 >
                   <FormControl>
@@ -184,6 +234,7 @@ const EditProduct: React.FC<editProductProps> = ({
           />
 
           <div className="grid grid-cols-2 gap-4">
+            {/* Price */}
             <FormField
               control={control}
               name="price"
@@ -192,7 +243,6 @@ const EditProduct: React.FC<editProductProps> = ({
                   <FormLabel>Price</FormLabel>
                   <FormControl>
                     <Input
-                      defaultValue={product.price}
                       type="number"
                       placeholder="0.00"
                       {...field}
@@ -203,6 +253,7 @@ const EditProduct: React.FC<editProductProps> = ({
               )}
             />
 
+            {/* Quantity */}
             <FormField
               control={control}
               name="quantity"
@@ -211,7 +262,6 @@ const EditProduct: React.FC<editProductProps> = ({
                   <FormLabel>Quantity</FormLabel>
                   <FormControl>
                     <Input
-                      defaultValue={product.quantity}
                       type="number"
                       placeholder="0"
                       {...field}
@@ -224,6 +274,7 @@ const EditProduct: React.FC<editProductProps> = ({
           </div>
 
           <div className="grid grid-cols-2 gap-4">
+            {/* Brand */}
             <FormField
               control={control}
               name="brand"
@@ -233,7 +284,6 @@ const EditProduct: React.FC<editProductProps> = ({
                   <FormControl>
                     <Input
                       placeholder="Brand name"
-                      defaultValue={product.brand}
                       {...field}
                       disabled={mutation.isPending}
                     />
@@ -242,6 +292,7 @@ const EditProduct: React.FC<editProductProps> = ({
               )}
             />
 
+            {/* Discount Percentage */}
             <FormField
               control={control}
               name="discountPercentage"
@@ -254,7 +305,6 @@ const EditProduct: React.FC<editProductProps> = ({
                       max={60}
                       type="number"
                       placeholder="0"
-                      defaultValue={product.discountPercentage}
                       {...field}
                       disabled={mutation.isPending}
                     />
@@ -264,9 +314,11 @@ const EditProduct: React.FC<editProductProps> = ({
             />
           </div>
 
+          {/* Shipping Info */}
           <div className="border rounded-lg p-4 space-y-4">
             <h3 className="font-semibold text-lg">Shipping Info</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {/* Weight */}
               <FormField
                 control={control}
                 name="shippingWeight"
@@ -275,19 +327,19 @@ const EditProduct: React.FC<editProductProps> = ({
                     <FormLabel>Weight (kg)</FormLabel>
                     <FormControl>
                       <Input
-                        disabled={mutation.isPending}
                         type="number"
                         step="any"
                         placeholder="0"
                         {...field}
                         min={0}
-                        defaultValue={product.shipping.weight}
+                        disabled={mutation.isPending}
                       />
                     </FormControl>
                   </FormItem>
                 )}
               />
 
+              {/* Length */}
               <FormField
                 control={control}
                 name="shippingLength"
@@ -296,19 +348,19 @@ const EditProduct: React.FC<editProductProps> = ({
                     <FormLabel>Length (cm)</FormLabel>
                     <FormControl>
                       <Input
-                        disabled={mutation.isPending}
                         type="number"
                         step="any"
-                        defaultValue={product.shipping.dimensions.length}
                         placeholder="0"
                         {...field}
                         min={0}
+                        disabled={mutation.isPending}
                       />
                     </FormControl>
                   </FormItem>
                 )}
               />
 
+              {/* Width */}
               <FormField
                 control={control}
                 name="shippingWidth"
@@ -317,19 +369,19 @@ const EditProduct: React.FC<editProductProps> = ({
                     <FormLabel>Width (cm)</FormLabel>
                     <FormControl>
                       <Input
-                        disabled={mutation.isPending}
                         type="number"
                         step="any"
-                        min={0}
                         placeholder="0"
-                        defaultValue={product.shipping.dimensions.width}
                         {...field}
+                        min={0}
+                        disabled={mutation.isPending}
                       />
                     </FormControl>
                   </FormItem>
                 )}
               />
 
+              {/* Height */}
               <FormField
                 control={control}
                 name="shippingHeight"
@@ -338,13 +390,12 @@ const EditProduct: React.FC<editProductProps> = ({
                     <FormLabel>Height (cm)</FormLabel>
                     <FormControl>
                       <Input
-                        disabled={mutation.isPending}
                         type="number"
                         step="any"
-                        min={0}
                         placeholder="0"
-                        defaultValue={product.shipping.dimensions.height}
                         {...field}
+                        min={0}
+                        disabled={mutation.isPending}
                       />
                     </FormControl>
                   </FormItem>

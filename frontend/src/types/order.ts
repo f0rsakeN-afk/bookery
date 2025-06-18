@@ -38,3 +38,10 @@ export interface UserOrderHistoryResponse {
   results: number;
   data: Order[];
 }
+
+export interface orderStatusProps {
+  orderId: string;
+  orderStatus: string;
+  paymentStatus: string;
+}
+

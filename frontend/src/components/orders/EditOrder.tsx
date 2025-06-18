@@ -48,7 +48,7 @@ const EditOrder = ({
   orderStatus,
   paymentStatus,
 }: EditOrderProps) => {
-  console.log(orderStatus,paymentStatus)
+  /*   console.log(orderStatus,paymentStatus) */
   const { control, handleSubmit, reset } =
     useForm(/* {
     defaultValues: {
@@ -62,6 +62,7 @@ const EditOrder = ({
   const onSubmit = (data: any) => {
     const dataWithId = { ...data, orderId: id };
 
+    console.log(dataWithId);
     updateOrderMutation.mutate(dataWithId, {
       onSuccess: () => {
         reset();

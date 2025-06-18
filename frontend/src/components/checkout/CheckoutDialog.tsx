@@ -26,7 +26,9 @@ const CheckoutDialog = ({ items, onSuccess }: CheckoutDialogProps) => {
 
   const createOrderMutation = useCreateOrder();
 
+  //@ts-ignore
   const onSubmit = (data) => {
+    console.log(data);
     const hasErrors = Object.keys(errors).length > 0;
 
     if (hasErrors) {
@@ -41,7 +43,7 @@ const CheckoutDialog = ({ items, onSuccess }: CheckoutDialogProps) => {
         quantity: item.quantity,
       })),
     };
-    console.log(payload);
+    /*     console.log(payload); */
     createOrderMutation.mutate(
       { data: payload },
       {

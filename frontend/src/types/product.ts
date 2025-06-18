@@ -4,9 +4,9 @@ export interface productTypes {
   title: string;
   description: string;
   price: number;
-  quantity?: string;
-  category?: string;
-  brand?: string;
+  quantity: number;
+  category: string;
+  brand: string;
   discountPercentage: number;
   image: string;
   createdAt?: string;

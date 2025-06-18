@@ -54,7 +54,7 @@ const DashBoardTableItems = ({ product }: dashboardTableItemsProps) => {
             <DialogContent>
               <EditProduct
               product={product}
-                id={product._id!}
+           /*      id={product._id!} */
                 onSuccess={() => setIsEditDialogOpen(false)}
               />
             </DialogContent>

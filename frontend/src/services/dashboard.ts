@@ -6,12 +6,13 @@ import {
   deleteProductProps,
   deleteProductResponse,
   getAllUsersResponse,
+  productTypes,
 } from "@/types/dashboard";
 import { AxiosError } from "axios";
 
 async function getAllProducts(): Promise<allProductTypesResponse> {
   const response = await axiosInstance.get<allProductTypesResponse>(
-    `product/`
+    `product/?limit=100`
   );
   return response.data;
 }
@@ -26,7 +27,6 @@ export function useGetAllProducts() {
 async function deleteProduct({
   id,
 }: deleteProductProps): Promise<deleteProductResponse> {
-  /*   console.log(id); */
   const response = await axiosInstance.delete<deleteProductResponse>(
     `product/${id}`
   );
@@ -49,13 +49,12 @@ export function useDeleteProduct() {
       toast.success(data.message || "Product deleted successfully");
     },
     onError: (error) => {
-      /*       console.log(error) */
       toast.error(error.message || "Product deletion failed");
     },
   });
 }
 
-async function getAllUsers() {
+async function getAllUsers(): Promise<getAllUsersResponse> {
   const response = await axiosInstance.get<getAllUsersResponse>("users/");
   return response.data;
 }
@@ -69,7 +68,8 @@ export function useGetAllUsers() {
   });
 }
 
-async function addProduct(productData) {
+//@ts-ignore
+async function addProduct(productData: productTypes) {
   const response = await axiosInstance.post(`product/`, productData, {
     headers: {
       "Content-Type": "multipart/form-data",
@@ -83,7 +83,6 @@ export function useAddProduct() {
   return useMutation({
     mutationFn: addProduct,
     onSuccess: (data) => {
-      /* console.log(data) */
       queryClient.invalidateQueries({
         queryKey: ["dashboardAllProducts"],
       });
@@ -94,14 +93,18 @@ export function useAddProduct() {
       });
       toast.success(data.message || "Product added successfully");
     },
-    onError: (err) => {
+    onError: (err: any) => {
       toast.error(err.message || "Failed to add product");
     },
   });
 }
 
-async function updateProduct({ data, id }) {
-  console.log(data,id)
+export interface updateProductProps {
+  data: productTypes;
+  id: string;
+}
+
+async function updateProduct({ data, id }: updateProductProps) {
   const response = await axiosInstance.patch(`product/${id}`, data, {
     headers: {
       "Content-Type": "multipart/form-data",
@@ -129,8 +132,7 @@ export function useUpdateProduct() {
       });
       toast.success(data.message || "Product updated successfully");
     },
-    onError: (error) => {
-      console.log(error);
+    onError: (error: any) => {
       toast.error(error.message || "Failed to update the product");
     },
   });

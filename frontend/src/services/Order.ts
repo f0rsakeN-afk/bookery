@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "./axios";
 import { toast } from "sonner";
+import { orderStatusProps } from "@/types/order";
 
 interface orderDataType {
   products: {
@@ -69,7 +70,8 @@ export function useCreateOrder() {
   });
 }
 
-async function updateStatus(data) {
+
+async function updateStatus(data: orderStatusProps) {
   /*   console.log(data); */
   const response = await axiosInstance.patch(`orders/${data.orderId}`, {
     orderStatus: data.orderStatus,
@@ -94,4 +96,3 @@ export function useUpdateStatus() {
     },
   });
 }
-

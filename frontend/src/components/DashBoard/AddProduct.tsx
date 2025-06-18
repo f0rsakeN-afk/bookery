@@ -37,7 +37,6 @@ interface ProductFormData {
 }
 
 interface addProductProps {
-  /*   open: boolean; */
   onSuccess: () => void;
 }
 
@@ -46,7 +45,7 @@ const AddProduct = ({ onSuccess }: addProductProps) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const mutation = useAddProduct();
-  /*   const { reset } = useForm(); */
+
   const form = useForm<ProductFormData>({
     defaultValues: {
       title: "",
@@ -86,12 +85,12 @@ const AddProduct = ({ onSuccess }: addProductProps) => {
         return;
       }
 
-      if (data.title.length < 5) {
+      if (data.title.trim().length < 5) {
         toast.warning("Title must be at least 5 characters long");
         return;
       }
 
-      if (data.description.length < 10) {
+      if (data.description.trim().length < 10) {
         toast.warning("Description must be at least 10 characters long");
         return;
       }
@@ -111,7 +110,7 @@ const AddProduct = ({ onSuccess }: addProductProps) => {
         return;
       }
 
-      if (data.brand.length < 2) {
+      if (data.brand.trim().length < 2) {
         toast.warning("Brand name must be at least 2 characters long");
         return;
       }
@@ -143,27 +142,30 @@ const AddProduct = ({ onSuccess }: addProductProps) => {
 
       const productData = {
         ...data,
+        price: Number(data.price),
+        quantity: Number(data.quantity),
+        discountPercentage: discountPercent,
         image: imageFile,
         shipping: {
-          weight: data.shippingWeight,
+          weight: Number(data.shippingWeight),
           dimensions: {
-            length: data.shippingLength,
-            width: data.shippingWidth,
-            height: data.shippingHeight,
+            length: Number(data.shippingLength),
+            width: Number(data.shippingWidth),
+            height: Number(data.shippingHeight),
           },
         },
       };
 
       mutation.mutate(productData, {
         onSuccess: () => {
+          setImageFile(null);
+          setImagePreview(null);
           form.reset();
           onSuccess();
         },
       });
-      /*    toast.success("Product added successfully!"); */
     } catch (error) {
-      /*  console.error(error); */
-      toast.warning("Something went wrong!");
+      toast.error("Something went wrong!");
     }
   };
 
@@ -248,8 +250,8 @@ const AddProduct = ({ onSuccess }: addProductProps) => {
               <FormItem>
                 <FormLabel>Category</FormLabel>
                 <Select
+                  value={field.value}
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
                   disabled={mutation.isPending}
                 >
                   <FormControl>
@@ -284,6 +286,8 @@ const AddProduct = ({ onSuccess }: addProductProps) => {
                       placeholder="0.00"
                       {...field}
                       disabled={mutation.isPending}
+                      min={0}
+                      step="any"
                     />
                   </FormControl>
                 </FormItem>
@@ -303,6 +307,7 @@ const AddProduct = ({ onSuccess }: addProductProps) => {
                       placeholder="0"
                       {...field}
                       disabled={mutation.isPending}
+                      min={0}
                     />
                   </FormControl>
                 </FormItem>
@@ -368,7 +373,7 @@ const AddProduct = ({ onSuccess }: addProductProps) => {
                         step="any"
                         placeholder="0"
                         {...field}
-                        min={0}
+                        min={0.01}
                       />
                     </FormControl>
                   </FormItem>
@@ -389,7 +394,7 @@ const AddProduct = ({ onSuccess }: addProductProps) => {
                         step="any"
                         placeholder="0"
                         {...field}
-                        min={0}
+                        min={0.01}
                       />
                     </FormControl>
                   </FormItem>
@@ -408,9 +413,9 @@ const AddProduct = ({ onSuccess }: addProductProps) => {
                         disabled={mutation.isPending}
                         type="number"
                         step="any"
-                        min={0}
                         placeholder="0"
                         {...field}
+                        min={0.01}
                       />
                     </FormControl>
                   </FormItem>
@@ -429,9 +434,9 @@ const AddProduct = ({ onSuccess }: addProductProps) => {
                         disabled={mutation.isPending}
                         type="number"
                         step="any"
-                        min={0}
                         placeholder="0"
                         {...field}
+                        min={0.01}
                       />
                     </FormControl>
                   </FormItem>
