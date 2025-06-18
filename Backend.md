@@ -87,11 +87,11 @@ touch .env.example .env
 ```env
 NODE_ENV=development
 PORT=3000
-DATABASE_URI=mongodb://localhost:27017/snapkart
-JWT_SECRET=your-jwt-secret
-JWT_EXPIRES_IN=90d
-EMAIL_USERNAME=your-email
-EMAIL_PASSWORD=your-password
+DATABASE_URI=
+JWT_SECRET=
+JWT_EXPIRES_IN=
+EMAIL_USERNAME=
+EMAIL_PASSWORD=
 ```
 
 5. Start the development server
