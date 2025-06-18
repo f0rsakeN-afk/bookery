@@ -1,63 +1,326 @@
-# 🛒 SnapKart
+# 🛒 SnapKart - Complete E-Commerce Solution
 
-SnapKart is a full-featured e-commerce web application built using the MERN (MongoDB, Express.js, React, Node.js) stack. Developed as part of a 5th semester Computer Engineering project, SnapKart allows users to browse, search, and purchase products online with ease.
+[![Node.js](https://img.shields.io/badge/Node.js-16.x+-green.svg)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-19.0.0-blue.svg)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7.2-blue.svg)](https://www.typescriptlang.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-6.15.0-green.svg)](https://mongodb.com/)
+[![Express.js](https://img.shields.io/badge/Express.js-5.1.0-blue.svg)](https://expressjs.com/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.1.4-blue.svg)](https://tailwindcss.com/)
+[![License](https://img.shields.io/badge/License-ISC-yellow.svg)](https://opensource.org/licenses/ISC)
 
-## 📌 Project Status
+A modern, full-stack e-commerce application built with the MERN stack (MongoDB, Express.js, React, Node.js). SnapKart provides a comprehensive online shopping experience with advanced features for both customers and administrators.
 
-Project snapshots:https://drive.google.com/drive/folders/1BVJe5mmownInOv-Un6TLoWhun7f171Xu?usp=drive_link
+## 📱 Project Overview
 
-🚧 In Development – To be submitted by the end of the semester.
+SnapKart is a complete e-commerce solution featuring:
 
-## Route Structure
+- **Modern Frontend**: Built with React 19, TypeScript, and TailwindCSS
+- **Robust Backend**: Node.js/Express.js API with MongoDB
+- **Advanced Features**: Real-time cart management, wishlist, reviews, analytics
+- **Security**: JWT authentication, role-based access control, rate limiting
+- **Performance**: Optimized with React Query, lazy loading, and image processing
 
-### 🔐 User Routes (`/api/users`)
+### 🎯 Project Status
 
-| Method | Endpoint              | Description               | Authentication | Role       |
-| ------ | --------------------- | ------------------------- | -------------- | ---------- |
-| POST   | `/register`           | User registration         | None           | Public     |
-| POST   | `/login`              | User login                | None           | Public     |
-| POST   | `/logout`             | User logout               | None           | Public     |
-| GET    | `/me`                 | Get current user profile  | Required       | User/Admin |
-| POST   | `/forgetpassword`     | Request password reset    | None           | Public     |
-| PATCH  | `/newpassword/:token` | Reset password with token | None           | Public     |
-| GET    | `/:id`                | Get user details by ID    | Required       | User/Admin |
-| GET    | `/`                   | Get all users             | Required       | Admin      |
-| PATCH  | `/updatepassword`     | Update user password      | Required       | User/Admin |
+**🚧 In Development** – College project for 5th semester Computer Engineering
 
-### 🛍️ Product Routes (`/api/products`)
+**📸 Project Demo**: [View Screenshots](https://drive.google.com/drive/folders/1BVJe5mmownInOv-Un6TLoWhun7f171Xu?usp=drive_link)
 
-| Method | Endpoint  | Description       | Authentication | Role       |
-| ------ | --------- | ----------------- | -------------- | ---------- |
-| POST   | `/`       | Add new product   | Required       | Admin      |
-| GET    | `/`       | Get all products  | Required       | User/Admin |
-| GET    | `/search` | Search products   | Required       | User/Admin |
-| GET    | `/:id`    | Get product by ID | Required       | User/Admin |
-| DELETE | `/:id`    | Delete product    | Required       | Admin      |
+## 🏗️ Architecture
 
-**Note**: Product creation includes photo upload and resizing functionality.
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   React Frontend │    │  Express.js API │    │   MongoDB Atlas │
+│                 │    │                 │    │                 │
+│  • TypeScript   │◄──►│  • Node.js      │◄──►│  • Mongoose ODM │
+│  • TailwindCSS  │    │  • JWT Auth     │    │  • Cloud DB     │
+│  • React Query  │    │  • Multer       │    │  • Aggregation  │
+│  • Vite         │    │  • Rate Limiting│    │  • Indexing     │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
 
-### ⭐ Review Routes (`/api/reviews`)
+## 🚀 Features
 
-| Method | Endpoint | Description       | Authentication | Role  |
-| ------ | -------- | ----------------- | -------------- | ----- |
-| GET    | `/`      | Get all reviews   | Required       | Admin |
-| POST   | `/`      | Create new review | Required       | User  |
-| PATCH  | `/:id`   | Update review     | Required       | User  |
-| DELETE | `/:id`   | Delete review     | Required       | User  |
+### 👥 User Experience
 
-### 📧 Contact Routes (`/api/contact`)
+- **🔐 Authentication**: Secure JWT-based login/register with password recovery
+- **🛍️ Product Catalog**: Browse, search, and filter products with advanced options
+- **🛒 Shopping Cart**: Real-time cart management with persistent state
+- **❤️ Wishlist**: Save favorite products for later purchase
+- **⭐ Reviews & Ratings**: Rate and review products with 5-star system
+- **📦 Order Tracking**: Complete order history with status updates
+- **👤 User Profile**: Manage personal information and preferences
+- **📱 Responsive Design**: Mobile-first approach across all devices
 
-| Method | Endpoint | Description              | Authentication | Role  |
-| ------ | -------- | ------------------------ | -------------- | ----- |
-| POST   | `/`      | Send contact message     | Required       | User  |
-| GET    | `/`      | Get all contact messages | Required       | Admin |
-| DELETE | `/:id`   | Delete contact message   | Required       | Admin |
+### 🔧 Admin Features
+
+- **📊 Analytics Dashboard**: Sales metrics, user statistics, revenue tracking
+- **📦 Product Management**: Full CRUD operations with image upload
+- **📋 Order Management**: Process orders and update delivery status
+- **👥 User Management**: View and manage customer accounts
+- **📧 Contact Management**: Handle customer inquiries and support
+- **📈 Reports**: Comprehensive business intelligence and insights
+
+### 🛡️ Security & Performance
+
+- **🔒 JWT Authentication**: Secure token-based authentication
+- **🚦 Rate Limiting**: API protection against abuse (100 req/hour)
+- **🌐 CORS Configuration**: Cross-origin resource sharing setup
+- **🔐 Password Hashing**: bcryptjs encryption for user passwords
+- **📸 Image Processing**: Sharp-powered image optimization
+- **⚡ Performance**: Lazy loading, code splitting, caching strategies
+
+## 🛠 Tech Stack
+
+### Frontend
+
+| Technology          | Version | Purpose                                    |
+| ------------------- | ------- | ------------------------------------------ |
+| **React**           | 19.0.0  | Modern UI library with concurrent features |
+| **TypeScript**      | 5.7.2   | Type-safe JavaScript development           |
+| **Vite**            | 6.3.1   | Fast build tool and dev server             |
+| **TailwindCSS**     | 4.1.4   | Utility-first CSS framework                |
+| **React Query**     | 5.74.4  | Server state management & caching          |
+| **React Router**    | 7.5.1   | Client-side routing with protection        |
+| **React Hook Form** | 7.56.4  | Performant form management                 |
+| **Radix UI**        | Latest  | Accessible, unstyled UI primitives         |
+| **Recharts**        | 2.15.3  | Data visualization for analytics           |
+
+### Backend
+
+| Technology     | Version | Purpose                           |
+| -------------- | ------- | --------------------------------- |
+| **Node.js**    | 16.x+   | JavaScript runtime environment    |
+| **Express.js** | 5.1.0   | Web application framework         |
+| **MongoDB**    | 6.15.0  | NoSQL database with Mongoose ODM  |
+| **JWT**        | 9.0.2   | JSON Web Token authentication     |
+| **bcryptjs**   | 3.0.2   | Password hashing and encryption   |
+| **Multer**     | 2.0.1   | File upload middleware            |
+| **Sharp**      | 0.34.2  | High-performance image processing |
+| **Nodemailer** | 7.0.3   | Email sending capabilities        |
+
+## 🚦 Quick Start
+
+### Prerequisites
+
+- **Node.js** 16.x or higher
+- **MongoDB** database (local or Atlas)
+- **npm** or **yarn** package manager
+
+### 🔧 Installation
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/f0rsakeN-afk/snapkart
+cd snapkart
+```
+
+2. **Backend Setup**
+
+```bash
+cd backend
+npm install
+
+# Create environment file
+cp example.env .env
+
+# Configure your .env file
+PORT=
+DATABASE_URL=
+DATABASE_PASSWORD=
+NODE_ENV=
+JWT_SECRET=
+JWT_EXPIRES_IN=
+JWT_COOKIE_EXPIRES_IN=
+EMAIL_USERNAME=
+EMAIL_PASSWORD=
+EMAIL_HOST=
+EMAIL_PORT=
+
+# Start backend server
+npm start
+```
+
+3. **Frontend Setup**
+
+```bash
+cd ../frontend
+npm install
+
+# Create environment file
+cp example.env .env
+
+# Configure your .env file
+VITE_BACKEND_URL=http://localhost:3000/api/v1
+
+# Start frontend development server
+npm run dev
+```
+
+4. **Access the application**
+
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:3000/api/v1
+
+## 📚 API Documentation
+
+### Base URL
+
+```
+http://localhost:3000/api/v1
+```
+
+### 🔐 Authentication Routes (`/users`)
+
+| Method  | Endpoint              | Description            | Access    |
+| ------- | --------------------- | ---------------------- | --------- |
+| `POST`  | `/register`           | User registration      | Public    |
+| `POST`  | `/login`              | User login             | Public    |
+| `POST`  | `/logout`             | User logout            | Public    |
+| `POST`  | `/forgetpassword`     | Request password reset | Public    |
+| `PATCH` | `/newpassword/:token` | Reset password         | Public    |
+| `GET`   | `/me`                 | Get current user       | Protected |
+| `GET`   | `/:id`                | Get user details       | Protected |
+| `GET`   | `/`                   | Get all users          | Admin     |
+| `PATCH` | `/updatepassword/:id` | Update password        | Protected |
+| `PATCH` | `/updateme/:id`       | Update profile         | Protected |
+
+### 🛍️ Product Routes (`/product`)
+
+| Method   | Endpoint  | Description       | Access    |
+| -------- | --------- | ----------------- | --------- |
+| `POST`   | `/`       | Add new product   | Admin     |
+| `GET`    | `/`       | Get all products  | Protected |
+| `GET`    | `/search` | Search products   | Protected |
+| `GET`    | `/:id`    | Get product by ID | Protected |
+| `DELETE` | `/:id`    | Delete product    | Admin     |
+
+### 🛒 Cart Routes (`/cart`)
+
+| Method   | Endpoint      | Description      | Access |
+| -------- | ------------- | ---------------- | ------ |
+| `GET`    | `/`           | Get user's cart  | User   |
+| `POST`   | `/`           | Add item to cart | User   |
+| `PATCH`  | `/:productId` | Update cart item | User   |
+| `DELETE` | `/:productId` | Remove from cart | User   |
+
+### ❤️ Wishlist Routes (`/wishlist`)
+
+| Method   | Endpoint      | Description          | Access |
+| -------- | ------------- | -------------------- | ------ |
+| `GET`    | `/`           | Get user's wishlist  | User   |
+| `POST`   | `/`           | Add to wishlist      | User   |
+| `DELETE` | `/:productId` | Remove from wishlist | User   |
+
+### 📦 Order Routes (`/orders`)
+
+| Method  | Endpoint     | Description         | Access |
+| ------- | ------------ | ------------------- | ------ |
+| `POST`  | `/`          | Create new order    | User   |
+| `GET`   | `/myorders`  | Get user's orders   | User   |
+| `GET`   | `/`          | Get all orders      | Admin  |
+| `GET`   | `/analytics` | Get order analytics | Admin  |
+| `PATCH` | `/:orderId`  | Update order status | Admin  |
+
+### ⭐ Review Routes (`/review`)
+
+| Method   | Endpoint | Description     | Access |
+| -------- | -------- | --------------- | ------ |
+| `POST`   | `/`      | Create review   | User   |
+| `GET`    | `/`      | Get all reviews | Admin  |
+| `PATCH`  | `/:id`   | Update review   | User   |
+| `DELETE` | `/:id`   | Delete review   | User   |
+
+### 📧 Contact Routes (`/contact`)
+
+| Method   | Endpoint | Description      | Access |
+| -------- | -------- | ---------------- | ------ |
+| `POST`   | `/`      | Send message     | User   |
+| `GET`    | `/`      | Get all messages | Admin  |
+| `DELETE` | `/:id`   | Delete message   | Admin  |
+
+## 🎨 Frontend Routes
+
+### 🌐 Public Routes
+
+- `/` - Home page with featured products
+- `/about` - About us page
+- `/contact` - Contact form
+- `/privacypolicy` - Privacy policy
+- `/login` - User login
+- `/register` - User registration
+- `/forgotpassword` - Password recovery
+- `/newpassword/:token` - Reset password
+
+### 🔒 Protected Routes
+
+- `/search` - Product search
+- `/productdetails/:id` - Product details
+- `/allproducts` - All products listing
+- `/profile` - User profile management
+
+### 👤 User-Only Routes
+
+- `/cart` - Shopping cart
+- `/wishlist` - User wishlist
+
+### 👨‍💼 Admin-Only Routes
+
+- `/dashboard` - Admin dashboard
+- `/order` - Order management
+- `/analytics` - Sales analytics
+- `/users` - User management
+
+## 🚀 Deployment
+
+### Environment Variables
+
+**Backend (.env)**
+
+```env
+PORT=
+DATABASE_URL=
+DATABASE_PASSWORD=
+NODE_ENV=
+JWT_SECRET=
+JWT_EXPIRES_IN=
+JWT_COOKIE_EXPIRES_IN=
+EMAIL_USERNAME=
+EMAIL_PASSWORD=
+EMAIL_HOST=
+EMAIL_PORT=
+```
+
+**Frontend (.env)**
+
+```env
+VITE_BACKEND_URL=
+```
+
+### Build Commands
+
+```bash
+# Backend
+cd backend
+npm run start:prod
+
+# Frontend
+cd frontend
+npm run build
+npm run preview
+```
+
+## 📁 Project Structure
 
 ```
 snapkart
+├─ Backend.md
+├─ Frontend.md
 ├─ README.md
 ├─ backend
 │  ├─ .env
+│  ├─ README.md
 │  ├─ controllers
 │  │  ├─ authController.js
 │  │  ├─ cartController.js
@@ -101,6 +364,98 @@ snapkart
    ├─ .env.production
    ├─ README.md
    ├─ components.json
+   ├─ dist
+   │  ├─ assets
+   │  │  ├─ About-C0FWf3c7.js
+   │  │  ├─ AllProducts-CO8C7o4u.js
+   │  │  ├─ Analytics-DtBvdC90.js
+   │  │  ├─ Cart-xFLVs1fk.js
+   │  │  ├─ Contact-DHGc1TGF.js
+   │  │  ├─ Dashboard-BDATE_0S.js
+   │  │  ├─ ForgotPassword-D5sfe8eq.js
+   │  │  ├─ Home-DI-PhmKg.js
+   │  │  ├─ Login-B9zqmW-X.js
+   │  │  ├─ NewPassword-C0O6dpXo.js
+   │  │  ├─ Order-CXSd4M0Y.js
+   │  │  ├─ Orders-nPjKm0XV.js
+   │  │  ├─ PageNotFound-Cc1sF1UK.js
+   │  │  ├─ PrivacyPolicy-OhTv2fsq.js
+   │  │  ├─ ProductDetails-C92b-3lo.js
+   │  │  ├─ ProductTile-wqQ2TF4d.js
+   │  │  ├─ Profile-C4PQaLdl.js
+   │  │  ├─ Register-B5_7mCRo.js
+   │  │  ├─ Search-Zvruu06V.js
+   │  │  ├─ Users-Don3yHp9.js
+   │  │  ├─ Wishlist-CaVGaBtw.js
+   │  │  ├─ about-JfLIb8Rv.webp
+   │  │  ├─ about2-BK8-yKyz.webp
+   │  │  ├─ alert-dialog-D3gt6Wm6.js
+   │  │  ├─ appBanner-cYMzvsV1.webp
+   │  │  ├─ badge-CDIVGjm3.js
+   │  │  ├─ banner1-CUtf7aTz.webp
+   │  │  ├─ banner2-DdTVTnMR.webp
+   │  │  ├─ banner3-C_L1DM7l.webp
+   │  │  ├─ banner4-CHpH5jjg.webp
+   │  │  ├─ banner5-CQCLvNFu.webp
+   │  │  ├─ card-C5jJkLVL.js
+   │  │  ├─ cart-DIoAtBG5.svg
+   │  │  ├─ cart-SXS24RqL.js
+   │  │  ├─ carttransparent-D3WxIXJY.webp
+   │  │  ├─ chevron-left-lZLf_zF4.js
+   │  │  ├─ chevron-right-FcI2Fxgu.js
+   │  │  ├─ cod-DVVZyIqp.webp
+   │  │  ├─ contact-DdBCGZlZ.js
+   │  │  ├─ dashboard-BIDQK9Dg.js
+   │  │  ├─ dialog-BHTWJ5tM.js
+   │  │  ├─ emptyCart-CWzg3ZfX.webp
+   │  │  ├─ en-US-D8UQXs-H.js
+   │  │  ├─ esewa-DVklyvUr.webp
+   │  │  ├─ feed1-DM3mNoMS.webp
+   │  │  ├─ feed2-CMp09vt6.webp
+   │  │  ├─ feed3-C-bp25T9.webp
+   │  │  ├─ feed4-DjOyxyRY.webp
+   │  │  ├─ feed5-D5CF5m45.webp
+   │  │  ├─ feed6-nVXm3W5W.webp
+   │  │  ├─ form-BD7UqhnD.js
+   │  │  ├─ format-DX3nmTRq.js
+   │  │  ├─ hero-BGsnVHaV.webp
+   │  │  ├─ hero1-xHIdiyP9.webp
+   │  │  ├─ hero2-C9eDVu-P.webp
+   │  │  ├─ hero3-m-rnBwfB.webp
+   │  │  ├─ hero4-DaqaD6r8.webp
+   │  │  ├─ icon-small-DR6P0I1Y.png
+   │  │  ├─ iconBase-Xx60jysZ.js
+   │  │  ├─ index-BdQq_4o_.js
+   │  │  ├─ index-BfyTjZOl.js
+   │  │  ├─ index-CcHvRQoA.js
+   │  │  ├─ index-Kwrw7szZ.css
+   │  │  ├─ index.esm-B8pw0gLX.js
+   │  │  ├─ input-utGfDaUk.js
+   │  │  ├─ label-DCwyIPY2.js
+   │  │  ├─ loader-circle-IrYuC8T3.js
+   │  │  ├─ logo-DK9Sf1jg.webp
+   │  │  ├─ maskEmail-CLOFojmK.js
+   │  │  ├─ pencil-CexBQ8T5.js
+   │  │  ├─ plus-DGdPMp0n.js
+   │  │  ├─ product-C0b3mV4Q.js
+   │  │  ├─ qrcode-CMpVUin7.svg
+   │  │  ├─ scroll-area-BEOb05KU.js
+   │  │  ├─ select-4zyjuqj_.js
+   │  │  ├─ skeleton-C1iI35bt.js
+   │  │  ├─ star-DPg5VbyR.js
+   │  │  ├─ stripe-BZhlhl3O.webp
+   │  │  ├─ table-Cst5uOLV.js
+   │  │  ├─ testimonial1-hZmocdhZ.webp
+   │  │  ├─ testimonial2-HWty2s4M.webp
+   │  │  ├─ testimonial3-YBSmez7b.webp
+   │  │  ├─ testimonial4-ZVuUam1w.webp
+   │  │  ├─ testimonial5-Dv2z2--w.webp
+   │  │  ├─ textarea-CtO2ufc1.js
+   │  │  ├─ truck-CyQFE_wq.js
+   │  │  ├─ useQuery-IEbagxAm.js
+   │  │  ├─ user-BlrrtB0R.js
+   │  │  └─ wishlist-DCwrGHJ4.js
+   │  └─ index.html
    ├─ eslint.config.js
    ├─ example.env
    ├─ index.html
@@ -149,7 +504,6 @@ snapkart
    │  │  │  └─ Chart.tsx
    │  │  ├─ DashBoard
    │  │  │  ├─ AddProduct.tsx
-   │  │  │  ├─ Analytics.tsx
    │  │  │  ├─ DashBoardTableItems.tsx
    │  │  │  ├─ EditProduct.tsx
    │  │  │  ├─ EditProductLoader.tsx
@@ -177,6 +531,8 @@ snapkart
    │  │  │  ├─ Cartheader.tsx
    │  │  │  ├─ EmptyCart.tsx
    │  │  │  └─ Loader.tsx
+   │  │  ├─ checkout
+   │  │  │  └─ CheckoutDialog.tsx
    │  │  ├─ orders
    │  │  │  ├─ EditOrder.tsx
    │  │  │  └─ Loader.tsx
@@ -188,8 +544,10 @@ snapkart
    │  │  │  ├─ Reviews.tsx
    │  │  │  └─ StarRating.tsx
    │  │  ├─ profile
+   │  │  │  ├─ OrderCardSkeleton.tsx
    │  │  │  ├─ PasswordForm.tsx
-   │  │  │  └─ UserDetailsForm.tsx
+   │  │  │  ├─ UserDetailsForm.tsx
+   │  │  │  └─ UserOrderHistory.tsx
    │  │  ├─ shared
    │  │  │  ├─ AdminRoute.tsx
    │  │  │  ├─ Layout.tsx
@@ -217,6 +575,7 @@ snapkart
    │  │  │  ├─ input.tsx
    │  │  │  ├─ label.tsx
    │  │  │  ├─ pagination.tsx
+   │  │  │  ├─ radio-group.tsx
    │  │  │  ├─ scroll-area.tsx
    │  │  │  ├─ select.tsx
    │  │  │  ├─ separator.tsx
@@ -251,6 +610,7 @@ snapkart
    │  │  ├─ AllProducts.tsx
    │  │  ├─ Analytics.tsx
    │  │  ├─ Cart.tsx
+   │  │  ├─ Checkout.tsx
    │  │  ├─ Contact.tsx
    │  │  ├─ Dashboard.tsx
    │  │  ├─ ForgotPassword.tsx
@@ -267,6 +627,8 @@ snapkart
    │  │  ├─ Users.tsx
    │  │  └─ Wishlist.tsx
    │  ├─ services
+   │  │  ├─ Order.ts
+   │  │  ├─ analytics.ts
    │  │  ├─ auth.ts
    │  │  ├─ axios.ts
    │  │  ├─ cart.ts
@@ -282,12 +644,16 @@ snapkart
    │  │  └─ wishlist.ts
    │  ├─ types
    │  │  ├─ auth.ts
+   │  │  ├─ cart.ts
    │  │  ├─ contact.ts
    │  │  ├─ dashboard.ts
    │  │  ├─ filter.ts
+   │  │  ├─ order.ts
+   │  │  ├─ orderAdmin.ts
    │  │  ├─ product.ts
    │  │  ├─ review.ts
-   │  │  └─ user.ts
+   │  │  ├─ user.ts
+   │  │  └─ wishlist.ts
    │  ├─ utils
    │  │  ├─ ImageExports.ts
    │  │  ├─ config.ts
@@ -300,3 +666,92 @@ snapkart
    └─ vite.config.ts
 
 ```
+
+## 🧪 Development Scripts
+
+### Backend
+
+```bash
+npm start          # Development with nodemon
+npm run start:prod # Production mode
+```
+
+### Frontend
+
+```bash
+npm run dev        # Development server
+npm run devExpose  # Dev server with network access
+npm run build      # Production build
+npm run preview    # Preview production build
+npm run lint       # ESLint checking
+```
+
+## 🔒 Security Features
+
+- **JWT Authentication & cookies** with secure token management
+- **Password Hashing** using bcryptjs
+- **Rate Limiting** to prevent API abuse
+- **CORS Configuration** for cross-origin requests
+- **Input Validation** and sanitization
+- **Protected Routes** with role-based access
+- **Secure File Upload** with type validation
+
+## 📱 Responsive Design
+
+- **Mobile First** approach with breakpoints:
+  - Mobile: 320px+
+  - Tablet: 768px+
+  - Desktop: 1024px+
+  - Large Desktop: 1280px+
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add some amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Development Guidelines
+
+- Follow TypeScript best practices
+- Use ESLint configuration
+- Write meaningful commit messages
+- Test responsive design
+- Add proper error handling
+
+## 📄 License
+
+This project is licensed under the ISC License.
+
+## 👨‍💻 Author
+
+**Naresh Rajbanshi** - Computer Engineering Student
+
+---
+
+## 🚀 Future Enhancements
+
+- [ ] Payment gateway integration (Stripe/PayPal/esewa)
+- [ ] Real-time notifications
+- [ ] Progressive Web App (PWA)
+- [ ] Advanced search with filters
+- [ ] Multi-language support
+- [ ] Social media login
+- [ ] Live chat support
+- [ ] Inventory management
+- [ ] Coupon/discount system
+- [ ] Advanced analytics dashboard
+
+## 📈 Performance Metrics
+
+- **Frontend**: Built with Vite for fast HMR
+- **Backend**: Optimized with proper indexing
+- **Database**: MongoDB aggregation pipelines
+- **Images**: Sharp processing for optimization
+- **Caching**: React Query for client-side caching
+- **Code Splitting**: Lazy loading for reduced bundle size
+
+---
+
+_Built with ❤️ for Computer Engineering 5th Semester Project_
