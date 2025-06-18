@@ -11,7 +11,7 @@ import { AxiosError } from "axios";
 
 async function getAllProducts(): Promise<allProductTypesResponse> {
   const response = await axiosInstance.get<allProductTypesResponse>(
-    `product/?fields=title,price,discountPercentage,image,quantity,createdAt,id&limit=100`
+    `product/`
   );
   return response.data;
 }
@@ -69,7 +69,6 @@ export function useGetAllUsers() {
   });
 }
 
-//@ts-ignore
 async function addProduct(productData) {
   const response = await axiosInstance.post(`product/`, productData, {
     headers: {
@@ -101,8 +100,9 @@ export function useAddProduct() {
   });
 }
 
-async function updateProduct(data) {
-  const response = await axiosInstance.patch(``, data, {
+async function updateProduct({ data, id }) {
+  console.log(data,id)
+  const response = await axiosInstance.patch(`product/${id}`, data, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
@@ -130,6 +130,7 @@ export function useUpdateProduct() {
       toast.success(data.message || "Product updated successfully");
     },
     onError: (error) => {
+      console.log(error);
       toast.error(error.message || "Failed to update the product");
     },
   });
