@@ -4,7 +4,7 @@ export interface ProductSummary {
   title: string;
   price: number;
   image: string;
-  priceAfterDiscount: number | null;
+  priceAfterDiscount: number;
 }
 
 export interface OrderedProduct {

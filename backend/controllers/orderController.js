@@ -39,7 +39,7 @@ exports.updateOrderStatus = catchAsync(async (req, res, next) => {
 
 exports.getMyOrders = catchAsync(async (req, res, next) => {
   const orders = await Order.find({ user: req.user.id })
-    .populate("products.product", "title price image")
+    .populate("products.product", "title price image discountPercentage")
     .sort("-createdAt");
 
   res.status(200).json({

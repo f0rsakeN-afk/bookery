@@ -88,27 +88,37 @@ const UserOrderHistory: React.FC = () => {
 
                 <h4 className="font-medium mb-1 text-primary/90">Products</h4>
                 <div className="space-y-3">
-                  {order.products.map((item) => (
-                    <div
-                      key={`${order._id}-${item.product._id}`}
-                      className="flex items-center gap-4"
-                    >
-                      <img
-                        src={item.product.image}
-                        alt={item.product.title}
-                        className="w-16 aspect-[3/2] object-cover rounded-md border"
-                      />
-                      <div className="flex-1">
-                        <p className="font-medium">{item.product.title}</p>
-                        <p className="text-sm text-muted-foreground">
-                          Rs.{item.product.price} × {item.quantity}
+                  {order.products.map((item, i) =>
+                    item.product ? (
+                      <div
+                        key={`${order._id}-${item.product._id}`}
+                        className="flex items-center gap-4"
+                      >
+                        <img
+                          src={item.product.image}
+                          alt={item.product.title}
+                          className="w-16 aspect-[3/2] object-cover rounded-md border"
+                        />
+                        <div className="flex-1">
+                          <p className="font-medium">{item.product.title}</p>
+                          <p className="text-sm text-muted-foreground">
+                            Rs.{item.product.priceAfterDiscount} × {item.quantity}
+                          </p>
+                        </div>
+                        <p className="font-semibold text-sm text-green-500">
+                          Rs.{(item.product.priceAfterDiscount * item.quantity).toFixed(2)}
                         </p>
                       </div>
-                      <p className="font-semibold text-sm text-green-500">
-                        Rs.{item.product.price * item.quantity}
-                      </p>
-                    </div>
-                  ))}
+                    ) : (
+                      <div
+                        key={`${order._id}-${i}`}
+                        className="flex items-center gap-4 text-sm text-muted-foreground italic"
+                      >
+                        <p className="text-red-500">Product deleted or unavailable</p>
+                        <p>× {item.quantity}</p>
+                      </div>
+                    )
+                  )}
                 </div>
               </CardContent>
             </Card>

@@ -18,6 +18,8 @@ const Orders: React.FC = () => {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const { data, isLoading, isError } = useGetAllOrders();
 
+  /*   console.log(data); */
+
   return (
     <div className="container mx-auto max-w-6xl px-2 xl:px-0 py-6 xl:py-8">
       <h2 className="text-2xl font-semibold font-playfair text-primary mb-6">
@@ -97,29 +99,47 @@ const Orders: React.FC = () => {
                       Products
                     </h4>
                     <div className="space-y-2">
-                      {order.products.map((item, i: number) => (
-                        <React.Fragment key={i}>
-                          <div className="flex items-center gap-4">
-                            <img
-                              src={item.product.image}
-                              alt={item.product.title}
-                              className="w-16 aspect-3/2 object-cover rounded-md border"
-                            />
-                            <div className="flex-1">
-                              <p className="font-medium text-primary/90">
-                                {item.product.title}
-                              </p>
-                              <p className="text-sm text-muted-foreground">
-                                Rs.{item.product.priceAfterDiscount} × {item.quantity}
-                              </p>
-                            </div>
-                            <p className="font-semibold text-sm text-green-500">
-                              Rs.{item.product.priceAfterDiscount * item.quantity}
-                            </p>
-                          </div>
-                          <Separator />
-                        </React.Fragment>
-                      ))}
+                      {order.products &&
+                        order.products.map((item, i: number) =>
+                          item.product ? (
+                            <React.Fragment key={i}>
+                              <div className="flex items-center gap-4">
+                                <img
+                                  src={item.product.image}
+                                  alt={item.product.title}
+                                  className="w-16 aspect-3/2 object-cover rounded-md border"
+                                />
+                                <div className="flex-1">
+                                  <p className="font-medium text-primary/90">
+                                    {item.product.title}
+                                  </p>
+                                  <p className="text-sm text-muted-foreground">
+                                    Rs.{item.product.priceAfterDiscount} ×{" "}
+                                    {item.quantity}
+                                  </p>
+                                </div>
+                                <p className="font-semibold text-sm text-green-500">
+                                  Rs.
+                                  {(
+                                    item.product.priceAfterDiscount *
+                                    item.quantity
+                                  ).toFixed(2)}
+                                </p>
+                              </div>
+                              <Separator />
+                            </React.Fragment>
+                          ) : (
+                            <React.Fragment key={i}>
+                              <div className="flex items-center gap-4 text-sm text-muted-foreground italic">
+                                <p className="text-red-500">
+                                  Product deleted or unavailable
+                                </p>
+                                <p>× {item.quantity}</p>
+                              </div>
+                              <Separator />
+                            </React.Fragment>
+                          )
+                        )}
                     </div>
                   </CardContent>
                 </Card>
