@@ -1,3 +1,5 @@
+# Backend is not hosted btw
+
 # 🛒 SnapKart - Complete E-Commerce Solution
 
 [![Node.js](https://img.shields.io/badge/Node.js-16.x+-green.svg)](https://nodejs.org/)
