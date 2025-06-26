@@ -22,7 +22,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://yourfrontend.com"],
+    origin: ["http://localhost:5173", "https://snapkart-v1.vercel.app/login"],
     credentials: true,
   })
 );
@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === "development") {
 
 const limiter = rateLimit({
   max: 200,
-  windowMs: 60 * 60 * 1000,
+  windowMs: 30 * 60 * 1000,
   message: "Too many requests from this IP, please try again in an hour!",
 });
 
