@@ -27,9 +27,10 @@ export function useLogin() {
       setUser(data.data);
       navigate("/");
     },
-    onError: (error) => {
-/*       console.log(error); */
-      toast.error(error.message);
+    onError: (error: any) => {
+      const message =
+        error?.response?.data?.message || "Login failed. Please try again.";
+      toast.error(message);
     },
   });
 }
@@ -50,8 +51,11 @@ export function useRegister() {
       toast.success(data.message || "User registration successfull");
       navigate("/login");
     },
-    onError: (error) => {
-      toast.error(error.message || "User registration failed");
+    onError: (error: any) => {
+      /*    console.log(error) */
+      const message =
+        error?.response?.data?.message || "Signup failed. Please try again.";
+      toast.error(message);
     },
   });
 }
@@ -69,8 +73,8 @@ export function useLogout() {
       toast.success(data.message || "Logged out successfully");
       setUser(null);
     },
-    onError: (error) => {
-      toast.error(error.message || "Logout failed");
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || "Logout failed");
     },
   });
 }

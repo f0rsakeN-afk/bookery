@@ -31,8 +31,8 @@ export function useAddReview() {
       });
       toast.success(data.message || "Review posted successfully");
     },
-    onError: (err) => {
-      toast.error(err.message || "Failed to post review");
+    onError: (err: any) => {
+      toast.error(err.response?.data.message || "Failed to post review");
     },
   });
 }

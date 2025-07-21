@@ -29,9 +29,11 @@ export function useAddToWishlist() {
       queryClient.invalidateQueries({ queryKey: ["wishlist"] });
       toast.success(data.message || "Added to wishlist successfully");
     },
-    onError: (error) => {
-      console.log(error);
-      toast.error(error.message || "Failed adding to the wishlist");
+    onError: (error: any) => {
+      /*       console.log(error); */
+      toast.error(
+        error?.response?.data?.message || "Failed adding to the wishlist"
+      );
     },
   });
 }
@@ -51,10 +53,11 @@ export function useRemoveFromWishlist() {
       queryClient.invalidateQueries({ queryKey: ["wishlist"] });
       toast.success(data.message);
     },
-    onError: (error) => {
+    onError: (error: any) => {
       /*       console.log(error); */
       toast.error(
-        error.message || "Failed to remove product from the wishlist"
+        error.response.data.message ||
+          "Failed to remove product from the wishlist"
       );
     },
   });

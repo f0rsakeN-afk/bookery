@@ -27,8 +27,8 @@ export function useContact() {
       queryClient.invalidateQueries({ queryKey: ["getAllMessages"] });
       navigate("/");
     },
-    onError: (error) => {
-      toast.error(error.message || "Form submission failed");
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || "Form submission failed");
     },
   });
 }
@@ -64,9 +64,9 @@ export function useDeleteMessages() {
       queryClient.invalidateQueries({ queryKey: ["getAllMessages"] });
       toast.success(data.message || "Message deleted successfully");
     },
-    onError: (error) => {
-      console.log(error);
-      toast.error(error.message || "Message deletion failed");
+    onError: (error: any) => {
+      /*      console.log(error); */
+      toast.error(error?.response?.data?.message || "Message deletion failed");
     },
   });
 }

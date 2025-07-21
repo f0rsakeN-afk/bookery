@@ -63,13 +63,12 @@ export function useCreateOrder() {
       queryClient.invalidateQueries({ queryKey: ["analytics"] });
       toast.success(data.message);
     },
-    onError: (error) => {
-      console.log(error);
-      toast.error(error.message);
+    onError: (error: any) => {
+      /*    console.log(error); */
+      toast.error(error?.response?.data?.message);
     },
   });
 }
-
 
 async function updateStatus(data: orderStatusProps) {
   /*   console.log(data); */
@@ -90,9 +89,9 @@ export function useUpdateStatus() {
       queryClient.invalidateQueries({ queryKey: ["analytics"] });
       toast.success(data.message);
     },
-    onError: (error) => {
-      console.log(error);
-      toast.error(error.message);
+    onError: (error: any) => {
+      /*     console.log(error); */
+      toast.error(error?.response?.data?.message);
     },
   });
 }

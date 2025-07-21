@@ -48,8 +48,8 @@ export function useDeleteProduct() {
       });
       toast.success(data.message || "Product deleted successfully");
     },
-    onError: (error) => {
-      toast.error(error.message || "Product deletion failed");
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || "Product deletion failed");
     },
   });
 }
@@ -94,7 +94,7 @@ export function useAddProduct() {
       toast.success(data.message || "Product added successfully");
     },
     onError: (err: any) => {
-      toast.error(err.message || "Failed to add product");
+      toast.error(err?.response?.data?.message || "Failed to add product");
     },
   });
 }
@@ -133,7 +133,9 @@ export function useUpdateProduct() {
       toast.success(data.message || "Product updated successfully");
     },
     onError: (error: any) => {
-      toast.error(error.message || "Failed to update the product");
+      toast.error(
+        error?.response?.data?.message || "Failed to update the product"
+      );
     },
   });
 }

@@ -30,9 +30,9 @@ export function useAddToCart() {
       queryClient.invalidateQueries({ queryKey: ["wishlist"] });
       toast.success(data.message);
     },
-    onError: (error) => {
+    onError: (error: any) => {
       /*       console.log(error); */
-      toast.error(error.message);
+      toast.error(error?.response?.data?.message);
     },
   });
 }
@@ -50,8 +50,8 @@ export function useRemoveFromCart() {
       queryClient.invalidateQueries({ queryKey: ["cart"] });
       toast.success(data.message);
     },
-    onError: (error) => {
-      toast.error(error.message);
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message);
     },
   });
 }
@@ -75,9 +75,9 @@ export function useUpdateCartQuantity() {
       queryClient.invalidateQueries({ queryKey: ["cart"] });
       toast.success(data.message);
     },
-    onError: (error) => {
+    onError: (error: any) => {
       /*       console.log(error); */
-      toast.error(error.message);
+      toast.error(error?.response?.data?.message);
     },
   });
 }

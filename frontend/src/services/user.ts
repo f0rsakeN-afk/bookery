@@ -45,8 +45,10 @@ export function useResetPassword() {
           "The user password reset link has been sent to your email address"
       );
     },
-    onError: (error) => {
-      toast.error(error.message || "Failed sending password reset link");
+    onError: (error: any) => {
+      toast.error(
+        error.response?.data.message || "Failed sending password reset link"
+      );
     },
   });
 }
@@ -70,9 +72,9 @@ export function useNewPassword() {
       toast.message(data.message || "Password reset successful");
       navigate("/login");
     },
-    onError: (error) => {
-      console.log(error);
-      toast.error(error.message || "Password reset failed");
+    onError: (error: any) => {
+      /*      console.log(error); */
+      toast.error(error?.response?.data?.message || "Password reset failed");
     },
   });
 }
@@ -96,9 +98,11 @@ export function useUpdatePassword() {
     onSuccess: (data) => {
       toast.message(data.message || "Password updated successfully");
     },
-    onError: (error) => {
-      console.log(error);
-      toast.error(error.message || "Failed to update password");
+    onError: (error: any) => {
+      /*       console.log(error); */
+      toast.error(
+        error?.response?.data?.message || "Failed to update password"
+      );
     },
   });
 }
@@ -134,9 +138,9 @@ export function useUpdateUserInfo() {
       });
       toast.success(data.message);
     },
-    onError: (error) => {
+    onError: (error: any) => {
       /*       console.log(error); */
-      toast.error(error.message);
+      toast.error(error?.response?.data?.message);
     },
   });
 }
