@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const rateLimit = require("express-rate-limit");
@@ -22,13 +23,13 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://snapkart-v1.vercel.app/login"],
+    origin: ["http://localhost:5173", "https://snapkart-v1.vercel.app/"],
     credentials: true,
   })
 );
 
 if (process.env.NODE_ENV === "development") {
-  app.use(morgan("development"));
+  app.use(morgan("dev"));
 }
 
 const limiter = rateLimit({
@@ -46,6 +47,8 @@ app.use("/api/v1/review", reviewRoutes);
 app.use("/api/v1/wishlist", wishListRoutes);
 app.use("/api/v1/cart", cartRoutes);
 app.use("/api/v1/orders", orderRoutes);
+
+app.use("/public", express.static(path.join(__dirname, "public")));
 
 app.use(globalErrorHandler);
 

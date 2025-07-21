@@ -49,8 +49,8 @@ const handleTokenExpire = () => {
 };
 
 module.exports = (err, req, res, next) => {
-  err.status = this.status || "Fail";
-  err.statusCode = this.statusCode || 500;
+  err.status = err.status || "Fail";
+  err.statusCode = err.statusCode || 500;
   if (process.env.NODE_ENV === "development") {
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === "production") {
@@ -62,6 +62,7 @@ module.exports = (err, req, res, next) => {
 
     if (error.name === "JsonWebTokenError") error = handleJWTError();
     if (error.name === "TokenExpiredError") error = handleTokenExpire();
+    /*    console.log(error) */
     sendErrorProd(error, res);
   }
 };

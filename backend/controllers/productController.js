@@ -76,7 +76,7 @@ exports.searchProducts = catchAsync(async (req, res, next) => {
     const regex = new RegExp(search, "i");
     query = {
       $or: [
-        { name: { $regex: regex } },
+        { title: { $regex: regex } },
         { category: { $regex: regex } },
         { description: { $regex: regex } },
       ],
