@@ -34,8 +34,11 @@ const Orders: React.FC = () => {
             ))
           ) : isError ? (
             <p className="text-center text-red-500">Error loading orders</p>
+          ) : data.data && data.data.length === 0 ? (
+            <p className="text-center text-muted-foreground mt-10">
+              No orders found.
+            </p>
           ) : (
-            data.data &&
             data.data.map((order: Order) => (
               <motion.div
                 key={order._id}
