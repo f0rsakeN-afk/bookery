@@ -15,6 +15,7 @@ import Placeholder from "@/components/productDetails/Placeholder";
 import { useAuth } from "@/context/AuthContext";
 import { useAddToCart } from "@/services/cart";
 import { useAddToWishlist } from "@/services/wishlist";
+import { BACKEND_IMAGE_URL } from "@/utils/config";
 /* import { add } from "date-fns"; */
 
 // Animation config
@@ -108,7 +109,7 @@ const ProductDetails = () => {
           custom={0}
         >
           <img
-            src={product.image}
+            src={`${BACKEND_IMAGE_URL}/public/product/${product.image}`}
             loading="lazy"
             alt={product.title}
             className="w-full h-full object-cover"
@@ -122,7 +123,7 @@ const ProductDetails = () => {
           custom={0.3}
         >
           <motion.div variants={fadeUp} custom={0.4}>
-            <h1 className="text-2xl sm:text-3xl font-bold text-primary/90">
+            <h1 className="text-2xl sm:text-3xl font-bold text-primary/90 capitalize">
               {product.title}
             </h1>
             <p className="text-base sm:text-lg text-muted-foreground">

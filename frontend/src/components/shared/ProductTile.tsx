@@ -6,6 +6,7 @@ import { productTypes } from "@/types/product";
 import { useAddToCart } from "@/services/cart";
 import { useAddToWishlist } from "@/services/wishlist";
 import { useAuth } from "@/context/AuthContext";
+import { BACKEND_IMAGE_URL } from "@/utils/config";
 
 interface productTileProps {
   el: productTypes;
@@ -24,7 +25,7 @@ const ProductTile = ({ el }: productTileProps) => {
         className="relative aspect-[3/4] overflow-hidden rounded-md"
       >
         <img
-          src={el.image}
+          src={`${BACKEND_IMAGE_URL}/public/product/${el.image}`}
           alt={el.title}
           loading="lazy"
           className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"

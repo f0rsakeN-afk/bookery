@@ -25,6 +25,7 @@ import { useRemoveFromWishlist } from "@/services/wishlist";
 import { NavLink } from "react-router-dom";
 import { Product } from "@/types/wishlist";
 import { useAddToCart } from "@/services/cart";
+import { BACKEND_IMAGE_URL } from "@/utils/config";
 
 interface WishlistTableProps {
   items: Product[];
@@ -56,7 +57,7 @@ const WishlistTable = ({ items }: WishlistTableProps) => {
             >
               <TableCell>
                 <img
-                  src={item.image}
+                  src={`${BACKEND_IMAGE_URL}/public/product/${item.image}`}
                   loading="lazy"
                   alt={item.title}
                   className="w-full max-w-[140px] aspect-[3/2] object-cover rounded"
@@ -64,7 +65,7 @@ const WishlistTable = ({ items }: WishlistTableProps) => {
               </TableCell>
               <TableCell>
                 <NavLink to={`/productDetails/${item.id}`}>
-                  <p className="font-medium">{item.title}</p>
+                  <p className="font-medium capitalize">{item.title}</p>
                   {/* <p className="text-xs text-muted-foreground">{item.author}</p> */}
                 </NavLink>
               </TableCell>

@@ -13,6 +13,7 @@ import { maskEmail } from "@/utils/maskEmail";
 import OrderCardSkeleton from "@/components/orders/Loader";
 import { useGetAllOrders } from "@/services/Order";
 import { Order } from "@/types/orderAdmin";
+import { BACKEND_IMAGE_URL } from "@/utils/config";
 
 const Orders: React.FC = () => {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
@@ -108,12 +109,12 @@ const Orders: React.FC = () => {
                             <React.Fragment key={i}>
                               <div className="flex items-center gap-4">
                                 <img
-                                  src={item.product.image}
+                                  src={`${BACKEND_IMAGE_URL}/public/product/${item.product.image}`}
                                   alt={item.product.title}
                                   className="w-16 aspect-3/2 object-cover rounded-md border"
                                 />
                                 <div className="flex-1">
-                                  <p className="font-medium text-primary/90">
+                                  <p className="font-medium text-primary/90 capitalize">
                                     {item.product.title}
                                   </p>
                                   <p className="text-sm text-muted-foreground">

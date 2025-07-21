@@ -8,6 +8,8 @@ import { ScrollArea } from "../ui/scroll-area";
 import { toast } from "sonner";
 import { useCreateOrder } from "@/services/Order";
 import { CartItem } from "@/types/cart";
+import { BACKEND_IMAGE_URL } from "@/utils/config";
+import { useAuth } from "@/context/AuthContext";
 
 interface CheckoutDialogProps {
   onSuccess: () => void;
@@ -15,7 +17,8 @@ interface CheckoutDialogProps {
 }
 
 const CheckoutDialog = ({ items, onSuccess }: CheckoutDialogProps) => {
-  console.log(items);
+  const { user } = useAuth();
+  /*   console.log(items); */
   const {
     register,
     control,
@@ -28,7 +31,7 @@ const CheckoutDialog = ({ items, onSuccess }: CheckoutDialogProps) => {
 
   //@ts-ignore
   const onSubmit = (data) => {
-    console.log(data);
+    /*     console.log(data); */
     const hasErrors = Object.keys(errors).length > 0;
 
     if (hasErrors) {
@@ -66,7 +69,7 @@ const CheckoutDialog = ({ items, onSuccess }: CheckoutDialogProps) => {
           {items.map((item) => (
             <div key={item._id} className="flex gap-3 items-start">
               <img
-                src={item.product.image}
+                src={`${BACKEND_IMAGE_URL}/public/product/${item.product.image}`}
                 alt={item.product.title}
                 className="aspect-[3/2] w-24 rounded-md object-cover border"
               />
@@ -118,6 +121,7 @@ const CheckoutDialog = ({ items, onSuccess }: CheckoutDialogProps) => {
           <Input
             {...register("shippingInfo.address", { required: true })}
             disabled={createOrderMutation.isPending}
+            defaultValue={user?.location}
           />
 
           <Label>City</Label>
@@ -134,6 +138,7 @@ const CheckoutDialog = ({ items, onSuccess }: CheckoutDialogProps) => {
               required: true,
               pattern: /^[0-9]{7,15}$/,
             })}
+            defaultValue={user?.phone}
           />
 
           <Label>Postal Code</Label>

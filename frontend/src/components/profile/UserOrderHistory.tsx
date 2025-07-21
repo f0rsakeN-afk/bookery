@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { useGetMyOrders } from "@/services/Order";
 import OrderCardSkeleton from "./OrderCardSkeleton";
 import { Order } from "@/types/order";
+import { BACKEND_IMAGE_URL } from "@/utils/config";
 
 const statusColors: Record<string, string> = {
   paid: "bg-green-100 text-green-700",
@@ -95,18 +96,22 @@ const UserOrderHistory: React.FC = () => {
                         className="flex items-center gap-4"
                       >
                         <img
-                          src={item.product.image}
+                          src={`${BACKEND_IMAGE_URL}/public/product/${item.product.image}`}
                           alt={item.product.title}
                           className="w-16 aspect-[3/2] object-cover rounded-md border"
                         />
                         <div className="flex-1">
                           <p className="font-medium">{item.product.title}</p>
                           <p className="text-sm text-muted-foreground">
-                            Rs.{item.product.priceAfterDiscount} × {item.quantity}
+                            Rs.{item.product.priceAfterDiscount} ×{" "}
+                            {item.quantity}
                           </p>
                         </div>
                         <p className="font-semibold text-sm text-green-500">
-                          Rs.{(item.product.priceAfterDiscount * item.quantity).toFixed(2)}
+                          Rs.
+                          {(
+                            item.product.priceAfterDiscount * item.quantity
+                          ).toFixed(2)}
                         </p>
                       </div>
                     ) : (
@@ -114,7 +119,9 @@ const UserOrderHistory: React.FC = () => {
                         key={`${order._id}-${i}`}
                         className="flex items-center gap-4 text-sm text-muted-foreground italic"
                       >
-                        <p className="text-red-500">Product deleted or unavailable</p>
+                        <p className="text-red-500">
+                          Product deleted or unavailable
+                        </p>
                         <p>× {item.quantity}</p>
                       </div>
                     )

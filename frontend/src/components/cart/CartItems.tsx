@@ -23,6 +23,7 @@ import { Button } from "../ui/button";
 import { useRemoveFromCart, useUpdateCartQuantity } from "@/services/cart";
 import { NavLink } from "react-router-dom";
 import { CartItem } from "@/types/cart";
+import { BACKEND_IMAGE_URL } from "@/utils/config";
 
 interface CartItemProps {
   items: CartItem[];
@@ -55,7 +56,7 @@ const CartItems = ({ items }: CartItemProps) => {
             >
               <TableCell>
                 <img
-                  src={el.product.image}
+                  src={`${BACKEND_IMAGE_URL}/public/product/${el.product.image}`}
                   loading="lazy"
                   alt={el.product.title}
                   className="w-full xl:max-w-[160px]  aspect-[3/2] object-cover rounded"
@@ -63,7 +64,7 @@ const CartItems = ({ items }: CartItemProps) => {
               </TableCell>
               <TableCell>
                 <NavLink to={`/productDetails/${el.product.id}`}>
-                  <p className="font-medium">{el.product.title}</p>
+                  <p className="font-medium capitalize">{el.product.title}</p>
                 </NavLink>
               </TableCell>
               <TableCell>

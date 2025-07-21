@@ -16,6 +16,7 @@ import {
 import { Textarea } from "../ui/textarea";
 import { useUpdateProduct } from "@/services/dashboard";
 import { productTypes } from "@/types/dashboard";
+import { BACKEND_IMAGE_URL } from "@/utils/config";
 
 interface EditProductProps {
   product: productTypes;
@@ -62,7 +63,7 @@ const EditProduct: React.FC<EditProductProps> = ({
       shippingLength: product.shipping.dimensions.length,
       shippingWidth: product.shipping.dimensions.width,
       shippingHeight: product.shipping.dimensions.height,
-      image: product.image,
+      image: `${BACKEND_IMAGE_URL}/public/product/product.image`,
     },
   });
 
@@ -71,7 +72,7 @@ const EditProduct: React.FC<EditProductProps> = ({
   useEffect(() => {
     if (product.image) {
       if (typeof product.image === "string") {
-        setImagePreview(product.image);
+        setImagePreview(`${BACKEND_IMAGE_URL}/public/product/product.image`);
       }
     }
   }, [product.image]);

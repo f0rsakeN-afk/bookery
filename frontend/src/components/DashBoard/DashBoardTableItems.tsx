@@ -17,6 +17,7 @@ import { useDeleteProduct } from "@/services/dashboard";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import EditProduct from "./EditProduct";
 import { useState } from "react";
+import { BACKEND_IMAGE_URL } from "@/utils/config";
 
 interface dashboardTableItemsProps {
   product: productTypes;
@@ -32,13 +33,13 @@ const DashBoardTableItems = ({ product }: dashboardTableItemsProps) => {
     <TableRow>
       <TableCell>
         <img
-          src={product.image}
+          src={`${BACKEND_IMAGE_URL}/public/product/${product.image}`}
           alt={product.title}
           loading="lazy"
           className="w-16 h-16 object-cover rounded-md"
         />
       </TableCell>
-      <TableCell className="font-medium">{product.title}</TableCell>
+      <TableCell className="font-medium capitalize">{product.title}</TableCell>
       <TableCell>Rs.{product.price.toFixed(2)}</TableCell>
       <TableCell>{product.discountPercentage}</TableCell>
       <TableCell>{product.quantity}</TableCell>
@@ -53,8 +54,8 @@ const DashBoardTableItems = ({ product }: dashboardTableItemsProps) => {
             </DialogTrigger>
             <DialogContent>
               <EditProduct
-              product={product}
-           /*      id={product._id!} */
+                product={product}
+                /*      id={product._id!} */
                 onSuccess={() => setIsEditDialogOpen(false)}
               />
             </DialogContent>

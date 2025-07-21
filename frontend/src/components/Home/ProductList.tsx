@@ -8,6 +8,7 @@ import { useGetAllProducts } from "@/services/productList";
 import { useAuth } from "@/context/AuthContext";
 import { useAddToWishlist } from "@/services/wishlist";
 import { useAddToCart } from "@/services/cart";
+import { BACKEND_IMAGE_URL } from "@/utils/config";
 
 const ProductList = () => {
   const { data: productData, isLoading, isError } = useGetAllProducts();
@@ -51,7 +52,7 @@ const ProductList = () => {
                   className="relative aspect-[2/3] overflow-hidden rounded-md"
                 >
                   <img
-                    src={el.image}
+                    src={`${BACKEND_IMAGE_URL}/public/product/${el.image}`}
                     loading="lazy"
                     alt={el.title}
                     className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
