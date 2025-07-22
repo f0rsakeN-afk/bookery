@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema(
       minlength: [5, "Username should be at least 5 characters"],
       maxlength: [20, "Username can have a maximum of 20 characters"],
       trim: true,
+      match: [
+        /^[A-Za-z]+$/,
+        "Username must contain only alphabetic characters",
+      ],
     },
     email: {
       type: String,
@@ -17,11 +21,15 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
+      match: [
+        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+        "Please provide a valid email address",
+      ],
     },
     password: {
       type: String,
       required: [true, "Please provide your password"],
-      minlength: 6,
+      minlength: [6, "Password must be at least 6 characters"],
       select: false,
     },
     passwordConfirm: {
@@ -38,10 +46,12 @@ const userSchema = new mongoose.Schema(
     phone: {
       type: String,
       trim: true,
+      match: [/^\+?[0-9]{7,15}$/, "Please provide a valid phone number"],
     },
     location: {
       type: String,
       trim: true,
+      maxlength: [100, "Location can't exceed 100 characters"],
     },
     bio: {
       type: String,
@@ -51,16 +61,22 @@ const userSchema = new mongoose.Schema(
     occupation: {
       type: String,
       trim: true,
+      maxlength: [50, "Occupation can't exceed 50 characters"],
     },
     company: {
       type: String,
       trim: true,
+      maxlength: [100, "Company name can't exceed 100 characters"],
     },
     timeZone: {
       type: String,
+      trim: true,
+      maxlength: [50, "Time zone can't exceed 50 characters"],
     },
     language: {
       type: String,
+      trim: true,
+      maxlength: [30, "Language can't exceed 30 characters"],
     },
     role: {
       type: String,
