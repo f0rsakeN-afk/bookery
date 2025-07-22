@@ -52,14 +52,17 @@ exports.getMyOrders = catchAsync(async (req, res, next) => {
 exports.createOrder = catchAsync(async (req, res, next) => {
   const { products, shippingInfo, paymentMethod } = req.body;
 
+  // Validate products array
   if (!products || !Array.isArray(products) || products.length === 0) {
     return next(new AppError("No products provided", 400));
   }
 
+  // Validate payment method
   if (paymentMethod !== "cash_on_delivery") {
     return next(new AppError("Only COD is supported right now", 400));
   }
 
+  // Fetch products from the database
   const productIds = products.map((item) => item.product);
   const dbProducts = await Product.find({ _id: { $in: productIds } });
 
@@ -69,20 +72,22 @@ exports.createOrder = catchAsync(async (req, res, next) => {
 
   let totalPrice = 0;
 
-  for (const item of products) {
+  // Validate each product and calculate total price
+  const validatedProducts = products.map((item) => {
     const dbProduct = dbProducts.find((p) => p._id.toString() === item.product);
 
     if (!dbProduct) {
-      return next(new AppError("Product not found", 404));
+      throw new AppError("Product not found", 404);
     }
 
     if (!item.quantity || item.quantity < 1) {
-      return next(new AppError("Invalid quantity provided", 400));
+      throw new AppError("Invalid quantity provided", 400);
     }
 
     if (dbProduct.quantity < item.quantity) {
-      return next(
-        new AppError(`Not enough stock for product: ${dbProduct.title}`, 400)
+      throw new AppError(
+        `Not enough stock for product: ${dbProduct.title}`,
+        400
       );
     }
 
@@ -90,20 +95,30 @@ exports.createOrder = catchAsync(async (req, res, next) => {
       (dbProduct.price * (100 - dbProduct.discountPercentage)) / 100;
 
     totalPrice += discountedPrice * item.quantity;
-  }
 
+    return {
+      product: item.product,
+      quantity: item.quantity,
+      price: dbProduct.price, // Lock the price
+      discountPercentage: dbProduct.discountPercentage, // Lock the discount
+    };
+  });
+
+  // Create the order
   const order = await Order.create({
     user: req.user.id,
-    products,
+    products: validatedProducts,
     shippingInfo,
     paymentMethod,
     paymentStatus: "pending",
     totalPrice: Math.round(totalPrice * 100) / 100,
   });
 
+  // Clear the user's cart
   await User.findByIdAndUpdate(req.user.id, { cart: [] });
 
-  for (const item of products) {
+  // Update product stock
+  for (const item of validatedProducts) {
     await Product.findByIdAndUpdate(item.product, {
       $inc: { quantity: -item.quantity },
     });
